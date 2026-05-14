@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services — Brickwood Developers</title>
+  <meta name="description" content="Flat renovation, home extension, interior design, modular kitchen, office renovation, AMC plans, rental management and more. Starting ₹350/sq ft."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --gold: #C9A84C; --gold-light: #E8C97A; --gold-dim: rgba(201,168,76,0.15);
+      --dark: #0D0D0D; --dark2: #141414; --dark3: #1C1C1C; --dark4: #252525;
+      --light: #F5F0E8; --muted: #8A8278; --white: #FFFFFF;
+      --radius: 4px; --transition: 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: var(--light); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; opacity:0.4; }
+    ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:var(--dark)} ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:1000; padding:0 5vw; height:72px; display:flex; align-items:center; justify-content:space-between; transition:background var(--transition),backdrop-filter var(--transition); }
+    nav.scrolled { background:rgba(13,13,13,0.92); backdrop-filter:blur(16px); border-bottom:1px solid rgba(201,168,76,0.15); }
+    .nav-logo { display:flex; flex-direction:column; line-height:1; text-decoration:none; }
+    .nav-logo span:first-child { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--white); letter-spacing:0.04em; }
+    .nav-logo span:last-child { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-top:2px; }
+    .nav-links { display:flex; gap:36px; list-style:none; }
+    .nav-links a { text-decoration:none; color:var(--muted); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; transition:color var(--transition); position:relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--gold); transition:width var(--transition); }
+    .nav-links a:hover,.nav-links a.active { color:var(--gold); }
+    .nav-links a:hover::after,.nav-links a.active::after { width:100%; }
+    .nav-cta { background:var(--gold) !important; color:var(--dark) !important; padding:10px 22px; border-radius:var(--radius); font-weight:500 !important; }
+    .nav-cta:hover { background:var(--gold-light) !important; }
+    .nav-cta::after { display:none !important; }
+    .nav-toggle { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .nav-toggle span { display:block; width:24px; height:2px; background:var(--light); border-radius:2px; transition:var(--transition); }
+
+    /* PAGE HERO */
+    .page-hero { padding: 160px 5vw 80px; position: relative; overflow: hidden; background: var(--dark2); border-bottom: 1px solid rgba(201,168,76,0.12); }
+    .page-hero::before { content:''; position:absolute; top:0; right:0; width:50%; height:100%; background: linear-gradient(135deg, transparent, rgba(201,168,76,0.04)); clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%); }
+    .page-hero-lines { position:absolute; inset:0; background-image: linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px); background-size:80px 80px; mask-image: linear-gradient(to bottom right, transparent 40%, rgba(0,0,0,0.5) 70%, transparent 100%); }
+    .page-hero-inner { max-width:1100px; margin:0 auto; position:relative; z-index:2; }
+    .breadcrumb { display:flex; gap:8px; align-items:center; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:20px; }
+    .breadcrumb a { text-decoration:none; color:var(--muted); transition:color var(--transition); }
+    .breadcrumb a:hover { color:var(--gold); }
+    .breadcrumb span { color:var(--gold); }
+    .section-tag { display:inline-block; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+    .page-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(40px,6vw,80px); font-weight:900; line-height:1.0; color:var(--white); margin-bottom:20px; }
+    .page-hero h1 em { font-style:italic; color:var(--gold); }
+    .page-hero p { font-size:17px; color:var(--muted); max-width:520px; line-height:1.7; font-weight:300; }
+
+    /* SERVICES SECTION */
+    .services-section { padding: 80px 5vw; }
+    .services-inner { max-width: 1100px; margin: 0 auto; }
+    .services-group-title {
+      font-family:'Playfair Display',serif; font-size:13px; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--gold); padding-bottom:12px; border-bottom:1px solid rgba(201,168,76,0.2); margin-bottom:32px; margin-top:64px;
+    }
+    .services-group-title:first-child { margin-top:0; }
+    .services-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:2px; }
+    .service-card {
+      background:var(--dark2); padding:40px 36px; position:relative; overflow:hidden;
+      transition:background var(--transition); cursor:default;
+      border:1px solid transparent;
+    }
+    .service-card:hover { background:var(--dark3); border-color:rgba(201,168,76,0.15); }
+    .service-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--gold),transparent); transform:scaleX(0); transform-origin:left; transition:transform var(--transition); }
+    .service-card:hover::after { transform:scaleX(1); }
+    .service-icon { width:44px; height:44px; margin-bottom:20px; color:var(--gold); }
+    .service-card h3 { font-family:'Playfair Display',serif; font-size:21px; font-weight:700; color:var(--white); margin-bottom:10px; }
+    .service-card p { font-size:14px; color:var(--muted); line-height:1.75; margin-bottom:16px; }
+    .service-price { font-size:12px; letter-spacing:0.1em; color:var(--gold); text-transform:uppercase; display:block; margin-bottom:20px; }
+    .service-num { position:absolute; top:20px; right:24px; font-family:'Playfair Display',serif; font-size:60px; font-weight:900; color:rgba(201,168,76,0.05); line-height:1; pointer-events:none; }
+    .btn-quote {
+      display:inline-flex; align-items:center; gap:8px; background:transparent; color:var(--gold);
+      border:1px solid rgba(201,168,76,0.4); padding:10px 20px; border-radius:var(--radius);
+      font-size:12px; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none;
+      transition:background var(--transition),color var(--transition),border-color var(--transition);
+    }
+    .btn-quote:hover { background:var(--gold); color:var(--dark); border-color:var(--gold); }
+
+    /* AMC PLANS */
+    .amc-section { padding:80px 5vw; background:var(--dark2); border-top:1px solid rgba(201,168,76,0.12); border-bottom:1px solid rgba(201,168,76,0.12); }
+    .amc-inner { max-width:1100px; margin:0 auto; }
+    .amc-header { text-align:center; margin-bottom:56px; }
+    .amc-header h2 { font-family:'Playfair Display',serif; font-size:clamp(28px,4vw,46px); font-weight:700; color:var(--white); margin-bottom:12px; }
+    .amc-header h2 em { font-style:italic; color:var(--gold); }
+    .amc-header p { color:var(--muted); font-size:15px; }
+    .amc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+    .amc-card {
+      background:var(--dark3); padding:40px 32px; position:relative; overflow:hidden;
+      transition:background var(--transition); border:1px solid transparent;
+    }
+    .amc-card.featured { background:var(--dark4); border-color:rgba(201,168,76,0.35); }
+    .amc-card.featured::before { content:'Most Popular'; position:absolute; top:20px; right:20px; background:var(--gold); color:var(--dark); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; padding:4px 10px; border-radius:100px; font-weight:500; }
+    .amc-card:hover {background: var(--dark4);border-color: rgba(201,168,76,0.35);}.amc-card:not(:hover) {  border-color: transparent;}.amc-card.featured {  border-color: rgba(201,168,76,0.35);}.amc-card.featured:not(:hover) {
+    border-color: rgba(201,168,76,0.15);
+  }
+    .amc-tier { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+    .amc-price { font-family:'Playfair Display',serif; font-size:40px; font-weight:700; color:var(--white); line-height:1; margin-bottom:4px; }
+    .amc-price span { font-size:15px; font-weight:400; color:var(--muted); font-family:'DM Sans',sans-serif; }
+    .amc-desc { font-size:13px; color:var(--muted); margin-bottom:28px; padding-bottom:28px; border-bottom:1px solid rgba(245,240,232,0.06); }
+    .amc-features { list-style:none; margin-bottom:32px; }
+    .amc-features li { font-size:13px; color:var(--muted); padding:8px 0; display:flex; gap:10px; align-items:flex-start; border-bottom:1px solid rgba(245,240,232,0.04); }
+    .amc-features li:last-child { border-bottom:none; }
+    .amc-features li::before { content:'✓'; color:var(--gold); font-weight:700; flex-shrink:0; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:var(--gold); color:var(--dark); text-decoration:none; padding:13px 28px; border-radius:var(--radius); font-weight:500; font-size:13px; letter-spacing:0.06em; text-transform:uppercase; transition:background var(--transition),transform var(--transition); }
+    .btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
+    .btn-outline { display:inline-flex; align-items:center; gap:8px; background:transparent; color:var(--light); border:1px solid rgba(245,240,232,0.2); text-decoration:none; padding:13px 28px; border-radius:var(--radius); font-size:13px; letter-spacing:0.06em; text-transform:uppercase; transition:border-color var(--transition),color var(--transition); }
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+
+    /* RENTAL */
+    .rental-section { padding:80px 5vw; }
+    .rental-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+    .rental-content .section-tag { display:inline-block; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+    .rental-content h2 { font-family:'Playfair Display',serif; font-size:clamp(28px,4vw,44px); font-weight:700; color:var(--white); line-height:1.1; margin-bottom:16px; }
+    .rental-content h2 em { font-style:italic; color:var(--gold); }
+    .rental-content p { font-size:15px; color:var(--muted); line-height:1.75; margin-bottom:32px; }
+    .rental-features { list-style:none; margin-bottom:36px; }
+    .rental-features li { display:flex; gap:12px; align-items:flex-start; padding:12px 0; border-bottom:1px solid rgba(245,240,232,0.06); font-size:14px; color:var(--muted); }
+    .rental-features li:last-child { border-bottom:none; }
+    .rental-icon { width:18px; height:18px; flex-shrink:0; color:var(--gold); margin-top:1px; }
+    .rental-visual { background:var(--dark2); border:1px solid rgba(201,168,76,0.15); padding:40px; border-radius:var(--radius); }
+    .rental-stat { padding:20px 0; border-bottom:1px solid rgba(245,240,232,0.06); }
+    .rental-stat:last-child { border-bottom:none; }
+    .rental-stat-num { font-family:'Playfair Display',serif; font-size:36px; font-weight:700; color:var(--gold); }
+    .rental-stat-label { font-size:13px; color:var(--muted); margin-top:4px; }
+
+    /* FOOTER */
+    footer { background:var(--dark); padding:60px 5vw 32px; border-top:1px solid rgba(245,240,232,0.06); }
+    .footer-inner { max-width:1100px; margin:0 auto; }
+    .footer-top { display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; padding-bottom:48px; border-bottom:1px solid rgba(245,240,232,0.06); margin-bottom:32px; }
+    .footer-brand p { font-size:14px; color:var(--muted); line-height:1.7; margin-top:16px; max-width:300px; }
+    .footer-col h4 { font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
+    .footer-col ul { list-style:none; }
+    .footer-col li { margin-bottom:10px; }
+    .footer-col a { text-decoration:none; font-size:14px; color:var(--muted); transition:color var(--transition); }
+    .footer-col a:hover { color:var(--light); }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+    .footer-bottom p { font-size:12px; color:rgba(138,130,120,0.6); }
+    .footer-bottom span { font-size:12px; color:rgba(138,130,120,0.4); }
+
+    /* WHATSAPP */
+    .whatsapp-btn { position:fixed; bottom:32px; right:32px; z-index:999; width:56px; height:56px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 24px rgba(37,211,102,0.4); text-decoration:none; transition:transform var(--transition),box-shadow var(--transition); }
+    .whatsapp-btn:hover { transform:scale(1.1) translateY(-2px); box-shadow:0 8px 32px rgba(37,211,102,0.5); }
+    .whatsapp-btn svg { width:28px; height:28px; fill:white; }
+    .wa-pulse { position:absolute; inset:-4px; border-radius:50%; border:2px solid rgba(37,211,102,0.4); animation:wa-ripple 2s ease-out infinite; }
+    @keyframes wa-ripple { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.5);opacity:0} }
+
+    /* REVEAL */
+    .reveal { opacity:0; transform:translateY(40px); transition:opacity 0.7s ease,transform 0.7s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    .reveal-delay-1{transition-delay:0.1s} .reveal-delay-2{transition-delay:0.2s} .reveal-delay-3{transition-delay:0.3s}
+
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:72px;left:0;right:0;background:rgba(13,13,13,0.97);backdrop-filter:blur(20px);padding:32px 5vw;gap:24px;border-bottom:1px solid rgba(201,168,76,0.15)}
+      .nav-toggle{display:flex}
+      .amc-grid{grid-template-columns:1fr}
+      .rental-inner{grid-template-columns:1fr}
+      .footer-top{grid-template-columns:1fr;gap:40px}
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get Free Quote</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-lines"></div>
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span>/</span> Services</div>
+    <span class="section-tag">What We Offer</span>
+    <h1>Our <em>Services</em></h1>
+    <p>From a single room makeover to full commercial fit-outs every service backed by 25+ years of Delhi NCR experience.</p>
+  </div>
+</div>
+
+<!-- MAIN SERVICES -->
+<section class="services-section">
+  <div class="services-inner">
+
+    <div class="services-group-title reveal">Residential Services</div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-num">01</span>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <h3>Flat Renovation</h3>
+        <p>Complete transformation flooring, walls, false ceilings, plumbing, electrical rewiring, paint, and premium finishing. Turnkey delivery.</p>
+        <span class="service-price">Starting ₹350/sq ft</span>
+        <a href="contact.html" class="btn-quote">Get Quote →</a>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-num">02</span>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        <h3>Home Extension</h3>
+        <p>Structurally sound additions extra floor, balcony enclosure, room addition blended seamlessly with your existing architecture.</p>
+        <span class="service-price">Starting ₹1,200/sq ft</span>
+        <a href="contact.html" class="btn-quote">Get Quote →</a>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-num">03</span>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+        <h3>Interior Design</h3>
+        <p>Space planning, material & furniture selection, lighting design, and full execution. We make your dream aesthetic a liveable reality.</p>
+        <span class="service-price">Starting ₹450/sq ft</span>
+        <a href="contact.html" class="btn-quote">Get Quote →</a>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">04</span>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5 5 0 006.027.21M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5 5 0 006.027.21M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+        <h3>Modular Kitchen</h3>
+        <p>Precision crafted modular kitchens with Hettich/Blum hardware, quartz countertops, premium shutters, and integrated appliance spaces.</p>
+        <span class="service-price">Starting ₹80,000 onwards</span>
+        <a href="contact.html" class="btn-quote">Get Quote →</a>
+      </div>
+    </div>
+
+    <div class="services-group-title reveal">Commercial Services</div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-num">05</span>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <h3>Office Renovation</h3>
+        <p>Modern workspaces with false ceilings, glass partitions, branded walls, server room fit outs, and ergonomic layouts. Minimal downtime.</p>
+        <span class="service-price">Starting ₹400/sq ft</span>
+        <a href="contact.html" class="btn-quote">Get Quote →</a>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-num">06</span>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+        <h3>Real Estate Advisory</h3>
+        <p>Property investment guidance in Delhi NCR site evaluation, renovation ROI analysis, resale value enhancement, and buyer representation.</p>
+        <span class="service-price">Free initial consultation</span>
+        <a href="contact.html" class="btn-quote">Get Quote →</a>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-num">07</span>
+        <svg class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path d="M3 6a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6z"/>
+          <path d="M8 10l4-4 4 4M8 14l4 4 4-4"/>
+        </svg>
+        <h3>Lift Installation</h3>
+        <p>Residential and commercial lift solutions passenger elevators, home lifts, and hydraulic platforms. End-to-end from civil work to AMC handover, fully licensed.</p>
+        <span class="service-price">Starting ₹22 Lakh onwards</span>
+        <a href="contact.html" class="btn-quote">Get Quote →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AMC PLANS -->
+<section class="amc-section">
+  <div class="amc-inner">
+    <div class="amc-header reveal">
+      <span class="section-tag">Peace of Mind</span>
+      <h2>Annual Maintenance <em>Contracts</em></h2>
+      <p>Keep your property in perfect condition year round with our structured AMC plans.</p>
+    </div>
+    <div class="amc-grid">
+      <div class="amc-card reveal">
+        <div class="amc-tier">Silver</div>
+        <div class="amc-price">₹8,999 <span>/ year</span></div>
+        <div class="amc-desc">Ideal for 1-2 BHK apartments</div>
+        <ul class="amc-features">
+          <li>2 scheduled maintenance visits/year</li>
+          <li>Plumbing & electrical checkup</li>
+          <li>Minor repairs included</li>
+          <li>48-hour emergency response</li>
+          <li>Dedicated service coordinator</li>
+        </ul>
+        <a href="amc.html" class="btn-outline">Know More</a>
+      </div>
+      <div class="amc-card featured reveal reveal-delay-1">
+        <div class="amc-tier">Gold</div>
+        <div class="amc-price">₹17,999 <span>/ year</span></div>
+        <div class="amc-desc">Ideal for 3 BHK / Independent floors</div>
+        <ul class="amc-features">
+          <li>4 scheduled maintenance visits/year</li>
+          <li>Plumbing, electrical & civil checkup</li>
+          <li>Painting touch-ups included</li>
+          <li>24-hour emergency response</li>
+          <li>Priority scheduling</li>
+          <li>Waterproofing inspection</li>
+        </ul>
+        <a href="amc.html" class="btn-primary">Know More</a>
+      </div>
+      <div class="amc-card reveal reveal-delay-2">
+        <div class="amc-tier">Platinum</div>
+        <div class="amc-price">₹34,999 <span>/ year</span></div>
+        <div class="amc-desc">Ideal for villas / commercial properties</div>
+        <ul class="amc-features">
+          <li>6 scheduled maintenance visits/year</li>
+          <li>Full property health checkup</li>
+          <li>All minor repairs & materials included</li>
+          <li>4 hour emergency response</li>
+          <li>Annual deep renovation report</li>
+          <li>Façade & waterproofing care</li>
+          <li>Dedicated site manager</li>
+        </ul>
+        <a href="amc.html" class="btn-outline">Know More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RENTAL MANAGEMENT -->
+<section class="rental-section">
+  <div class="rental-inner">
+    <div class="rental-content reveal">
+      <span class="section-tag">Hassle Free Ownership</span>
+      <h2>Rental <em>Management</em> Services</h2>
+      <p>Own a property in Delhi NCR but don't want the headache of managing it? We handle everything from finding tenants to maintenance so you earn without the effort.</p>
+      <ul class="rental-features">
+        <li>
+          <svg class="rental-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Tenant sourcing, screening & police verification
+        </li>
+        <li>
+          <svg class="rental-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Rent agreement drafting & registration
+        </li>
+        <li>
+          <svg class="rental-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Monthly rent collection & transfer to owner
+        </li>
+        <li>
+          <svg class="rental-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+          Property maintenance & repair coordination
+        </li>
+        <li>
+          <svg class="rental-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          Monthly statements & annual yield report
+        </li>
+      </ul>
+      <a href="rental.html" class="btn-primary">Know More</a>
+    </div>
+    <div class="rental-visual reveal reveal-delay-2">
+      <div class="rental-stat">
+        <div class="rental-stat-num">8-10%</div>
+        <div class="rental-stat-label">Average annual rental yield in Delhi NCR</div>
+      </div>
+      <div class="rental-stat">
+        <div class="rental-stat-num">₹0</div>
+        <div class="rental-stat-label">Upfront fee, we earn only when you earn</div>
+      </div>
+      <div class="rental-stat">
+        <div class="rental-stat-num">72 hrs</div>
+        <div class="rental-stat-label">Average time to find a screened tenant</div>
+      </div>
+      <div class="rental-stat">
+        <div class="rental-stat-num">100%</div>
+        <div class="rental-stat-label">Transparent owner dashboard & monthly reports</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
+        <p>Building Delhi NCR's finest homes, offices, and spaces since 2001. GST Registered · Udyam Certified</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+911234567890">+91 9810157535</a></li>
+          <li><a href="mailto:info@Brickwooddev.in">info@brickwooddev.in</a></li>
+          <li><a href="#">Delhi NCR</a></li>
+          <li><a href="#">Mon–Sun, 9am–7pm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Brickwood Developers. All rights reserved.</p>
+      <span>GST Registered · Udyam Certified</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/911234567890?text=Hi%20Brickwood%2C%20I%27d%20like%20to%20know%20more%20about%20your%20services" class="whatsapp-btn" target="_blank" rel="noopener">
+  <div class="wa-pulse"></div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+  document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+  const observer = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

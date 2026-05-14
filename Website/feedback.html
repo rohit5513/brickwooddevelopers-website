@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Share Your Experience — Brickwood Developers</title>
+  <meta name="description" content="Tell us about your experience with Brickwood Developers. Your feedback helps us serve Delhi NCR better."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:rgba(201,168,76,0.15);
+      --dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--dark4:#252525;
+      --light:#F5F0E8;--muted:#8A8278;--white:#FFFFFF;
+      --radius:6px;--transition:0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+      --green:#34C759;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--light);overflow-x:hidden;-webkit-font-smoothing:antialiased;min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+    /* ── NAV ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5vw;height:72px;display:flex;align-items:center;justify-content:space-between;transition:background var(--transition)}
+    nav.scrolled{background:rgba(13,13,13,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,0.15)}
+    .nav-logo{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+    .nav-logo span:first-child{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:0.04em}
+    .nav-logo span:last-child{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+    .nav-links{display:flex;gap:36px;list-style:none}
+    .nav-links a{text-decoration:none;color:var(--muted);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;transition:color var(--transition);position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--transition)}
+    .nav-links a:hover{color:var(--gold)}.nav-links a:hover::after{width:100%}
+    .nav-cta{background:var(--gold)!important;color:var(--dark)!important;padding:10px 22px;border-radius:var(--radius);font-weight:500!important}.nav-cta:hover{background:var(--gold-light)!important}.nav-cta::after{display:none!important}
+    .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+    .nav-toggle span{display:block;width:24px;height:2px;background:var(--light);border-radius:2px}
+
+    /* ── PAGE WRAPPER ── */
+    .page-wrap{
+      min-height:100vh;
+      padding:120px 5vw 80px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      position:relative;
+    }
+    /* background geometric accent */
+    .page-wrap::before{
+      content:'';
+      position:fixed;
+      top:0;right:0;
+      width:50%;height:100vh;
+      background:linear-gradient(135deg,transparent,rgba(201,168,76,0.03));
+      clip-path:polygon(30% 0%,100% 0%,100% 100%,0% 100%);
+      pointer-events:none;
+    }
+    .page-wrap::after{
+      content:'';
+      position:fixed;
+      inset:0;
+      background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);
+      background-size:80px 80px;
+      mask-image:radial-gradient(ellipse at 70% 40%,rgba(0,0,0,0.5) 0%,transparent 70%);
+      pointer-events:none;
+    }
+
+    /* ── CARD ── */
+    .feedback-card{
+      width:100%;
+      max-width:640px;
+      background:var(--dark2);
+      border:1px solid rgba(201,168,76,0.18);
+      border-radius:12px;
+      overflow:hidden;
+      position:relative;
+      z-index:2;
+    }
+    .feedback-card::before{
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:3px;
+      background:linear-gradient(90deg,var(--gold),var(--gold-light),transparent);
+    }
+
+    /* ── CARD HEADER ── */
+    .card-header{
+      padding:36px 40px 28px;
+      border-bottom:1px solid rgba(245,240,232,0.07);
+      position:relative;
+    }
+    .formerly-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:rgba(201,168,76,0.08);
+      border:1px solid rgba(201,168,76,0.2);
+      border-radius:100px;
+      padding:5px 12px;
+      font-size:11px;
+      color:var(--muted);
+      letter-spacing:0.06em;
+      margin-bottom:16px;
+    }
+    .formerly-badge strong{color:var(--gold)}
+    .card-header h1{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(24px,3vw,34px);
+      font-weight:900;
+      color:var(--white);
+      line-height:1.1;
+      margin-bottom:8px;
+    }
+    .card-header h1 em{font-style:italic;color:var(--gold)}
+    .card-header p{font-size:14px;color:var(--muted);line-height:1.65}
+    .step-indicator{
+      position:absolute;
+      top:36px;right:40px;
+      display:flex;
+      gap:6px;
+      align-items:center;
+    }
+    .step-dot{
+      width:8px;height:8px;
+      border-radius:50%;
+      background:rgba(245,240,232,0.12);
+      transition:all var(--transition);
+    }
+    .step-dot.active{background:var(--gold);transform:scale(1.25)}
+    .step-dot.done{background:rgba(52,199,89,0.6)}
+
+    /* ── STEPS CONTAINER ── */
+    .steps-wrap{overflow:hidden;position:relative}
+    .steps-inner{
+      display:flex;
+      transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .step{
+      flex:0 0 100%;
+      padding:32px 40px;
+      min-height:280px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+
+    /* ── STEP HEADING ── */
+    .step-q{
+      font-family:'Playfair Display',serif;
+      font-size:19px;
+      font-weight:700;
+      color:var(--white);
+      line-height:1.3;
+    }
+    .step-q span{color:var(--gold)}
+
+    /* ── STAR RATING ── */
+    .stars{display:flex;gap:8px}
+    .star{
+      font-size:36px;
+      cursor:pointer;
+      color:rgba(201,168,76,0.2);
+      transition:color var(--transition),transform var(--transition);
+      line-height:1;
+      user-select:none;
+    }
+    .star:hover,.star.lit{color:var(--gold);transform:scale(1.15)}
+    .star-label{
+      font-size:12px;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
+      color:var(--gold);
+      min-height:18px;
+      transition:opacity var(--transition);
+    }
+
+    /* ── EMOJI CHIPS ── */
+    .emoji-row{display:flex;gap:10px;flex-wrap:wrap}
+    .emoji-chip{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      background:var(--dark3);
+      border:1px solid rgba(245,240,232,0.08);
+      border-radius:10px;
+      padding:14px 16px;
+      cursor:pointer;
+      transition:all var(--transition);
+      min-width:76px;
+      flex:1;
+    }
+    .emoji-chip:hover{border-color:rgba(201,168,76,0.3);background:var(--dark4);transform:translateY(-2px)}
+    .emoji-chip.selected{border-color:var(--gold);background:rgba(201,168,76,0.08);transform:translateY(-2px)}
+    .emoji-chip .emoji{font-size:28px;line-height:1}
+    .emoji-chip .label{font-size:11px;color:var(--muted);text-align:center;letter-spacing:0.04em;transition:color var(--transition)}
+    .emoji-chip.selected .label{color:var(--gold)}
+
+    /* ── SERVICE CHIPS ── */
+    .service-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .s-chip{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:var(--dark3);
+      border:1px solid rgba(245,240,232,0.08);
+      border-radius:var(--radius);
+      padding:12px 14px;
+      cursor:pointer;
+      transition:all var(--transition);
+    }
+    .s-chip:hover{border-color:rgba(201,168,76,0.3);background:var(--dark4)}
+    .s-chip.selected{border-color:var(--gold);background:rgba(201,168,76,0.08)}
+    .s-chip-dot{
+      width:14px;height:14px;
+      border-radius:50%;
+      border:2px solid rgba(138,130,120,0.5);
+      flex-shrink:0;
+      transition:all var(--transition);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .s-chip.selected .s-chip-dot{
+      border-color:var(--gold);
+      background:var(--gold);
+    }
+    .s-chip.selected .s-chip-dot::after{content:'';width:5px;height:5px;background:var(--dark);border-radius:50%}
+    .s-chip span{font-size:13px;color:var(--muted);transition:color var(--transition)}
+    .s-chip.selected span{color:var(--light)}
+
+    /* ── TEXT INPUT / TEXTAREA ── */
+    .f-input,.f-textarea{
+      background:var(--dark3);
+      border:1px solid rgba(245,240,232,0.08);
+      border-radius:var(--radius);
+      color:var(--light);
+      font-family:'DM Sans',sans-serif;
+      font-size:14px;
+      padding:13px 16px;
+      width:100%;
+      outline:none;
+      transition:border-color var(--transition),box-shadow var(--transition);
+      -webkit-appearance:none;
+    }
+    .f-input::placeholder,.f-textarea::placeholder{color:rgba(138,130,120,0.45)}
+    .f-input:focus,.f-textarea:focus{
+      border-color:rgba(201,168,76,0.5);
+      box-shadow:0 0 0 3px rgba(201,168,76,0.08);
+      background:var(--dark4);
+    }
+    .f-textarea{resize:none;min-height:96px;line-height:1.65}
+    .f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .f-group{display:flex;flex-direction:column;gap:6px}
+    .f-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+    .f-label .req{color:var(--gold)}
+    .optional-tag{font-size:10px;color:rgba(138,130,120,0.5);letter-spacing:0.06em;margin-left:4px}
+
+    /* ── PERMISSION TOGGLE ── */
+    .permission-row{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      background:var(--dark3);
+      border:1px solid rgba(245,240,232,0.07);
+      border-radius:var(--radius);
+      padding:14px 16px;
+      cursor:pointer;
+    }
+    .toggle-box{
+      width:40px;height:22px;
+      border-radius:100px;
+      background:rgba(245,240,232,0.1);
+      border:1px solid rgba(245,240,232,0.15);
+      flex-shrink:0;
+      position:relative;
+      transition:background var(--transition),border-color var(--transition);
+      margin-top:1px;
+    }
+    .toggle-box::after{
+      content:'';
+      position:absolute;
+      top:2px;left:2px;
+      width:16px;height:16px;
+      border-radius:50%;
+      background:var(--muted);
+      transition:transform var(--transition),background var(--transition);
+    }
+    .permission-row.on .toggle-box{background:rgba(52,199,89,0.2);border-color:rgba(52,199,89,0.4)}
+    .permission-row.on .toggle-box::after{transform:translateX(18px);background:var(--green)}
+    .permission-row p{font-size:13px;color:var(--muted);line-height:1.55}
+    .permission-row strong{color:var(--light);font-weight:500}
+
+    /* ── CARD FOOTER / BUTTONS ── */
+    .card-footer{
+      padding:20px 40px 32px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .btn-back{
+      display:inline-flex;align-items:center;gap:7px;
+      background:transparent;color:var(--muted);border:1px solid rgba(245,240,232,0.1);
+      padding:11px 20px;border-radius:var(--radius);
+      font-size:13px;cursor:pointer;transition:all var(--transition);
+      font-family:'DM Sans',sans-serif;
+    }
+    .btn-back:hover{border-color:rgba(245,240,232,0.2);color:var(--light)}
+    .btn-next{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--gold);color:var(--dark);border:none;
+      padding:13px 28px;border-radius:var(--radius);
+      font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;
+      cursor:pointer;transition:all var(--transition);
+      font-family:'DM Sans',sans-serif;
+      margin-left:auto;
+    }
+    .btn-next:hover:not(:disabled){background:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,168,76,0.2)}
+    .btn-next:disabled{opacity:0.45;cursor:not-allowed;transform:none}
+    .btn-next svg,.btn-back svg{width:15px;height:15px;transition:transform var(--transition)}
+    .btn-next:hover:not(:disabled) svg{transform:translateX(3px)}
+    .btn-back:hover svg{transform:translateX(-3px)}
+    .progress-bar-wrap{height:3px;background:rgba(245,240,232,0.06)}
+    .progress-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width 0.5s ease;width:20%}
+
+    /* ── SUCCESS SCREEN ── */
+    .success-screen{
+      display:none;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:56px 40px;
+      gap:16px;
+    }
+    .success-screen.show{display:flex}
+    .success-anim{
+      width:72px;height:72px;
+      border-radius:50%;
+      background:rgba(52,199,89,0.1);
+      border:1px solid rgba(52,199,89,0.3);
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:4px;
+      animation:pop-in 0.5s cubic-bezier(0.175,0.885,0.32,1.275) both;
+    }
+    @keyframes pop-in{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+    .success-screen h2{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--white)}
+    .success-screen h2 em{font-style:italic;color:var(--gold)}
+    .success-screen p{font-size:14px;color:var(--muted);line-height:1.7;max-width:360px}
+    .success-stars{font-size:24px;letter-spacing:4px;margin:4px 0}
+    .btn-home{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--gold);color:var(--dark);
+      text-decoration:none;padding:13px 28px;border-radius:var(--radius);
+      font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;
+      margin-top:8px;transition:all var(--transition);
+    }
+    .btn-home:hover{background:var(--gold-light);transform:translateY(-1px)}
+
+    /* ── FOOTER ── */
+    footer{background:var(--dark);padding:48px 5vw 24px;border-top:1px solid rgba(245,240,232,0.05);margin-top:40px}
+    .footer-inner{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+    .footer-brand span:first-child{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--white)}
+    .footer-brand span:last-child{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:block;margin-top:2px}
+    .footer-links{display:flex;gap:24px}
+    .footer-links a{font-size:12px;color:var(--muted);text-decoration:none;transition:color var(--transition)}.footer-links a:hover{color:var(--gold)}
+    .footer-copy{font-size:12px;color:rgba(138,130,120,0.4);text-align:center;width:100%}
+
+    .whatsapp-btn{position:fixed;bottom:32px;right:32px;z-index:999;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;transition:transform var(--transition)}.whatsapp-btn:hover{transform:scale(1.1)}.whatsapp-btn svg{width:26px;height:26px;fill:white}
+    .wa-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,0.4);animation:wa-ripple 2s ease-out infinite}
+    @keyframes wa-ripple{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}
+
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+    @media(max-width:600px){
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:72px;left:0;right:0;background:rgba(13,13,13,0.97);backdrop-filter:blur(20px);padding:32px 5vw;gap:24px;border-bottom:1px solid rgba(201,168,76,0.15)}
+      .nav-toggle{display:flex}
+      .card-header,.step,.card-footer,.success-screen{padding-left:24px;padding-right:24px}
+      .step-indicator{top:24px;right:24px}
+      .f-row{grid-template-columns:1fr}
+      .service-chips{grid-template-columns:1fr}
+      .emoji-chip{min-width:60px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get Free Quote</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-wrap">
+  <div class="feedback-card" id="feedbackCard">
+
+    <!-- HEADER -->
+    <div class="card-header">
+      <div class="step-indicator" id="stepIndicator"></div>
+      <div class="formerly-badge">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        Formerly <strong>&nbsp;Sharma &amp; Co.</strong>
+      </div>
+      <h1>How did we <em>do?</em></h1>
+      <p>Takes 60 seconds your honest feedback helps us serve Delhi NCR better.</p>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+    <!-- STEPS -->
+    <div class="steps-wrap">
+      <div class="steps-inner" id="stepsInner">
+
+        <!-- STEP 1: Overall Rating -->
+        <div class="step" id="step1">
+          <div class="step-q">How would you rate your overall experience?</div>
+          <div class="stars" id="starRow">
+            <span class="star" data-val="1">★</span>
+            <span class="star" data-val="2">★</span>
+            <span class="star" data-val="3">★</span>
+            <span class="star" data-val="4">★</span>
+            <span class="star" data-val="5">★</span>
+          </div>
+          <div class="star-label" id="starLabel">Tap a star to rate</div>
+        </div>
+
+        <!-- STEP 2: Service Used -->
+        <div class="step" id="step2">
+          <div class="step-q">Which service did we do for you?</div>
+          <div class="service-chips" id="serviceChips">
+            <div class="s-chip" data-val="Home Renovation"><div class="s-chip-dot"></div><span>Home Renovation</span></div>
+            <div class="s-chip" data-val="Office Renovation"><div class="s-chip-dot"></div><span>Office Renovation</span></div>
+            <div class="s-chip" data-val="Modular Kitchen"><div class="s-chip-dot"></div><span>Modular Kitchen</span></div>
+            <div class="s-chip" data-val="Interior Design"><div class="s-chip-dot"></div><span>Interior Design</span></div>
+            <div class="s-chip" data-val="AMC Plan"><div class="s-chip-dot"></div><span>AMC Plan</span></div>
+            <div class="s-chip" data-val="Rental Management"><div class="s-chip-dot"></div><span>Rental Management</span></div>
+            <div class="s-chip" data-val="Real Estate Advisory"><div class="s-chip-dot"></div><span>Real Estate Advisory</span></div>
+            <div class="s-chip" data-val="Other"><div class="s-chip-dot"></div><span>Other / Multiple</span></div>
+          </div>
+        </div>
+
+        <!-- STEP 3: What stood out -->
+        <div class="step" id="step3">
+          <div class="step-q">What stood out the most? <span style="font-size:14px;font-weight:400;color:var(--muted)">(Pick any)</span></div>
+          <div class="emoji-row" id="standoutRow">
+            <div class="emoji-chip" data-val="Quality"><div class="emoji">🏗️</div><div class="label">Quality</div></div>
+            <div class="emoji-chip" data-val="On Time"><div class="emoji">⏱️</div><div class="label">On Time</div></div>
+            <div class="emoji-chip" data-val="Clean Work"><div class="emoji">✨</div><div class="label">Clean Work</div></div>
+            <div class="emoji-chip" data-val="Team"><div class="emoji">👷</div><div class="label">Team</div></div>
+            <div class="emoji-chip" data-val="Value"><div class="emoji">💰</div><div class="label">Value</div></div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Written feedback + name -->
+        <div class="step" id="step4">
+          <div class="step-q">Anything you'd like to tell us?</div>
+          <div class="f-group">
+            <label class="f-label">Your feedback <span class="req">*</span></label>
+            <textarea class="f-textarea" id="feedbackText" placeholder="Great work on the kitchen, the team was very professional…" maxlength="500"></textarea>
+          </div>
+          <div class="f-row">
+            <div class="f-group">
+              <label class="f-label" for="clientName">Your name <span class="req">*</span></label>
+              <input class="f-input" type="text" id="clientName" placeholder="Rahul Sharma" autocomplete="name"/>
+            </div>
+            <div class="f-group">
+              <label class="f-label" for="clientArea">Area / Locality <span class="req">*</span></label>
+              <input class="f-input" type="text" id="clientArea" placeholder="Vasant Kunj, Delhi"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5: Permission + submit -->
+        <div class="step" id="step5">
+          <div class="step-q">One last thing</div>
+          <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-top:-8px">May we share your feedback as a testimonial on our website? Your name and only locality will be shown not exact address.</p>
+          <div class="permission-row on" id="permissionRow">
+            <div class="toggle-box"></div>
+            <p><strong>Yes, you can use my feedback</strong><br>I'm happy for Brickwood Developers to display my review publicly.</p>
+          </div>
+          <div style="background:var(--dark3);border:1px solid rgba(201,168,76,0.12);border-radius:var(--radius);padding:18px 20px;display:flex;gap:12px;align-items:flex-start">
+            <svg style="width:16px;height:16px;color:var(--gold);flex-shrink:0;margin-top:2px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <p style="font-size:13px;color:var(--muted);line-height:1.6">Your feedback is sent securely to our team. We never share your contact details publicly.</p>
+          </div>
+        </div>
+
+      </div><!-- end steps-inner -->
+    </div><!-- end steps-wrap -->
+
+    <!-- SUCCESS SCREEN (hidden initially) -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-anim">
+        <svg width="32" height="32" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <div class="success-stars" id="successStars">★★★★★</div>
+      <h2>Thank you, <em id="successName">valued client</em>!</h2>
+      <p>Your feedback means the world to us. It helps Brickwood Developers formerly Sharma &amp; Co. keep improving for every client in Delhi NCR.</p>
+      <a href="index.html" class="btn-home">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Back to Home
+      </a>
+    </div>
+
+    <!-- CARD FOOTER -->
+    <div class="card-footer" id="cardFooter">
+      <button class="btn-back" id="btnBack" style="visibility:hidden">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <button class="btn-next" id="btnNext">
+        Continue
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+  </div><!-- end card -->
+</div><!-- end page-wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span>Brickwood Developers</span>
+      <span>Formerly Sharma &amp; Co.</span>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="terms.html">T&amp;C</a>
+    </div>
+    <p class="footer-copy">© 2025 Brickwood Developers. All rights reserved.</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/911234567890" class="whatsapp-btn" target="_blank" rel="noopener">
+  <div class="wa-pulse"></div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+/* ── NAV ── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+
+/* ══════════════════════════════════════
+   FEEDBACK WIZARD
+══════════════════════════════════════ */
+const TOTAL_STEPS = 5;
+let current = 1;
+
+// data store
+const data = {
+  rating: 0,
+  service: '',
+  standouts: [],
+  feedback: '',
+  name: '',
+  area: '',
+  sharePermission: true
+};
+
+const stepsInner  = document.getElementById('stepsInner');
+const progressBar = document.getElementById('progressBar');
+const btnNext     = document.getElementById('btnNext');
+const btnBack     = document.getElementById('btnBack');
+const cardFooter  = document.getElementById('cardFooter');
+const successScreen = document.getElementById('successScreen');
+
+// ── Build step indicator dots
+function buildDots() {
+  const ind = document.getElementById('stepIndicator');
+  ind.innerHTML = '';
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const d = document.createElement('div');
+    d.className = 'step-dot' + (i === current ? ' active' : (i < current ? ' done' : ''));
+    ind.appendChild(d);
+  }
+}
+
+// ── Slide to step
+function goTo(step) {
+  current = Math.max(1, Math.min(step, TOTAL_STEPS));
+  stepsInner.style.transform = `translateX(-${(current - 1) * 100}%)`;
+  progressBar.style.width = `${(current / TOTAL_STEPS) * 100}%`;
+  btnBack.style.visibility = current > 1 ? 'visible' : 'hidden';
+  btnNext.textContent = current === TOTAL_STEPS ? 'Submit Feedback' : 'Continue';
+  if (current === TOTAL_STEPS) {
+    btnNext.innerHTML = `Submit Feedback <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+  } else {
+    btnNext.innerHTML = `Continue <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>`;
+  }
+  buildDots();
+  validateStep();
+}
+
+// ── Validate current step → enable/disable Next
+function validateStep() {
+  let ok = true;
+  if (current === 1) ok = data.rating > 0;
+  if (current === 2) ok = data.service !== '';
+  if (current === 3) ok = true; // optional multi-select
+  if (current === 4) ok = document.getElementById('clientName').value.trim() !== '';
+  if (current === 5) ok = true;
+  btnNext.disabled = !ok;
+}
+
+/* ── STEP 1: Stars ── */
+const stars = document.querySelectorAll('.star');
+const starLabels = ['', 'Poor', 'Below Average', 'Good', 'Very Good', 'Excellent!'];
+const starLabel  = document.getElementById('starLabel');
+
+stars.forEach(star => {
+  star.addEventListener('click', () => {
+    data.rating = parseInt(star.dataset.val);
+    stars.forEach(s => s.classList.toggle('lit', parseInt(s.dataset.val) <= data.rating));
+    starLabel.textContent = starLabels[data.rating];
+    validateStep();
+  });
+  star.addEventListener('mouseenter', () => {
+    const val = parseInt(star.dataset.val);
+    stars.forEach(s => s.style.color = parseInt(s.dataset.val) <= val ? 'var(--gold)' : 'rgba(201,168,76,0.2)');
+  });
+  star.addEventListener('mouseleave', () => {
+    stars.forEach(s => s.style.color = parseInt(s.dataset.val) <= data.rating ? 'var(--gold)' : 'rgba(201,168,76,0.2)');
+  });
+});
+
+/* ── STEP 2: Service chips ── */
+document.querySelectorAll('.s-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.s-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    data.service = chip.dataset.val;
+    validateStep();
+  });
+});
+
+/* ── STEP 3: Standout emoji chips (multi-select) ── */
+document.querySelectorAll('.emoji-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('selected');
+    const val = chip.dataset.val;
+    if (chip.classList.contains('selected')) {
+      if (!data.standouts.includes(val)) data.standouts.push(val);
+    } else {
+      data.standouts = data.standouts.filter(v => v !== val);
+    }
+  });
+});
+
+/* ── STEP 4: Name input validation ── */
+document.getElementById('clientName').addEventListener('input', validateStep);
+
+/* ── STEP 5: Permission toggle ── */
+const permRow = document.getElementById('permissionRow');
+permRow.addEventListener('click', () => {
+  permRow.classList.toggle('on');
+  data.sharePermission = permRow.classList.contains('on');
+});
+
+/* ── NEXT BUTTON ── */
+btnNext.addEventListener('click', () => {
+  // collect step 4 data
+  if (current === 4) {
+    data.feedback = document.getElementById('feedbackText').value.trim();
+    data.name     = document.getElementById('clientName').value.trim();
+    data.area     = document.getElementById('clientArea').value.trim();
+  }
+
+  if (current < TOTAL_STEPS) {
+    goTo(current + 1);
+  } else {
+    submitFeedback();
+  }
+});
+
+/* ── BACK BUTTON ── */
+btnBack.addEventListener('click', () => goTo(current - 1));
+
+/* ── SUBMIT ── */
+async function submitFeedback() {
+  btnNext.disabled = true;
+  btnNext.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 0.8s linear infinite"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> Sending…`;
+
+  /*
+    ── CONNECT TO GOOGLE SHEETS ──
+    Replace YOUR_APPS_SCRIPT_URL below with your Apps Script web app URL.
+    The payload matches the same pattern as the contact form.
+
+    Your Apps Script should read:
+      data.name, data.rating, data.service, data.standouts.join(', '),
+      data.feedback, data.area, data.sharePermission, data.timestamp
+  */
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx0uUgflBZpRHUk6RV-YXvfciqljnDdc7jerFh_52Mq2Jc5caUf7nDqGbtSLJ_F5Dmy/exec';
+
+  const payload = {
+    name:            data.name,
+    rating:          data.rating,
+    service:         data.service,
+    standouts:       data.standouts.join(', '),
+    feedback:        data.feedback,
+    area:            data.area,
+    sharePermission: data.sharePermission ? 'Yes' : 'No',
+    timestamp:       new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+  };
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) {
+    // no-cors fetch: errors here mean network failure
+    // We still show success if the URL was reached
+  }
+
+  showSuccess();
+}
+
+/* ── SHOW SUCCESS ── */
+function showSuccess() {
+  // hide form elements
+  document.querySelector('.steps-wrap').style.display   = 'none';
+  document.querySelector('.progress-bar-wrap').style.display = 'none';
+  cardFooter.style.display = 'none';
+  document.getElementById('stepIndicator').style.display = 'none';
+
+  // fill success screen
+  const starEmojis = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
+  document.getElementById('successStars').textContent = starEmojis;
+  document.getElementById('successName').textContent  = data.name || 'valued client';
+
+  successScreen.classList.add('show');
+}
+
+/* ── INIT ── */
+buildDots();
+validateStep();
+</script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Brickwood Developers</title>
+  <meta name="description" content="500+ projects across Delhi NCR. Browse our residential, commercial and government renovation portfolio."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:rgba(201,168,76,0.15);--dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--dark4:#252525;--light:#F5F0E8;--muted:#8A8278;--white:#FFFFFF;--radius:4px;--transition:0.35s cubic-bezier(0.25,0.46,0.45,0.94)}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--light);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5vw;height:72px;display:flex;align-items:center;justify-content:space-between;transition:background var(--transition),backdrop-filter var(--transition)}
+    nav.scrolled{background:rgba(13,13,13,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,0.15)}
+    .nav-logo{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+    .nav-logo span:first-child{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:0.04em}
+    .nav-logo span:last-child{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+    .nav-links{display:flex;gap:36px;list-style:none}
+    .nav-links a{text-decoration:none;color:var(--muted);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;transition:color var(--transition);position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--transition)}
+    .nav-links a:hover,.nav-links a.active{color:var(--gold)}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-cta{background:var(--gold)!important;color:var(--dark)!important;padding:10px 22px;border-radius:var(--radius);font-weight:500!important}
+    .nav-cta:hover{background:var(--gold-light)!important}
+    .nav-cta::after{display:none!important}
+    .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+    .nav-toggle span{display:block;width:24px;height:2px;background:var(--light);border-radius:2px}
+
+    .page-hero{padding:160px 5vw 80px;position:relative;overflow:hidden;background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.12)}
+    .page-hero::before{content:'';position:absolute;top:0;right:0;width:50%;height:100%;background:linear-gradient(135deg,transparent,rgba(201,168,76,0.04));clip-path:polygon(20% 0%,100% 0%,100% 100%,0% 100%)}
+    .page-hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom right,transparent 40%,rgba(0,0,0,0.5) 70%,transparent 100%)}
+    .page-hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+    .breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+    .breadcrumb a{text-decoration:none;color:var(--muted);transition:color var(--transition)}
+    .breadcrumb a:hover{color:var(--gold)}
+    .breadcrumb span{color:var(--gold)}
+    .section-tag{display:inline-block;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,80px);font-weight:900;line-height:1;color:var(--white);margin-bottom:20px}
+    .page-hero h1 em{font-style:italic;color:var(--gold)}
+    .page-hero p{font-size:17px;color:var(--muted);max-width:520px;line-height:1.7;font-weight:300}
+
+    /* FILTER TABS */
+    .portfolio-section{padding:80px 5vw}
+    .portfolio-inner{max-width:1200px;margin:0 auto}
+    .filter-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:48px}
+    .filter-btn{background:transparent;border:1px solid rgba(245,240,232,0.1);color:var(--muted);padding:10px 22px;border-radius:100px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all var(--transition);font-family:'DM Sans',sans-serif}
+    .filter-btn:hover{border-color:rgba(201,168,76,0.4);color:var(--light)}
+    .filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--dark)}
+
+    /* GRID */
+    .portfolio-grid{columns:3;gap:4px;column-gap:4px}
+    .portfolio-item{break-inside:avoid;margin-bottom:4px;position:relative;overflow:hidden;cursor:pointer;display:block}
+    .portfolio-item img{width:100%;display:block;transition:transform 0.5s ease;aspect-ratio:auto}
+    .portfolio-item:hover img{transform:scale(1.04)}
+    .portfolio-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 50%,transparent 100%);opacity:0;transition:opacity var(--transition);display:flex;align-items:flex-end;padding:24px}
+    .portfolio-item:hover .portfolio-overlay{opacity:1}
+    .portfolio-info{}
+    .portfolio-tag{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .portfolio-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px}
+    .portfolio-meta{font-size:12px;color:rgba(245,240,232,0.6)}
+    /* placeholder color boxes since we have no real photos */
+    .ph{width:100%;display:block;object-fit:cover}
+
+    /* PLACEHOLDER COLORS for demo */
+    .c1{background:linear-gradient(135deg,#1a1510,#2d2418)}
+    .c2{background:linear-gradient(135deg,#101820,#1a2d20)}
+    .c3{background:linear-gradient(135deg,#1a1018,#2d1a28)}
+    .c4{background:linear-gradient(135deg,#181510,#28200d)}
+    .c5{background:linear-gradient(135deg,#101518,#0d1a25)}
+    .c6{background:linear-gradient(135deg,#151810,#202d15)}
+    .c7{background:linear-gradient(135deg,#181018,#2d0d2d)}
+    .c8{background:linear-gradient(135deg,#181210,#2d1e10)}
+    .c9{background:linear-gradient(135deg,#101818,#0d2828)}
+    .c10{background:linear-gradient(135deg,#151015,#281528)}
+    .photo-placeholder{display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:13px;color:rgba(201,168,76,0.3);letter-spacing:0.12em;text-align:center;padding:24px}
+
+    /* CTA */
+    .portfolio-cta{text-align:center;margin-top:64px;padding-top:64px;border-top:1px solid rgba(245,240,232,0.06)}
+    .portfolio-cta p{font-size:15px;color:var(--muted);margin-bottom:24px}
+    .portfolio-cta h3{font-family:'Playfair Display',serif;font-size:28px;color:var(--white);margin-bottom:12px}
+    .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--dark);text-decoration:none;padding:15px 32px;border-radius:var(--radius);font-weight:500;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;transition:background var(--transition),transform var(--transition)}
+    .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px)}
+
+    footer{background:var(--dark);padding:60px 5vw 32px;border-top:1px solid rgba(245,240,232,0.06)}
+    .footer-inner{max-width:1100px;margin:0 auto}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;padding-bottom:48px;border-bottom:1px solid rgba(245,240,232,0.06);margin-bottom:32px}
+    .footer-brand p{font-size:14px;color:var(--muted);line-height:1.7;margin-top:16px;max-width:300px}
+    .footer-col h4{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .footer-col ul{list-style:none}
+    .footer-col li{margin-bottom:10px}
+    .footer-col a{text-decoration:none;font-size:14px;color:var(--muted);transition:color var(--transition)}
+    .footer-col a:hover{color:var(--light)}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .footer-bottom p{font-size:12px;color:rgba(138,130,120,0.6)}
+    .footer-bottom span{font-size:12px;color:rgba(138,130,120,0.4)}
+
+    .whatsapp-btn{position:fixed;bottom:32px;right:32px;z-index:999;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,211,102,0.4);text-decoration:none;transition:transform var(--transition),box-shadow var(--transition)}
+    .whatsapp-btn:hover{transform:scale(1.1) translateY(-2px)}
+    .whatsapp-btn svg{width:28px;height:28px;fill:white}
+    .wa-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,0.4);animation:wa-ripple 2s ease-out infinite}
+    @keyframes wa-ripple{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}
+
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:900px){.portfolio-grid{columns:2}}
+    @media(max-width:600px){
+      .portfolio-grid{columns:1}
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:72px;left:0;right:0;background:rgba(13,13,13,0.97);backdrop-filter:blur(20px);padding:32px 5vw;gap:24px;border-bottom:1px solid rgba(201,168,76,0.15)}
+      .nav-toggle{display:flex}
+      .footer-top{grid-template-columns:1fr;gap:40px}
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="portfolio.html" class="active">Portfolio</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get Free Quote</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-lines"></div>
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Portfolio</div>
+    <span class="section-tag">Our Work</span>
+    <h1>500+ Projects, <em>One Standard</em></h1>
+    <p>Every project tells a story. Browse our work across residential, commercial, and government sectors.</p>
+  </div>
+</div>
+
+<section class="portfolio-section">
+  <div class="portfolio-inner">
+
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="residential">Residential</button>
+      <button class="filter-btn" data-filter="commercial">Commercial</button>
+      <button class="filter-btn" data-filter="government">Government</button>
+    </div>
+
+    <div class="portfolio-grid" id="portfolioGrid">
+
+      <!-- PROJECT 1 -->
+      <a class="portfolio-item" data-cat="residential"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_1.jpg"
+         data-caption="Vasant Kunj Flat Renovation — 1,400 sq ft — 2024">
+        <div class="ph c1 photo-placeholder" style="height:280px">
+          Replace with<br>project photo
+        </div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Residential</div>
+            <div class="portfolio-name">Vasant Kunj Flat</div>
+            <div class="portfolio-meta">1,400 sq ft · 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROJECT 2 -->
+      <a class="portfolio-item" data-cat="commercial"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_2.jpg"
+         data-caption="Connaught Place Office — 3,200 sq ft — 2023">
+        <div class="ph c2 photo-placeholder" style="height:360px">Replace with<br>project photo</div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Commercial</div>
+            <div class="portfolio-name">Connaught Place Office</div>
+            <div class="portfolio-meta">3,200 sq ft · 2023</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROJECT 3 -->
+      <a class="portfolio-item" data-cat="government"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_3.jpg"
+         data-caption="DDA Housing Complex — 12,000 sq ft — 2022">
+        <div class="ph c3 photo-placeholder" style="height:240px">Replace with<br>project photo</div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Government</div>
+            <div class="portfolio-name">DDA Housing Complex</div>
+            <div class="portfolio-meta">12,000 sq ft · 2022</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROJECT 4 -->
+      <a class="portfolio-item" data-cat="residential"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_4.jpg"
+         data-caption="Greater Kailash Villa Extension — 2,800 sq ft — 2024">
+        <div class="ph c4 photo-placeholder" style="height:320px">Replace with<br>project photo</div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Residential</div>
+            <div class="portfolio-name">GK Villa Extension</div>
+            <div class="portfolio-meta">2,800 sq ft · 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROJECT 5 -->
+      <a class="portfolio-item" data-cat="commercial"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_5.jpg"
+         data-caption="HUL Office Fit-Out, Gurgaon — 5,600 sq ft — 2021">
+        <div class="ph c5 photo-placeholder" style="height:260px">Replace with<br>project photo</div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Commercial</div>
+            <div class="portfolio-name">HUL Office Fit-Out</div>
+            <div class="portfolio-meta">5,600 sq ft · 2021</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROJECT 6 -->
+      <a class="portfolio-item" data-cat="residential"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_6.jpg"
+         data-caption="Rohini Modular Kitchen — 180 sq ft — 2024">
+        <div class="ph c6 photo-placeholder" style="height:220px">Replace with<br>project photo</div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Residential</div>
+            <div class="portfolio-name">Rohini Modular Kitchen</div>
+            <div class="portfolio-meta">180 sq ft · 2024</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROJECT 7 -->
+      <a class="portfolio-item" data-cat="government"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_7.jpg"
+         data-caption="DND Flyway Maintenance Office — 4,000 sq ft — 2020">
+        <div class="ph c7 photo-placeholder" style="height:300px">Replace with<br>project photo</div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Government</div>
+            <div class="portfolio-name">DND Flyway Office</div>
+            <div class="portfolio-meta">4,000 sq ft · 2020</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROJECT 8 -->
+      <a class="portfolio-item" data-cat="residential"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_8.jpg"
+         data-caption="Dwarka Sector 12 Full Interior — 1,650 sq ft — 2023">
+        <div class="ph c8 photo-placeholder" style="height:270px">Replace with<br>project photo</div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Residential</div>
+            <div class="portfolio-name">Dwarka Full Interior</div>
+            <div class="portfolio-meta">1,650 sq ft · 2023</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROJECT 9 -->
+      <a class="portfolio-item" data-cat="commercial"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_9.jpg"
+         data-caption="Embassy Group Showroom — 2,400 sq ft — 2022">
+        <div class="ph c9 photo-placeholder" style="height:350px">Replace with<br>project photo</div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Commercial</div>
+            <div class="portfolio-name">Embassy Showroom</div>
+            <div class="portfolio-meta">2,400 sq ft · 2022</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- PROJECT 10 -->
+      <a class="portfolio-item" data-cat="residential"
+         data-fancybox="gallery"
+         data-src="YOUR_PHOTO_10.jpg"
+         data-caption="Saket Home Extension — 900 sq ft — 2023">
+        <div class="ph c10 photo-placeholder" style="height:240px">Replace with<br>project photo</div>
+        <div class="portfolio-overlay">
+          <div class="portfolio-info">
+            <div class="portfolio-tag">Residential</div>
+            <div class="portfolio-name">Saket Home Extension</div>
+            <div class="portfolio-meta">900 sq ft · 2023</div>
+          </div>
+        </div>
+      </a>
+
+    </div><!-- end grid -->
+
+    <div class="portfolio-cta reveal">
+      <h3>Liked What You See?</h3>
+      <p>Every project above started with a free site visit. Yours can too.</p>
+      <a href="contact.html" class="btn-primary">Book Your Free Site Visit</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
+        <p>Building Delhi NCR's finest homes, offices, and spaces since 2001. GST Registered · Udyam Certified.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul><li><a href="services.html">Services</a></li><li><a href="portfolio.html">Portfolio</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+911234567890">+91 XXXXX XXXXX</a></li><li><a href="mailto:info@Brickwooddev.in">info@brickwooddev.in</a></li><li><a href="#">Delhi NCR</a></li><li><a href="#">Mon–Sat, 9am–7pm</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Brickwood Developers. All rights reserved.</p>
+      <span>GST Registered · Udyam Certified</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/911234567890" class="whatsapp-btn" target="_blank" rel="noopener">
+  <div class="wa-pulse"></div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+<script>
+  Fancybox.bind('[data-fancybox="gallery"]', {
+    Toolbar: { display: { left: ["infobar"], middle: [], right: ["close"] } },
+    caption: function(fancybox, slide) { return slide.el.dataset.caption || ''; }
+  });
+
+  // Nav
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+  document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+
+  // Filter
+  const btns = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.portfolio-item');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      items.forEach(item => {
+        const show = filter === 'all' || item.dataset.cat === filter;
+        item.style.display = show ? 'block' : 'none';
+      });
+    });
+  });
+
+  // Reveal
+  const observer = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

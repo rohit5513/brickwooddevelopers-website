@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms & Conditions|Brickwood Developers</title>
+  <meta name="description" content="Terms and Conditions for all services offered by Brickwood Developers — construction, renovation, AMC plans, and rental management. Delhi NCR."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:rgba(201,168,76,0.15);
+      --dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--dark4:#252525;
+      --light:#F5F0E8;--muted:#8A8278;--white:#FFFFFF;
+      --radius:4px;--transition:0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--light);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+    /* ── NAV ── */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5vw;height:72px;display:flex;align-items:center;justify-content:space-between;transition:background var(--transition)}
+    nav.scrolled{background:rgba(13,13,13,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,0.15)}
+    .nav-logo{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+    .nav-logo span:first-child{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:0.04em}
+    .nav-logo span:last-child{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+    .nav-links{display:flex;gap:36px;list-style:none}
+    .nav-links a{text-decoration:none;color:var(--muted);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;transition:color var(--transition);position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--transition)}
+    .nav-links a:hover{color:var(--gold)}.nav-links a:hover::after{width:100%}
+    .nav-cta{background:var(--gold)!important;color:var(--dark)!important;padding:10px 22px;border-radius:var(--radius);font-weight:500!important}.nav-cta:hover{background:var(--gold-light)!important}.nav-cta::after{display:none!important}
+    .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+    .nav-toggle span{display:block;width:24px;height:2px;background:var(--light);border-radius:2px}
+
+    /* ── PAGE HERO ── */
+    .page-hero{padding:160px 5vw 72px;position:relative;overflow:hidden;background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.12)}
+    .page-hero::before{content:'';position:absolute;top:0;right:0;width:55%;height:100%;background:linear-gradient(135deg,transparent,rgba(201,168,76,0.04));clip-path:polygon(20% 0%,100% 0%,100% 100%,0% 100%)}
+    .page-hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom right,transparent 40%,rgba(0,0,0,0.5) 70%,transparent 100%)}
+    .page-hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+    .breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+    .breadcrumb a{text-decoration:none;color:var(--muted);transition:color var(--transition)}.breadcrumb a:hover,.breadcrumb span{color:var(--gold)}
+    .section-tag{display:inline-block;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+    .page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,72px);font-weight:900;line-height:1;color:var(--white);margin-bottom:20px}
+    .page-hero h1 em{font-style:italic;color:var(--gold)}
+    .page-hero-meta{display:flex;gap:24px;flex-wrap:wrap;align-items:center;margin-top:20px}
+    .meta-badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);letter-spacing:0.06em}
+    .meta-badge svg{width:14px;height:14px;color:var(--gold)}
+
+    /* ── LAYOUT ── */
+    .terms-layout{max-width:1100px;margin:0 auto;padding:72px 5vw 80px;display:grid;grid-template-columns:240px 1fr;gap:64px;align-items:start}
+
+    /* ── STICKY SIDEBAR TOC ── */
+    .toc{position:sticky;top:100px}
+    .toc-title{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .toc-list{list-style:none}
+    .toc-list li{margin-bottom:2px}
+    .toc-list a{display:block;font-size:13px;color:var(--muted);text-decoration:none;padding:8px 12px;border-left:2px solid transparent;border-radius:0 var(--radius) var(--radius) 0;transition:all var(--transition);line-height:1.4}
+    .toc-list a:hover{color:var(--light);border-left-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.04)}
+    .toc-list a.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,168,76,0.06)}
+    .toc-contact{margin-top:28px;padding:18px;background:var(--dark2);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius)}
+    .toc-contact p{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+    .toc-contact a{font-size:13px;color:var(--gold);text-decoration:none;display:block;margin-bottom:4px}
+    .toc-contact a:hover{color:var(--gold-light)}
+
+    /* ── CONTENT ── */
+    .terms-content{}
+    .terms-section{margin-bottom:56px;padding-bottom:56px;border-bottom:1px solid rgba(245,240,232,0.07)}
+    .terms-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .sec-num{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block}
+    .terms-section h2{font-family:'Playfair Display',serif;font-size:clamp(22px,2.5vw,32px);font-weight:700;color:var(--white);line-height:1.15;margin-bottom:20px}
+    .terms-section h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--white);margin:28px 0 10px}
+    .terms-section p{font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:14px}
+    .terms-section p:last-child{margin-bottom:0}
+    .terms-section ul,.terms-section ol{padding-left:0;list-style:none;margin-bottom:14px}
+    .terms-section ul li,.terms-section ol li{font-size:14px;color:var(--muted);line-height:1.8;padding:6px 0 6px 24px;position:relative;border-bottom:1px solid rgba(245,240,232,0.04)}
+    .terms-section ul li:last-child,.terms-section ol li:last-child{border-bottom:none}
+    .terms-section ul li::before{content:'—';position:absolute;left:0;color:var(--gold);font-weight:700}
+    .terms-section ol{counter-reset:tc-counter}
+    .terms-section ol li{counter-increment:tc-counter}
+    .terms-section ol li::before{content:counter(tc-counter)'.';position:absolute;left:0;color:var(--gold);font-weight:500;font-size:13px}
+    .terms-section strong{color:var(--light);font-weight:500}
+    .highlight-box{background:var(--dark2);border:1px solid rgba(201,168,76,0.2);border-left:3px solid var(--gold);border-radius:var(--radius);padding:18px 20px;margin:18px 0;font-size:14px;color:var(--muted);line-height:1.75}
+    .highlight-box strong{color:var(--gold)}
+    .warning-box{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);border-left:3px solid rgba(239,68,68,0.7);border-radius:var(--radius);padding:16px 20px;margin:16px 0;font-size:13px;color:rgba(239,68,68,0.75);line-height:1.7}
+
+    /* ── FOOTER ── */
+    footer{background:var(--dark);padding:60px 5vw 32px;border-top:1px solid rgba(245,240,232,0.06)}
+    .footer-inner{max-width:1100px;margin:0 auto}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;padding-bottom:48px;border-bottom:1px solid rgba(245,240,232,0.06);margin-bottom:32px}
+    .footer-brand p{font-size:14px;color:var(--muted);line-height:1.7;margin-top:16px;max-width:300px}
+    .footer-col h4{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .footer-col ul{list-style:none}.footer-col li{margin-bottom:10px}
+    .footer-col a{text-decoration:none;font-size:14px;color:var(--muted);transition:color var(--transition)}.footer-col a:hover{color:var(--light)}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .footer-bottom p,.footer-bottom span{font-size:12px;color:rgba(138,130,120,0.5)}
+
+    .whatsapp-btn{position:fixed;bottom:32px;right:32px;z-index:999;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,211,102,0.4);text-decoration:none;transition:transform var(--transition)}.whatsapp-btn:hover{transform:scale(1.1) translateY(-2px)}.whatsapp-btn svg{width:28px;height:28px;fill:white}
+    .wa-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,0.4);animation:wa-ripple 2s ease-out infinite}
+    @keyframes wa-ripple{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease,transform 0.6s ease}.reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:900px){
+      .terms-layout{grid-template-columns:1fr;gap:40px}
+      .toc{position:static;display:none}
+      .footer-top{grid-template-columns:1fr;gap:40px}
+    }
+    @media(max-width:600px){
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:72px;left:0;right:0;background:rgba(13,13,13,0.97);backdrop-filter:blur(20px);padding:32px 5vw;gap:24px;border-bottom:1px solid rgba(201,168,76,0.15)}
+      .nav-toggle{display:flex}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get Free Quote</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-lines"></div>
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Terms &amp; Conditions</div>
+    <span class="section-tag">Legal</span>
+    <h1>Terms &amp; <em>Conditions</em></h1>
+    <div class="page-hero-meta">
+      <span class="meta-badge"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Last updated: January 2025</span>
+      <span class="meta-badge"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg> Applicable in Delhi NCR, India</span>
+      <span class="meta-badge"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg> 11 Sections</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="terms-layout">
+
+  <!-- SIDEBAR TOC -->
+  <aside class="toc">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list" id="tocList">
+      <li><a href="#s1">1. Definitions</a></li>
+      <li><a href="#s2">2. Scope of Services</a></li>
+      <li><a href="#s3">3. Quotations &amp; Pricing</a></li>
+      <li><a href="#s4">4. Payment Terms</a></li>
+      <li><a href="#s5">5. Project Execution</a></li>
+      <li><a href="#s6">6. Client Responsibilities</a></li>
+      <li><a href="#s7">7. AMC Plans</a></li>
+      <li><a href="#s8">8. Rental Management</a></li>
+      <li><a href="#s9">9. Warranty &amp; Defects</a></li>
+      <li><a href="#s10">10. Limitation of Liability</a></li>
+      <li><a href="#s11">11. Disputes &amp; Governing Law</a></li>
+    </ul>
+    <div class="toc-contact">
+      <p>Questions about these terms?</p>
+      <a href="mailto:info@brickwooddev.in">info@brickwooddev.in</a>
+      <a href="tel:+911234567890">+91 XXXXX XXXXX</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="terms-content">
+
+    <div class="highlight-box reveal">
+      <strong>Please read these Terms &amp; Conditions carefully before engaging Brickwood Developers for any service.</strong> By signing a quotation, paying an advance, or verbally confirming work, you agree to be bound by these terms. If you have any questions, contact us before work begins.
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="terms-section reveal" id="s1">
+      <span class="sec-num">Section 01</span>
+      <h2>Definitions</h2>
+      <p>In these Terms &amp; Conditions, the following words carry the meanings assigned below unless the context clearly requires otherwise:</p>
+      <ul>
+        <li><strong>"Company"</strong> means Brickwood Developers, a proprietorship / partnership firm registered under Indian law, with offices in Delhi NCR.</li>
+        <li><strong>"Client"</strong> means the individual, family, company, or institution that engages the Company for any service.</li>
+        <li><strong>"Project"</strong> means any scope of construction, renovation, design, or fit-out work agreed between the Company and the Client.</li>
+        <li><strong>"Agreement"</strong> means the signed quotation, work order, or written confirmation that governs a specific Project.</li>
+        <li><strong>"AMC"</strong> means Annual Maintenance Contract — a service subscription plan offered by the Company.</li>
+        <li><strong>"Rental Management Service"</strong> means the property management service offered by the Company on behalf of property owners.</li>
+        <li><strong>"Site"</strong> means the physical property or location at which the Company's services are to be performed.</li>
+        <li><strong>"Variation"</strong> means any change to the agreed scope, materials, timeline, or design requested after the Agreement is signed.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="terms-section reveal" id="s2">
+      <span class="sec-num">Section 02</span>
+      <h2>Scope of Services</h2>
+      <p>The Company offers the following categories of service, each governed by a separate Agreement or work order:</p>
+      <ul>
+        <li>Residential renovation (flat renovation, home extension, modular kitchen)</li>
+        <li>Interior design and fit-out (residential and commercial)</li>
+        <li>Commercial renovation and office fit-out</li>
+        <li>Government and institutional construction works</li>
+        <li>Annual Maintenance Contracts (AMC) — Silver, Gold, Platinum plans</li>
+        <li>Rental Management Services for property owners</li>
+        <li>Real Estate Advisory services</li>
+      </ul>
+      <p>The exact scope of work for any Project is defined exclusively in the signed quotation or work order. Any work not explicitly listed in the Agreement is not included and will be treated as a Variation, subject to additional charges and Client approval.</p>
+      <div class="highlight-box">
+        <strong>Important:</strong> A free site visit or verbal discussion does not constitute a binding Agreement. Work commences only upon signed acceptance of a written quotation and receipt of the agreed advance payment.
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="terms-section reveal" id="s3">
+      <span class="sec-num">Section 03</span>
+      <h2>Quotations &amp; Pricing</h2>
+      <h3>3.1 Validity</h3>
+      <p>All quotations issued by the Company are valid for <strong>30 days</strong> from the date of issue unless a different validity period is stated in writing. After expiry, the Company reserves the right to revise prices to reflect current material and labour costs.</p>
+      <h3>3.2 What's Included</h3>
+      <p>Quotations include only the items, materials, and labour explicitly listed. The following are <strong>never</strong> included in a standard quotation unless specifically stated:</p>
+      <ul>
+        <li>Structural engineering or architectural drawings</li>
+        <li>Municipal approvals, building permits, or statutory fees</li>
+        <li>Electrical or plumbing work beyond the stated scope</li>
+        <li>Furniture, fixtures, or appliances (unless listed)</li>
+        <li>Debris disposal beyond one standard clearance</li>
+        <li>Any work in areas not mentioned in the quotation</li>
+      </ul>
+      <h3>3.3 Material Price Fluctuation</h3>
+      <p>Quoted material prices are based on market rates at the time of quotation. If a project is delayed by more than <strong>60 days</strong> from the quoted start date — due to Client reasons — the Company reserves the right to revise material costs to reflect prevailing market prices. The Client will be informed in writing before any price revision is applied.</p>
+      <h3>3.4 GST</h3>
+      <p>All quoted prices are exclusive of Goods and Services Tax (GST) unless explicitly stated as inclusive. Applicable GST at the prevailing rate will be charged on all invoices. Valid GST invoices will be provided for all payments.</p>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="terms-section reveal" id="s4">
+      <span class="sec-num">Section 04</span>
+      <h2>Payment Terms</h2>
+      <h3>4.1 Standard Payment Schedule</h3>
+      <p>Unless a different schedule is agreed in writing, the following standard payment milestones apply to all renovation and construction projects:</p>
+      <ol>
+        <li><strong>30% advance</strong> — Due before work commences. This confirms the booking and enables material procurement.</li>
+        <li><strong>30% at structural completion</strong> — Due when civil/structural work (walls, flooring base, plumbing, electrical) is complete.</li>
+        <li><strong>30% at finishing stage</strong> — Due when painting, carpentry, tiling, and fittings are complete.</li>
+        <li><strong>10% at handover</strong> — Due on the day of final handover and snag inspection sign-off.</li>
+      </ol>
+      <h3>4.2 Payment Methods</h3>
+      <p>The Company accepts payment via bank transfer (NEFT/RTGS/IMPS), UPI, and cheque. Cash payments above ₹20,000 are not accepted in compliance with Indian income tax regulations. All cheques should be drawn in favour of <strong>"Brickwood Developers"</strong>.</p>
+      <h3>4.3 Late Payment</h3>
+      <p>If a payment milestone is not met within <strong>7 days</strong> of the due date, the Company reserves the right to:</p>
+      <ul>
+        <li>Suspend work on the Project until the outstanding payment is received</li>
+        <li>Charge simple interest at <strong>18% per annum</strong> on overdue amounts from the due date</li>
+        <li>Extend the project completion date by the number of days work was suspended, without penalty to the Company</li>
+      </ul>
+      <div class="warning-box">Work suspension due to non-payment is not considered a breach of contract by the Company. The Company is not liable for any losses or inconvenience caused to the Client during a justified work suspension.</div>
+      <h3>4.4 Advance Non-Refundability</h3>
+      <p>The advance payment covers preliminary costs including material procurement, labour mobilisation, and site preparation. If the Client cancels the project after work has commenced, the advance is <strong>non-refundable</strong>. If the Client cancels before commencement (within 48 hours of paying the advance and before any materials are procured), a full refund will be issued.</p>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="terms-section reveal" id="s5">
+      <span class="sec-num">Section 05</span>
+      <h2>Project Execution</h2>
+      <h3>5.1 Timelines</h3>
+      <p>Project timelines stated in the Agreement are estimates based on normal working conditions. The Company will make every effort to meet the agreed timeline. However, the following events may extend the completion date without penalty to the Company:</p>
+      <ul>
+        <li>Delayed approvals or access from the Client or building society</li>
+        <li>Discovery of hidden defects (concealed wiring faults, rotten woodwork, structural issues) not apparent during site visit</li>
+        <li>Material supply delays due to manufacturer shortages or logistics disruptions</li>
+        <li>Natural events: rain, extreme weather, public holidays, bandhs</li>
+        <li>Client-requested Variations that alter the scope or sequence of work</li>
+        <li>Late payment by the Client causing work suspension</li>
+      </ul>
+      <p>The Company will notify the Client promptly of any anticipated delay and provide a revised timeline.</p>
+      <h3>5.2 Variations</h3>
+      <p>Any change to the agreed scope, design, or materials after the Agreement is signed constitutes a Variation. All Variations must be:</p>
+      <ol>
+        <li>Requested by the Client in writing (WhatsApp message is acceptable)</li>
+        <li>Assessed and quoted by the Company in writing</li>
+        <li>Approved by the Client in writing before execution</li>
+      </ol>
+      <p>The Company will not execute any Variation without written Client approval. Verbal approvals are not binding on the Company. The cost and timeline impact of every Variation will be communicated before work proceeds.</p>
+      <h3>5.3 Site Access</h3>
+      <p>The Client is responsible for ensuring unobstructed access to the site during agreed working hours (8:00 AM – 6:00 PM, Monday to Saturday). If access is denied or restricted by the Client or society authorities, the resulting delay is not the Company's responsibility.</p>
+      <h3>5.4 Existing Conditions</h3>
+      <p>The Company is not responsible for pre-existing defects in the property that are not visible during the site visit — including but not limited to concealed water seepage, embedded electrical faults, termite damage, or structural weaknesses. If such conditions are discovered during work, the Client will be informed and a separate quotation will be provided for rectification.</p>
+      <h3>5.5 Working Hours &amp; Conduct</h3>
+      <p>Company workers will operate between 8:00 AM and 6:00 PM on working days. Workers will maintain professional conduct on site. Any complaint about worker behaviour must be reported to the site supervisor or the Client's designated coordinator immediately.</p>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="terms-section reveal" id="s6">
+      <span class="sec-num">Section 06</span>
+      <h2>Client Responsibilities</h2>
+      <p>The Client agrees to fulfil the following responsibilities throughout the duration of the Project:</p>
+      <ul>
+        <li><strong>Timely payments</strong> as per the agreed schedule — delayed payment directly impacts project continuity</li>
+        <li><strong>Clear and timely decisions</strong> on design choices, material selection, and approvals — delays in Client decisions may extend the project timeline</li>
+        <li><strong>Site access</strong> during working hours and cooperation with society/building management for access permissions</li>
+        <li><strong>Removal of valuables</strong> — the Company is not responsible for loss of jewellery, cash, electronics, or other valuables left on site</li>
+        <li><strong>Society approvals</strong> — if the building society requires renovation approval, NOC, or deposit, it is the Client's responsibility to obtain and pay for these</li>
+        <li><strong>Utility connections</strong> — ensuring electricity, water supply, and waste disposal access at the site</li>
+        <li><strong>Point of contact</strong> — the Client must designate one primary decision-maker. Conflicting instructions from multiple family members or representatives may cause delays for which the Company is not liable</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="terms-section reveal" id="s7">
+      <span class="sec-num">Section 07</span>
+      <h2>Annual Maintenance Contracts (AMC)</h2>
+      <h3>7.1 Contract Period</h3>
+      <p>AMC plans are annual contracts commencing on the date of first payment and expiring 12 months thereafter. Plans do not auto-renew; the Client will be notified 30 days before expiry with a renewal offer.</p>
+      <h3>7.2 Plan Selection &amp; Upgrades</h3>
+      <p>The Client selects a plan (Silver, Gold, or Platinum) at the time of sign-up. Upgrades to a higher plan are permitted at any time during the contract period at a pro-rated differential cost. Downgrades are not permitted during an active contract year.</p>
+      <h3>7.3 Scheduled Visits</h3>
+      <p>Visits will be scheduled at approximately even intervals throughout the year. The Company will contact the Client at least 3 working days before each visit to confirm the appointment. If the Client is unavailable on the proposed date, the Client may reschedule once per visit. Visits that cannot be scheduled due to Client unavailability are forfeited and do not carry over.</p>
+      <h3>7.4 Emergency Calls</h3>
+      <p>Emergency calls are reserved for urgent property issues — active water leaks, complete electrical failure, broken entry doors, or situations affecting the safety or habitability of the property. The response time commitment (48 hrs / 24 hrs / 4 hrs as per plan) is the time to dispatch a team to the site, not the time to complete repairs. Emergency calls used for non-urgent matters may be declined or reclassified as standard service calls.</p>
+      <h3>7.5 Material Costs</h3>
+      <p>Each plan includes a per-visit material cost allowance. If materials required for a repair exceed this allowance, the Company will seek written approval from the Client before proceeding. Materials are billed at cost — the Company does not add a margin on materials purchased for AMC repairs. Any overrun requires Client approval; work will not proceed without it.</p>
+      <h3>7.6 What is Not Covered</h3>
+      <p>AMC plans do not cover: major renovation works, full pipe or wiring replacements, appliance repairs, waterproofing execution (inspection is included; treatment is quoted separately), full floor tile replacement, pest control, or damage caused by misuse, natural disasters, or third-party interference. Refer to the AMC page for the full inclusion/exclusion list.</p>
+      <h3>7.7 Cancellation &amp; Refund</h3>
+      <p>Cancellation requests within <strong>30 days of sign-up</strong> and before the first visit: full refund issued within 7 working days. Cancellation after first visit or after 30 days: pro-rated refund for unused complete months, minus a ₹1,500 administrative fee. No refund is available in the final 2 months of the contract year.</p>
+    </div>
+
+    <!-- SECTION 8 -->
+    <div class="terms-section reveal" id="s8">
+      <span class="sec-num">Section 08</span>
+      <h2>Rental Management Services</h2>
+      <h3>8.1 Appointment &amp; Authority</h3>
+      <p>By engaging the Company for Rental Management, the property owner ("Owner") appoints the Company as their non-exclusive managing agent. The Company is authorised to: list the property, conduct viewings, screen tenants, draft agreements, and coordinate maintenance — all on behalf of the Owner.</p>
+      <h3>8.2 The Company is Not a Guarantor</h3>
+      <p>The Company is a facilitating agent, not a financial guarantor. The Company does not guarantee rent payment by tenants. In the event of tenant default, the Company will follow up and assist the Owner but is not liable for unpaid rent, damage, or legal costs arising from tenant default.</p>
+      <h3>8.3 Tenant Screening Standard</h3>
+      <p>The Company performs commercially reasonable tenant screening including Aadhaar verification, employment/income verification, and reference checks. However, no screening process can guarantee tenant behaviour. The Company is not responsible for any misconduct, default, or damage caused by a tenant who passed the screening process in good faith.</p>
+      <h3>8.4 Owner Authorisation for Maintenance</h3>
+      <p>For maintenance work above ₹500, the Company will obtain written approval from the Owner (via WhatsApp) before proceeding. For urgent repairs below ₹500 (e.g. tap washer, fuse replacement), the Company may proceed immediately and will inform the Owner within 2 hours. Maintenance costs are deducted from the monthly rent transfer with a full statement.</p>
+      <h3>8.5 Rent Transfer</h3>
+      <p>The Company will transfer the collected rent to the Owner's designated bank account by the <strong>7th of every month</strong>, after deducting any authorised maintenance costs and the Company's service fee. If rent is not collected by the 5th, the Company will notify the Owner and continue follow-up. Transfer will occur within 2 working days of receipt.</p>
+      <h3>8.6 Service Fee</h3>
+      <p>The Rental Management service fee is <strong>one month's rent</strong>, charged once on successful placement of a new tenant. There is no ongoing monthly management fee for the same tenancy period. If the same tenant renews for another term, a fresh placement fee applies only if the Company was involved in the renewal process.</p>
+      <h3>8.7 Termination</h3>
+      <p>Either party may terminate the Rental Management service with <strong>30 days' written notice</strong>. Upon termination, the Company will hand over all documents (agreement, deposit receipt, tenant contact, maintenance history) and provide a final statement within 7 working days. If an active tenancy is in place, the existing lease continues — the Company simply hands over management to the Owner.</p>
+    </div>
+
+    <!-- SECTION 9 -->
+    <div class="terms-section reveal" id="s9">
+      <span class="sec-num">Section 09</span>
+      <h2>Warranty &amp; Defects Liability</h2>
+      <h3>9.1 Defects Liability Period</h3>
+      <p>The Company provides a <strong>30-day defects liability period</strong> on all renovation and construction projects, commencing on the date of final handover. During this period, the Company will rectify any defects in workmanship at no additional charge to the Client.</p>
+      <h3>9.2 What Constitutes a Defect</h3>
+      <p>A defect is defined as a failure in workmanship that arises from the Company's execution of the work. Examples include: paint peeling within 30 days, tile grout cracking within 30 days, or a plumbing joint failing within 30 days. Defects must be reported in writing (WhatsApp acceptable) within the 30-day period.</p>
+      <h3>9.3 What is Not a Defect</h3>
+      <p>The following are not covered under the defects liability warranty:</p>
+      <ul>
+        <li>Damage caused by the Client, residents, or third parties after handover</li>
+        <li>Normal wear and tear consistent with daily use</li>
+        <li>Material defects in products supplied by the Client or specified by the Client against the Company's recommendation</li>
+        <li>Issues arising from pre-existing structural problems or conditions not disclosed at the time of Agreement</li>
+        <li>Seepage or water damage arising after handover unless caused by the Company's plumbing work</li>
+      </ul>
+      <h3>9.4 Material Warranties</h3>
+      <p>Manufacturer warranties on materials (tiles, plywood, hardware, electrical fittings) are passed through to the Client. The Company will assist in warranty claims but is not the primary warrantor of third-party materials. Original purchase bills for materials are provided at handover.</p>
+    </div>
+
+    <!-- SECTION 10 -->
+    <div class="terms-section reveal" id="s10">
+      <span class="sec-num">Section 10</span>
+      <h2>Limitation of Liability</h2>
+      <h3>10.1 Maximum Liability</h3>
+      <p>To the fullest extent permitted by applicable law, the Company's total liability to the Client for any claim arising from a Project — whether in contract, tort, or otherwise — shall not exceed the total value of the payments actually received by the Company from the Client for that specific Project.</p>
+      <h3>10.2 Excluded Losses</h3>
+      <p>The Company shall not be liable for any of the following, even if advised of the possibility:</p>
+      <ul>
+        <li>Loss of income, business, or rental revenue during the project period</li>
+        <li>Cost of alternative accommodation during renovation</li>
+        <li>Indirect or consequential losses of any kind</li>
+        <li>Loss or damage to the Client's property, valuables, or belongings left at the site</li>
+        <li>Any loss arising from a third-party supplier's failure (e.g. delayed material delivery)</li>
+        <li>Losses arising from force majeure events (floods, earthquakes, riots, government orders, pandemics)</li>
+      </ul>
+      <h3>10.3 Insurance</h3>
+      <p>The Company maintains contractor's all-risk insurance covering its workers and tools on site. The Client is advised to maintain their own property insurance and contents insurance throughout the renovation period. The Company does not arrange insurance on behalf of the Client.</p>
+      <div class="highlight-box"><strong>Practical note:</strong> Clients are strongly advised to remove or secure valuables, original documents, and irreplaceable items before renovation work begins. The Company cannot be held responsible for items left unsecured on site.</div>
+    </div>
+
+    <!-- SECTION 11 -->
+    <div class="terms-section reveal" id="s11">
+      <span class="sec-num">Section 11</span>
+      <h2>Disputes &amp; Governing Law</h2>
+      <h3>11.1 Good Faith Resolution</h3>
+      <p>Both parties agree to first attempt to resolve any dispute through good-faith discussion. The Client should raise any concern directly with the Company's designated coordinator or management. The Company commits to responding to any formal written complaint within <strong>5 working days</strong>.</p>
+      <h3>11.2 Mediation</h3>
+      <p>If a dispute cannot be resolved through direct discussion within 30 days, both parties agree to attempt resolution through a mutually agreed mediator before initiating formal legal proceedings.</p>
+      <h3>11.3 Jurisdiction</h3>
+      <p>These Terms &amp; Conditions and all Agreements between the Company and the Client are governed by the laws of India. Any legal proceedings arising from a dispute shall be subject to the exclusive jurisdiction of the courts in <strong>New Delhi, India</strong>.</p>
+      <h3>11.4 Severability</h3>
+      <p>If any provision of these Terms is found to be invalid or unenforceable under applicable law, that provision will be modified to the minimum extent necessary to make it enforceable, or severed if modification is not possible. The remaining provisions shall continue in full force.</p>
+      <h3>11.5 Amendments</h3>
+      <p>The Company reserves the right to update these Terms &amp; Conditions. The version published on this website at the time of each Agreement governs that Agreement. Clients will be notified of material changes via the email or WhatsApp number on record.</p>
+
+      <div class="highlight-box" style="margin-top:32px">
+        <strong>Contact for legal queries:</strong><br>
+        Brickwood Developers<br>
+        Email: <a href="mailto:info@brickwooddev.in" style="color:var(--gold)">info@brickwooddev.in</a><br>
+        Phone: <a href="tel:+911234567890" style="color:var(--gold)">+91 XXXXX XXXXX</a><br>
+        Address: Your Full Office Address, Delhi NCR
+      </div>
+    </div>
+
+  </div><!-- end terms-content -->
+</div><!-- end terms-layout -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
+        <p>Building Delhi NCR's finest homes, offices, and spaces since 2001. GST Registered · Udyam Certified · ESIC Compliant.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="amc.html">AMC Plans</a></li>
+          <li><a href="rental.html">Rental Management</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+911234567890">+91 XXXXX XXXXX</a></li>
+          <li><a href="mailto:info@brickwooddev.in">info@brickwooddev.in</a></li>
+          <li><a>Delhi NCR</a></li>
+          <li><a>Mon–Sat, 9am–7pm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Brickwood Developers. All rights reserved.</p>
+      <span>GST Registered · Udyam Certified</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/911234567890" class="whatsapp-btn" target="_blank" rel="noopener">
+  <div class="wa-pulse"></div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // Nav
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+  document.getElementById('navToggle').addEventListener('click', () =>
+    document.getElementById('navLinks').classList.toggle('open'));
+
+  // Reveal
+  const obs = new IntersectionObserver(entries =>
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // ── Active TOC on scroll
+  const sections  = document.querySelectorAll('.terms-section');
+  const tocLinks  = document.querySelectorAll('.toc-list a');
+
+  const tocObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        tocLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => tocObs.observe(s));
+
+  // Smooth scroll for TOC links
+  tocLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        const offset = 100;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

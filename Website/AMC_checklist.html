@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AMC Site Checklist — Brickwood Developers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:rgba(201,168,76,0.13);
+      --dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--dark4:#252525;
+      --light:#F5F0E8;--muted:#8A8278;--white:#FFFFFF;
+      --silver:#A8B4C0;--silver-dim:rgba(168,180,192,0.12);
+      --platinum:#C8D8E8;--plat-dim:rgba(200,216,232,0.12);
+      --green:#34C759;--green-dim:rgba(52,199,89,0.1);
+      --red:rgba(239,68,68,0.8);
+      --radius:6px;--transition:0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--light);-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+
+    /* PRINT */
+    @media print{
+      .no-print{display:none!important}
+      body{background:white;color:#111}
+      .page-wrap{padding:0}
+      .plan-section{page-break-after:always}
+      .checklist-card{background:#f9f9f9!important;border:1px solid #ddd!important}
+      .task-row{border-color:#eee!important}
+      .task-row.checked .task-name{color:#111!important}
+      .task-row.checked .check-box{background:#2a7a2a!important;border-color:#2a7a2a!important}
+    }
+
+    /* NOISE BG */
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:1}
+
+    /* ── TOP BAR ── */
+    .topbar{background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.15);padding:0 5vw;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+    .topbar-brand{display:flex;flex-direction:column;line-height:1}
+    .topbar-brand span:first-child{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--white);letter-spacing:0.04em}
+    .topbar-brand span:last-child{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-top:1px}
+    .topbar-right{display:flex;gap:10px;align-items:center}
+    .btn-print{display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:var(--dark);padding:9px 18px;border-radius:var(--radius);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;font-family:'DM Sans',sans-serif;border:none;cursor:pointer;transition:background var(--transition)}
+    .btn-print:hover{background:var(--gold-light)}
+    .btn-reset-all{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--muted);padding:9px 16px;border-radius:var(--radius);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Sans',sans-serif;border:1px solid rgba(245,240,232,0.1);cursor:pointer;transition:all var(--transition)}
+    .btn-reset-all:hover{border-color:rgba(239,68,68,0.4);color:rgba(239,68,68,0.8)}
+
+    /* ── PAGE WRAP ── */
+    .page-wrap{max-width:1000px;margin:0 auto;padding:48px 5vw 80px}
+
+    /* ── HERO ── */
+    .checklist-hero{text-align:center;margin-bottom:48px}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid rgba(201,168,76,0.25);padding:6px 16px;border-radius:100px;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .hero-badge::before{content:'';width:6px;height:6px;background:var(--gold);border-radius:50%;animation:blink 1.8s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    .checklist-hero h1{font-family:'Playfair Display',serif;font-size:clamp(28px,4.5vw,52px);font-weight:900;color:var(--white);line-height:1.05;margin-bottom:12px}
+    .checklist-hero h1 em{font-style:italic;color:var(--gold)}
+    .checklist-hero p{font-size:14px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto}
+
+    /* ── PLAN TABS ── */
+    .plan-tabs{display:flex;gap:4px;background:var(--dark2);border:1px solid rgba(245,240,232,0.08);border-radius:10px;padding:4px;margin-bottom:40px;max-width:440px;margin-left:auto;margin-right:auto}
+    .plan-tab{flex:1;padding:11px;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:all var(--transition);color:var(--muted);background:transparent}
+    .plan-tab[data-plan="silver"].active{background:var(--silver-dim);color:var(--silver);border:1px solid rgba(168,180,192,0.25)}
+    .plan-tab[data-plan="gold"].active{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
+    .plan-tab[data-plan="platinum"].active{background:var(--plat-dim);color:var(--platinum);border:1px solid rgba(200,216,232,0.25)}
+    .plan-tab:hover:not(.active){color:var(--light)}
+
+    /* ── PLAN SECTION ── */
+    .plan-section{display:none}
+    .plan-section.active{display:block}
+
+    /* ── PLAN HEADER ── */
+    .plan-header{background:var(--dark2);border-radius:10px;padding:28px 32px;margin-bottom:24px;position:relative;overflow:hidden;border:1px solid rgba(245,240,232,0.08)}
+    .plan-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+    .silver .plan-header::before{background:linear-gradient(90deg,var(--silver),rgba(168,180,192,0.2))}
+    .gold .plan-header::before{background:linear-gradient(90deg,var(--gold),var(--gold-light),rgba(201,168,76,0.1))}
+    .platinum .plan-header::before{background:linear-gradient(90deg,var(--platinum),rgba(200,216,232,0.3))}
+    .plan-header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:20px}
+    .plan-title-wrap{}
+    .plan-tier-label{font-size:10px;letter-spacing:0.24em;text-transform:uppercase;margin-bottom:6px;display:block;font-weight:600}
+    .silver .plan-tier-label{color:var(--silver)}
+    .gold .plan-tier-label{color:var(--gold)}
+    .platinum .plan-tier-label{color:var(--platinum)}
+    .plan-title-wrap h2{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,30px);font-weight:700;color:var(--white)}
+    .plan-meta{display:flex;gap:8px;flex-wrap:wrap}
+    .meta-pill{background:var(--dark3);border:1px solid rgba(245,240,232,0.08);padding:6px 14px;border-radius:100px;font-size:11px;color:var(--muted);letter-spacing:0.06em}
+    .plan-info-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+    .plan-info-box{background:var(--dark3);padding:14px 16px;text-align:center}
+    .plan-info-box:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+    .plan-info-box:last-child{border-radius:0 var(--radius) var(--radius) 0}
+    .info-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;display:block;line-height:1}
+    .silver .info-val{color:var(--silver)}
+    .gold .info-val{color:var(--gold)}
+    .platinum .info-val{color:var(--platinum)}
+    .info-key{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:5px;display:block}
+
+    /* ── VISIT BADGE ── */
+    .visit-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px}
+    .visit-label{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--white)}
+    .visit-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .visit-badge{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:100px}
+    .silver .visit-badge{background:var(--silver-dim);color:var(--silver);border:1px solid rgba(168,180,192,0.2)}
+    .gold .visit-badge{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(201,168,76,0.25)}
+    .platinum .visit-badge{background:var(--plat-dim);color:var(--platinum);border:1px solid rgba(200,216,232,0.2)}
+    .progress-summary{font-size:12px;color:var(--muted)}
+    .progress-summary strong{color:var(--white)}
+
+    /* ── CHECKLIST CARD ── */
+    .checklist-card{background:var(--dark2);border:1px solid rgba(245,240,232,0.07);border-radius:10px;overflow:hidden;margin-bottom:20px}
+    .card-head{padding:16px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(245,240,232,0.06);cursor:pointer;user-select:none;transition:background var(--transition)}
+    .card-head:hover{background:var(--dark3)}
+    .card-head-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
+    .silver .card-head-icon{background:var(--silver-dim)}
+    .gold .card-head-icon{background:var(--gold-dim)}
+    .platinum .card-head-icon{background:var(--plat-dim)}
+    .card-head-text{flex:1}
+    .card-head-title{font-size:14px;font-weight:600;color:var(--white)}
+    .card-head-count{font-size:11px;color:var(--muted);margin-top:1px}
+    .card-chevron{width:18px;height:18px;color:var(--muted);transition:transform var(--transition)}
+    .checklist-card.open .card-chevron{transform:rotate(180deg)}
+    .card-progress-bar{height:3px;background:rgba(245,240,232,0.06)}
+    .card-progress-fill{height:100%;width:0%;transition:width 0.4s ease}
+    .silver .card-progress-fill{background:var(--silver)}
+    .gold .card-progress-fill{background:var(--gold)}
+    .platinum .card-progress-fill{background:linear-gradient(90deg,var(--platinum),var(--gold-light))}
+
+    /* ── TASK ROWS ── */
+    .task-list{display:none;padding:4px 0}
+    .checklist-card.open .task-list{display:block}
+    .task-row{display:flex;align-items:flex-start;gap:14px;padding:13px 20px;border-bottom:1px solid rgba(245,240,232,0.04);cursor:pointer;transition:background var(--transition);position:relative}
+    .task-row:last-child{border-bottom:none}
+    .task-row:hover{background:var(--dark3)}
+    .task-row.checked{background:rgba(52,199,89,0.04)}
+    .check-box{width:22px;height:22px;border-radius:6px;border:2px solid rgba(245,240,232,0.15);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all var(--transition);margin-top:1px}
+    .task-row.checked .check-box{background:var(--green);border-color:var(--green)}
+    .check-box svg{width:12px;height:12px;color:white;opacity:0;transition:opacity var(--transition)}
+    .task-row.checked .check-box svg{opacity:1}
+    .task-content{flex:1}
+    .task-name{font-size:14px;color:var(--light);line-height:1.4;transition:color var(--transition)}
+    .task-row.checked .task-name{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(138,130,120,0.4)}
+    .task-note{font-size:11px;color:rgba(138,130,120,0.65);margin-top:3px;line-height:1.5}
+    .task-tag{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border-radius:100px;margin-left:auto;flex-shrink:0;margin-top:2px;align-self:flex-start}
+    .tag-critical{background:rgba(239,68,68,0.1);color:rgba(239,68,68,0.8);border:1px solid rgba(239,68,68,0.2)}
+    .tag-photo{background:rgba(99,179,237,0.1);color:rgba(99,179,237,0.9);border:1px solid rgba(99,179,237,0.2)}
+    .tag-material{background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.2)}
+    .tag-report{background:rgba(168,85,247,0.1);color:rgba(168,85,247,0.85);border:1px solid rgba(168,85,247,0.2)}
+
+    /* ── OVERALL PROGRESS ── */
+    .overall-bar-wrap{background:var(--dark2);border:1px solid rgba(245,240,232,0.07);border-radius:10px;padding:20px 24px;margin-bottom:24px}
+    .overall-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .overall-label{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+    .overall-count{font-size:13px;font-weight:600;color:var(--white)}
+    .overall-bar-bg{height:6px;background:rgba(245,240,232,0.07);border-radius:3px;overflow:hidden}
+    .overall-bar-fill{height:100%;width:0%;border-radius:3px;transition:width 0.5s ease}
+    .silver .overall-bar-fill{background:linear-gradient(90deg,var(--silver),rgba(168,180,192,0.5))}
+    .gold .overall-bar-fill{background:linear-gradient(90deg,var(--gold),var(--gold-light))}
+    .platinum .overall-bar-fill{background:linear-gradient(90deg,var(--platinum),var(--gold-light))}
+
+    /* ── SIGN OFF ── */
+    .sign-off{background:var(--dark2);border:1px solid rgba(201,168,76,0.15);border-radius:10px;padding:28px;margin-top:28px}
+    .sign-off h4{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:20px}
+    .sign-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+    .sign-field label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+    .sign-input{width:100%;background:var(--dark3);border:1px solid rgba(245,240,232,0.08);border-radius:var(--radius);color:var(--light);font-family:'DM Sans',sans-serif;font-size:14px;padding:11px 14px;outline:none;transition:border-color var(--transition)}
+    .sign-input:focus{border-color:rgba(201,168,76,0.4)}
+    .sign-input::placeholder{color:rgba(138,130,120,0.45)}
+    .sign-line{border:none;border-bottom:1px dashed rgba(245,240,232,0.12);height:36px;width:100%;background:transparent;color:var(--light);font-family:'DM Sans',sans-serif;font-size:14px;outline:none}
+    .sign-row{display:flex;gap:16px;flex-wrap:wrap}
+    .sign-box{flex:1;min-width:180px}
+    .sign-box label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
+    .remarks-input{width:100%;background:var(--dark3);border:1px solid rgba(245,240,232,0.08);border-radius:var(--radius);color:var(--light);font-family:'DM Sans',sans-serif;font-size:13px;padding:11px 14px;outline:none;resize:vertical;min-height:70px;transition:border-color var(--transition)}
+    .remarks-input:focus{border-color:rgba(201,168,76,0.4)}
+    .remarks-input::placeholder{color:rgba(138,130,120,0.45)}
+
+    /* ── FOOTER ── */
+    .page-footer{text-align:center;padding:40px 0 20px;border-top:1px solid rgba(245,240,232,0.06);margin-top:48px}
+    .page-footer p{font-size:12px;color:rgba(138,130,120,0.4)}
+    .page-footer a{color:var(--gold);text-decoration:none}
+
+    /* WHATSAPP */
+    .whatsapp-btn{position:fixed;bottom:28px;right:28px;z-index:999;width:50px;height:50px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.35);text-decoration:none;transition:transform var(--transition)}.whatsapp-btn:hover{transform:scale(1.1)}.whatsapp-btn svg{width:24px;height:24px;fill:white}
+    .wa-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,0.3);animation:wa-ripple 2s ease-out infinite}
+    @keyframes wa-ripple{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}
+
+    @media(max-width:640px){
+      .plan-info-row{grid-template-columns:repeat(2,1fr)}
+      .sign-grid{grid-template-columns:1fr}
+      .topbar-brand span:last-child{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar no-print">
+  <div class="topbar-brand">
+    <span>Brickwood Developers</span>
+    <span>AMC Site Checklist</span>
+  </div>
+  <div class="topbar-right">
+    <button class="btn-reset-all" onclick="resetAll()">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-9 9"/><path d="M3 3v5h5"/></svg>
+      Reset
+    </button>
+    <button class="btn-print" onclick="window.print()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print / Save PDF
+    </button>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="checklist-hero">
+    <div class="hero-badge">AMC Visit Checklist</div>
+    <h1>Site Maintenance <em>Checklist</em></h1>
+    <p>Labour-use checklist for every scheduled AMC visit. Tick each task as it's completed. Sign off at the bottom before leaving the site.</p>
+  </div>
+
+  <!-- PLAN TABS -->
+  <div class="plan-tabs no-print">
+    <button class="plan-tab active" data-plan="silver" onclick="switchPlan('silver')">Silver</button>
+    <button class="plan-tab" data-plan="gold" onclick="switchPlan('gold')">Gold</button>
+    <button class="plan-tab" data-plan="platinum" onclick="switchPlan('platinum')">Platinum</button>
+  </div>
+
+  <!-- ══════════════════ SILVER ══════════════════ -->
+  <div class="plan-section silver active" id="plan-silver">
+
+    <div class="plan-header">
+      <div class="plan-header-top">
+        <div class="plan-title-wrap">
+          <span class="plan-tier-label">Silver Plan</span>
+          <h2>Scheduled Maintenance Visit</h2>
+        </div>
+        <div class="plan-meta">
+          <span class="meta-pill">2 visits / year</span>
+          <span class="meta-pill">Up to 900 sq ft</span>
+          <span class="meta-pill">₹2,000 material limit</span>
+        </div>
+      </div>
+      <div class="plan-info-row">
+        <div class="plan-info-box"><span class="info-val">48 hrs</span><span class="info-key">Emergency Response</span></div>
+        <div class="plan-info-box"><span class="info-val">₹2,000</span><span class="info-key">Material/Visit Limit</span></div>
+        <div class="plan-info-box"><span class="info-val">2</span><span class="info-key">Visits Per Year</span></div>
+        <div class="plan-info-box"><span class="info-val">1 BHK–2 BHK</span><span class="info-key">Property Size</span></div>
+      </div>
+    </div>
+
+    <!-- Overall Progress -->
+    <div class="overall-bar-wrap">
+      <div class="overall-row">
+        <span class="overall-label">Visit Progress</span>
+        <span class="overall-count" id="silver-overall-count">0 / 0 tasks done</span>
+      </div>
+      <div class="overall-bar-bg"><div class="overall-bar-fill" id="silver-overall-fill"></div></div>
+    </div>
+
+    <!-- ARRIVAL -->
+    <div class="visit-header">
+      <span class="visit-label">📋 Pre-Work Checklist</span>
+      <div class="visit-meta">
+        <span class="visit-badge">Do This First</span>
+      </div>
+    </div>
+
+    <div class="checklist-card open" data-section="s-arrival">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-icon">📥</div>
+        <div class="card-head-text">
+          <div class="card-head-title">Arrival & Setup</div>
+          <div class="card-head-count"></div>
+        </div>
+        <svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Report to client / building society reception</div><div class="task-note">Show ID card and AMC agreement copy if asked</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Greet the client and confirm today's visit scope</div><div class="task-note">Ask if anything specific needs attention first</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Lay protective floor sheets in work areas</div><div class="task-note">Protect tiles, carpet, and furniture before starting</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Take "before" photographs of all rooms</div><div class="task-note">WhatsApp to coordinator before starting any work</div></div><span class="task-tag tag-photo">📸 Photo</span></div>
+      </div>
+    </div>
+
+    <!-- PLUMBING -->
+    <div class="checklist-card open" data-section="s-plumbing">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-icon">🚿</div>
+        <div class="card-head-text">
+          <div class="card-head-title">Plumbing Checkup</div>
+          <div class="card-head-count"></div>
+        </div>
+        <svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check all taps — kitchen, bathrooms, balcony</div><div class="task-note">Test for dripping, loose handles, low pressure</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Replace leaking tap washers if needed</div><div class="task-note">Use standard washers from kit — log material used</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check toilet flush mechanism — all bathrooms</div><div class="task-note">Test flush, check for running water inside cistern</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Inspect under-sink pipe joints — kitchen & bathrooms</div><div class="task-note">Look for moisture, white mineral stains = slow leak</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Clear bathroom floor drain if blocked</div><div class="task-note">Pour water to test flow — use wire hook if slow</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check geyser water inlet/outlet connections</div><div class="task-note">Visual check only — do not open geyser body</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Flag any major plumbing issue to coordinator</div><div class="task-note">If scope exceeds plan limit — get client approval FIRST</div></div><span class="task-tag tag-critical">⚠ Critical</span></div>
+      </div>
+    </div>
+
+    <!-- ELECTRICAL -->
+    <div class="checklist-card open" data-section="s-electrical">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-icon">⚡</div>
+        <div class="card-head-text">
+          <div class="card-head-title">Electrical Checkup</div>
+          <div class="card-head-count"></div>
+        </div>
+        <svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Test every switch in all rooms — on/off function</div><div class="task-note">Use screwdriver to gently tighten any loose switch plates</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Test all power sockets with a plug tester</div><div class="task-note">Flag dead sockets — note room and position</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check MCB / fuse board — visual inspection</div><div class="task-note">Look for tripped breakers, burnt smell, overloaded lines</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check all ceiling fans — wobble, speed, noise</div><div class="task-note">Tighten canopy screws if fan wobbles</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Replace fused bulbs / tube lights (if client has spares)</div><div class="task-note">Do not purchase bulbs from your own kit — client provides</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check call bell / door bell — function test</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Do NOT touch live wires, AC units, or concealed wiring</div><div class="task-note">Report to coordinator — separate quote required for major work</div></div><span class="task-tag tag-critical">⚠ Safety</span></div>
+      </div>
+    </div>
+
+    <!-- MINOR REPAIRS -->
+    <div class="checklist-card" data-section="s-repairs">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-icon">🔧</div>
+        <div class="card-head-text">
+          <div class="card-head-title">Minor Civil Repairs</div>
+          <div class="card-head-count"></div>
+        </div>
+        <svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Inspect all walls for cracks — mark on sketch if found</div><div class="task-note">Hairline cracks — fill with white cement. Wider than 2mm — photograph and report</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Fill minor wall cracks with white cement putty</div><div class="task-note">Max 3–4 small cracks under this plan. Log material used</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check floor tiles for looseness — tap each tile</div><div class="task-note">Hollow sound = loose tile. Mark and report. Do not lift without approval</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Re-grout open tile joints if needed (2–3 tiles max)</div><div class="task-note">Match grout colour to existing. Do not disturb full floor</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Tighten loose door hinges — all doors</div><div class="task-note">Use proper screws — never leave a stripped hinge</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check window latches / handles — function test</div></div></div>
+      </div>
+    </div>
+
+    <!-- SIGN OFF -->
+    <div class="checklist-card" data-section="s-signoff">
+      <div class="card-head" onclick="toggleCard(this)">
+        <div class="card-head-icon">✅</div>
+        <div class="card-head-text">
+          <div class="card-head-title">Wrap-Up & Departure</div>
+          <div class="card-head-count"></div>
+        </div>
+        <svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Remove all floor sheets and protective covers</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Clean up all debris, dust, and material waste</div><div class="task-note">Leave the site cleaner than you found it — no exceptions</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Take "after" photos of all completed work</div><div class="task-note">WhatsApp to coordinator before leaving site</div></div><span class="task-tag tag-photo">📸 Photo</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">List all materials used and quantities to coordinator</div><div class="task-note">This goes into the service report and billing</div></div><span class="task-tag tag-report">Report</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Walk through completed work with client</div><div class="task-note">Explain what was done and flag anything observed but not fixed</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Get client signature on this checklist</div></div><span class="task-tag tag-critical">Required</span></div>
+      </div>
+    </div>
+
+    <!-- Sign Off Block -->
+    <div class="sign-off">
+      <h4>Visit Sign-Off</h4>
+      <div class="sign-grid">
+        <div class="sign-field"><label>Client Name</label><input class="sign-input" type="text" placeholder="Full name"/></div>
+        <div class="sign-field"><label>Visit Date</label><input class="sign-input" type="date"/></div>
+        <div class="sign-field"><label>Property Address</label><input class="sign-input" type="text" placeholder="Flat / Block / Area"/></div>
+        <div class="sign-field"><label>Technician Name</label><input class="sign-input" type="text" placeholder="Worker on site"/></div>
+      </div>
+      <div style="margin-bottom:16px"><label style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px">Remarks / Items flagged for future work</label><textarea class="remarks-input" placeholder="e.g. Bathroom wall crack >5mm — quoted separately. Kitchen tap pressure low — advised to check overhead tank..."></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><label>Client Signature</label><input class="sign-line" type="text" placeholder="Sign here"/></div>
+        <div class="sign-box"><label>Technician Signature</label><input class="sign-line" type="text" placeholder="Sign here"/></div>
+      </div>
+    </div>
+
+  </div><!-- end silver -->
+
+
+  <!-- ══════════════════ GOLD ══════════════════ -->
+  <div class="plan-section gold" id="plan-gold">
+
+    <div class="plan-header">
+      <div class="plan-header-top">
+        <div class="plan-title-wrap">
+          <span class="plan-tier-label">Gold Plan</span>
+          <h2>Scheduled Maintenance Visit</h2>
+        </div>
+        <div class="plan-meta">
+          <span class="meta-pill">4 visits / year</span>
+          <span class="meta-pill">Up to 1,800 sq ft</span>
+          <span class="meta-pill">₹5,000 material limit</span>
+        </div>
+      </div>
+      <div class="plan-info-row">
+        <div class="plan-info-box"><span class="info-val">24 hrs</span><span class="info-key">Emergency Response</span></div>
+        <div class="plan-info-box"><span class="info-val">₹5,000</span><span class="info-key">Material/Visit Limit</span></div>
+        <div class="plan-info-box"><span class="info-val">4</span><span class="info-key">Visits Per Year</span></div>
+        <div class="plan-info-box"><span class="info-val">3 BHK / Floor</span><span class="info-key">Property Size</span></div>
+      </div>
+    </div>
+
+    <div class="overall-bar-wrap">
+      <div class="overall-row">
+        <span class="overall-label">Visit Progress</span>
+        <span class="overall-count" id="gold-overall-count">0 / 0 tasks done</span>
+      </div>
+      <div class="overall-bar-bg"><div class="overall-bar-fill" id="gold-overall-fill"></div></div>
+    </div>
+
+    <div class="visit-header">
+      <span class="visit-label">📋 Pre-Work Checklist</span>
+      <div class="visit-meta"><span class="visit-badge">Do This First</span></div>
+    </div>
+
+    <!-- ARRIVAL -->
+    <div class="checklist-card open" data-section="g-arrival">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">📥</div><div class="card-head-text"><div class="card-head-title">Arrival & Setup</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check in at reception / inform building society</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Greet client — confirm scope and any priority issues</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Lay protective sheets in ALL work areas</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Photograph all rooms before starting — send to coordinator</div></div><span class="task-tag tag-photo">📸 Photo</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Review previous visit's flagged items — address first</div><div class="task-note">Check last service report for any pending observations</div></div><span class="task-tag tag-report">Report</span></div>
+      </div>
+    </div>
+
+    <!-- PLUMBING GOLD -->
+    <div class="checklist-card open" data-section="g-plumbing">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">🚿</div><div class="card-head-text"><div class="card-head-title">Full Plumbing Checkup</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Test all taps — all bathrooms, kitchen, balcony, utility</div><div class="task-note">Check pressure, dripping, handle wobble</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Replace leaking tap washers / cartridges</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check flush tanks — all toilets, fill valve, flapper</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Inspect all visible pipe joints under sinks and in utility area</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check drainage flow — all floor traps and sinks</div><div class="task-note">Pour 2 litres of water — should drain in under 15 seconds</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check shower / mixer valves — function and seals</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Re-seal silicone bead around bathroom fixtures if cracking</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Flag any concealed pipe issue or seepage signs to coordinator</div></div><span class="task-tag tag-critical">⚠ Critical</span></div>
+      </div>
+    </div>
+
+    <!-- ELECTRICAL GOLD -->
+    <div class="checklist-card open" data-section="g-electrical">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">⚡</div><div class="card-head-text"><div class="card-head-title">Full Electrical Checkup</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Test every switch and socket in every room</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Tighten all loose switch plates and socket covers</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">MCB / DB board check — test each breaker visually</div><div class="task-note">Note any that look burnt, discoloured, or are not properly clicked in</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check all ceiling fans — speed, wobble, capacitor noise</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Lubricate fan bearings if squeaking</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Replace fused / flickering tube lights or bulbs (with client's spares)</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Test doorbell, exhaust fans, and TV/AC power points</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check earth connection at MCB — continuity test</div><div class="task-note">If earth line is broken — STOP, report immediately, do not energise</div></div><span class="task-tag tag-critical">⚠ Safety</span></div>
+      </div>
+    </div>
+
+    <!-- CIVIL GOLD -->
+    <div class="checklist-card" data-section="g-civil">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">🧱</div><div class="card-head-text"><div class="card-head-title">Civil & Structural Check</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Full wall scan — all rooms, all surfaces</div><div class="task-note">Look for cracks, bulging plaster, damp patches, efflorescence</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Fill hairline and minor cracks (up to 3mm)</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Re-plaster small damaged areas (up to 1 sq ft each)</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Floor tile tap test — identify hollow / loose tiles</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Re-grout open joints — bathrooms and kitchen tiles priority</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check all door frames for gaps, warping, or loose fixings</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check window frames, handles, and sliding tracks</div></div></div>
+      </div>
+    </div>
+
+    <!-- WATERPROOFING GOLD -->
+    <div class="checklist-card" data-section="g-water">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">💧</div><div class="card-head-text"><div class="card-head-title">Waterproofing Inspection</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Inspect bathroom walls for seepage / damp patches</div><div class="task-note">Check behind toilet, under basin, near shower area</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check terrace / balcony floor for water pooling areas</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Inspect roof slab visible areas for cracks or moss growth</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check downpipes and external drain outlets</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Document and photograph any seepage found</div><div class="task-note">Waterproofing treatment is NOT included — quote separately</div></div><span class="task-tag tag-critical">Inspection Only</span></div>
+      </div>
+    </div>
+
+    <!-- PAINTING GOLD -->
+    <div class="checklist-card" data-section="g-paint">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">🖌️</div><div class="card-head-text"><div class="card-head-title">Painting Touch-Up (1 Room/Year)</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Confirm with client which room is to be touched up this year</div><div class="task-note">1 room per contract year only — client's choice</div></div><span class="task-tag tag-critical">Confirm First</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Cover furniture and floor before painting</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Sand peeling paint areas — medium grit first, fine grit finish</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Apply putty coat on patched / cracked areas</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Apply 1 coat primer on all repaired areas</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Apply 2 finish coats — match existing shade</div><div class="task-note">If client wants new shade — they provide the paint</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Remove all masking tape and covers after paint dries</div></div></div>
+      </div>
+    </div>
+
+    <!-- WRAP UP GOLD -->
+    <div class="checklist-card" data-section="g-wrapup">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">✅</div><div class="card-head-text"><div class="card-head-title">Wrap-Up & Departure</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Remove all protective covers and sheets</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Clean site thoroughly — no dust, debris, or material waste</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Take after-photos of all completed areas — send to coordinator</div></div><span class="task-tag tag-photo">📸 Photo</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Submit full material usage list to coordinator</div></div><span class="task-tag tag-report">Report</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Walk-through with client — explain all work done and flagged items</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Get client signature on checklist</div></div><span class="task-tag tag-critical">Required</span></div>
+      </div>
+    </div>
+
+    <div class="sign-off">
+      <h4>Visit Sign-Off</h4>
+      <div class="sign-grid">
+        <div class="sign-field"><label>Client Name</label><input class="sign-input" type="text" placeholder="Full name"/></div>
+        <div class="sign-field"><label>Visit Date</label><input class="sign-input" type="date"/></div>
+        <div class="sign-field"><label>Property Address</label><input class="sign-input" type="text" placeholder="Flat / Block / Area"/></div>
+        <div class="sign-field"><label>Technician Name</label><input class="sign-input" type="text" placeholder="Worker on site"/></div>
+      </div>
+      <div style="margin-bottom:16px"><label style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px">Remarks / Flagged Items</label><textarea class="remarks-input" placeholder="Note anything beyond scope, pending approvals, or recommended future work..."></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><label>Client Signature</label><input class="sign-line" type="text" placeholder="Sign here"/></div>
+        <div class="sign-box"><label>Technician Signature</label><input class="sign-line" type="text" placeholder="Sign here"/></div>
+      </div>
+    </div>
+
+  </div><!-- end gold -->
+
+
+  <!-- ══════════════════ PLATINUM ══════════════════ -->
+  <div class="plan-section platinum" id="plan-platinum">
+
+    <div class="plan-header">
+      <div class="plan-header-top">
+        <div class="plan-title-wrap">
+          <span class="plan-tier-label">Platinum Plan</span>
+          <h2>Comprehensive Maintenance Visit</h2>
+        </div>
+        <div class="plan-meta">
+          <span class="meta-pill">6 visits / year</span>
+          <span class="meta-pill">Unlimited sq ft</span>
+          <span class="meta-pill">₹10,000 material limit</span>
+        </div>
+      </div>
+      <div class="plan-info-row">
+        <div class="plan-info-box"><span class="info-val">4 hrs</span><span class="info-key">Emergency Response</span></div>
+        <div class="plan-info-box"><span class="info-val">₹10,000</span><span class="info-key">Material/Visit Limit</span></div>
+        <div class="plan-info-box"><span class="info-val">6</span><span class="info-key">Visits Per Year</span></div>
+        <div class="plan-info-box"><span class="info-val">Villa / Commercial</span><span class="info-key">Property Size</span></div>
+      </div>
+    </div>
+
+    <div class="overall-bar-wrap">
+      <div class="overall-row">
+        <span class="overall-label">Visit Progress</span>
+        <span class="overall-count" id="platinum-overall-count">0 / 0 tasks done</span>
+      </div>
+      <div class="overall-bar-bg"><div class="overall-bar-fill" id="platinum-overall-fill"></div></div>
+    </div>
+
+    <div class="visit-header">
+      <span class="visit-label">📋 Pre-Work Checklist</span>
+      <div class="visit-meta"><span class="visit-badge">Do This First</span></div>
+    </div>
+
+    <!-- All Gold sections PLUS extras -->
+    <div class="checklist-card open" data-section="p-arrival">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">📥</div><div class="card-head-text"><div class="card-head-title">Arrival, Setup & Previous Report Review</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check in with building society / security</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Meet dedicated site manager — review previous visit report together</div><div class="task-note">All flagged items from last visit must be addressed today or escalated</div></div><span class="task-tag tag-report">Report</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Lay full property protection — all floors, furniture</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Full photo documentation — every room, every floor — before work</div></div><span class="task-tag tag-photo">📸 Photo</span></div>
+      </div>
+    </div>
+
+    <div class="checklist-card open" data-section="p-plumbing">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">🚿</div><div class="card-head-text"><div class="card-head-title">Deep Plumbing Inspection & Repair</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Full tap audit — all areas including roof terrace / overhead tank area</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Replace all leaking washers, cartridges, or worn aerators</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Full flush system service — all toilets (fill valve, flapper, flush handle)</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Inspect all visible and accessible pipe joints — kitchen, bathrooms, utility, terrace</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Jet clean all drain lines if slow drainage found</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Re-seal ALL silicone beads — bathroom fixtures, kitchen sink</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check overhead tank / sump — lid sealed, float working</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Document any concealed seepage or pipe replacement needed — with photo + quote</div></div><span class="task-tag tag-critical">⚠ Escalate</span></div>
+      </div>
+    </div>
+
+    <div class="checklist-card open" data-section="p-electrical">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">⚡</div><div class="card-head-text"><div class="card-head-title">Full Electrical Service</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Complete switch/socket audit — all floors, all rooms</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Replace all damaged switch plates and socket covers</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Full MCB panel service — test each breaker, check ratings, tighten connections</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Earth continuity test — all circuits</div></div><span class="task-tag tag-critical">⚠ Safety</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Service all ceiling fans — oil, blade angle check, capacitor test</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check exhaust fans — all bathrooms and kitchen</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Inspect inverter/UPS connections and battery terminals if present</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Test all external lights, security lights, and staircase lighting</div></div></div>
+      </div>
+    </div>
+
+    <div class="checklist-card" data-section="p-civil">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">🧱</div><div class="card-head-text"><div class="card-head-title">Full Civil & Structural Inspection</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Wall and ceiling crack survey — all rooms, corridors, staircase</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Fill and repair all cracks up to 5mm width</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Full floor tile tap test — all areas</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Re-grout all open tile joints — bathrooms, kitchen, balcony</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check all door frames, windows, and chaukhat for alignment</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Inspect false ceiling for sagging, water stains, loose panels</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check external façade from all accessible sides</div><div class="task-note">Look for cracks, spalling plaster, rust stains from reinforcement</div></div></div>
+      </div>
+    </div>
+
+    <div class="checklist-card" data-section="p-water">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">💧</div><div class="card-head-text"><div class="card-head-title">Waterproofing & Façade Inspection</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Terrace / flat roof inspection — cracks, standing water, drain blocks</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">All bathroom wet areas — seepage check, silicone condition</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Balcony waterproofing layer — check for delamination or cracks</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">All downpipes and surface drains — clear and flowing</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Apply Dr. Fixit / Fosroc sealer on minor cracks on terrace (up to 5m length)</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Prepare waterproofing condition report with photographs</div><div class="task-note">Major treatment quoted separately — never done without approval</div></div><span class="task-tag tag-report">Report</span></div>
+      </div>
+    </div>
+
+    <div class="checklist-card" data-section="p-paint">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">🖌️</div><div class="card-head-text"><div class="card-head-title">Painting Touch-Up (3 Rooms/Year)</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Confirm with client: which 3 rooms this contract year</div><div class="task-note">Cannot carry forward unused rooms to next year</div></div><span class="task-tag tag-critical">Confirm First</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Full surface prep — scrape, sand, fill, prime each room</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">2-coat putty on all walls before painting</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">1 coat primer + 2 coats finish — walls and ceiling</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Paint doors and window frames if included in scope</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Clean up all paint marks, tape residue, and dust</div></div></div>
+      </div>
+    </div>
+
+    <div class="checklist-card" data-section="p-carpentry">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">🪚</div><div class="card-head-text"><div class="card-head-title">Carpentry & Hardware Check</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check all cabinet hinges — kitchen, wardrobe, bathroom</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Replace worn or broken cabinet handles and knobs</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check drawer channels — service with lubricant if stiff</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check all door locks, deadbolts, and door closers</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Apply wood polish/touch-up on scratched visible woodwork</div></div><span class="task-tag tag-material">Material</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Check modular kitchen shutter alignment and soft-close function</div></div></div>
+      </div>
+    </div>
+
+    <!-- ANNUAL REPORT -->
+    <div class="checklist-card" data-section="p-report">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">📊</div><div class="card-head-text"><div class="card-head-title">Annual Renovation Report (6th Visit)</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Compile all 6 visit reports — summarise work done this year</div></div><span class="task-tag tag-report">Report</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">List all items flagged but not yet repaired with estimated costs</div></div><span class="task-tag tag-report">Report</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Provide 12-month renovation projection — what will likely need work next year</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Present report to client — walk through recommendations</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Send renewal offer with 10% loyalty discount details</div><div class="task-note">Platinum clients get 10% off on renewal — remind them</div></div></div>
+      </div>
+    </div>
+
+    <div class="checklist-card" data-section="p-wrapup">
+      <div class="card-head" onclick="toggleCard(this)"><div class="card-head-icon">✅</div><div class="card-head-text"><div class="card-head-title">Wrap-Up & Departure</div><div class="card-head-count"></div></div><svg class="card-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg></div>
+      <div class="card-progress-bar"><div class="card-progress-fill"></div></div>
+      <div class="task-list">
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Full property clean-up — every room, every floor</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">After-photos — all areas — send to coordinator and client</div></div><span class="task-tag tag-photo">📸 Photo</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Full material usage log — submit to coordinator</div></div><span class="task-tag tag-report">Report</span></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Detailed walk-through with client — explain all work and observations</div></div></div>
+        <div class="task-row" onclick="toggleTask(this)"><div class="check-box"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><div class="task-content"><div class="task-name">Get client signature — both on checklist and service report</div></div><span class="task-tag tag-critical">Required</span></div>
+      </div>
+    </div>
+
+    <div class="sign-off">
+      <h4>Visit Sign-Off — Platinum</h4>
+      <div class="sign-grid">
+        <div class="sign-field"><label>Client Name</label><input class="sign-input" type="text" placeholder="Full name"/></div>
+        <div class="sign-field"><label>Visit Date</label><input class="sign-input" type="date"/></div>
+        <div class="sign-field"><label>Property Address</label><input class="sign-input" type="text" placeholder="Flat / Villa / Block / Area"/></div>
+        <div class="sign-field"><label>Site Manager Name</label><input class="sign-input" type="text" placeholder="Assigned site manager"/></div>
+        <div class="sign-field"><label>Visit Number (of 6)</label>
+          <select class="sign-input"><option value="">Select</option><option>Visit 1</option><option>Visit 2</option><option>Visit 3</option><option>Visit 4</option><option>Visit 5</option><option>Visit 6 — Annual</option></select>
+        </div>
+        <div class="sign-field"><label>Material Cost This Visit (₹)</label><input class="sign-input" type="number" placeholder="0" min="0"/></div>
+      </div>
+      <div style="margin-bottom:16px"><label style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px">Remarks / Escalated Items / Future Recommendations</label><textarea class="remarks-input" placeholder="e.g. Bathroom seepage on south wall — waterproofing treatment quoted separately at ₹18,000. Modular kitchen shutter hinge worn — replacement recommended next visit..."></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><label>Client Signature</label><input class="sign-line" type="text" placeholder="Sign here"/></div>
+        <div class="sign-box"><label>Site Manager Signature</label><input class="sign-line" type="text" placeholder="Sign here"/></div>
+      </div>
+    </div>
+
+  </div><!-- end platinum -->
+
+  <!-- PAGE FOOTER -->
+  <div class="page-footer no-print">
+    <p>© 2025 <a href="index.html">Brickwood Developers</a> · Internal Use Only · Do Not Distribute</p>
+  </div>
+
+</div><!-- end page-wrap -->
+
+<a href="https://wa.me/911234567890" class="whatsapp-btn no-print" target="_blank" rel="noopener">
+  <div class="wa-pulse"></div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  let activePlan = 'silver';
+
+  function switchPlan(plan) {
+    activePlan = plan;
+    document.querySelectorAll('.plan-tab').forEach(t => t.classList.toggle('active', t.dataset.plan === plan));
+    document.querySelectorAll('.plan-section').forEach(s => s.classList.toggle('active', s.id === 'plan-' + plan));
+    updateOverall(plan);
+  }
+
+  function toggleCard(head) {
+    const card = head.parentElement;
+    card.classList.toggle('open');
+    updateCardProgress(card);
+  }
+
+  function toggleTask(row) {
+    row.classList.toggle('checked');
+    const card = row.closest('.checklist-card');
+    updateCardProgress(card);
+    updateOverall(activePlan);
+  }
+
+  function updateCardProgress(card) {
+    const rows  = card.querySelectorAll('.task-row');
+    const done  = card.querySelectorAll('.task-row.checked').length;
+    const total = rows.length;
+    const pct   = total ? (done / total) * 100 : 0;
+    card.querySelector('.card-progress-fill').style.width = pct + '%';
+    const label = done + ' / ' + total + ' done';
+    card.querySelector('.card-head-count').textContent = label;
+  }
+
+  function updateOverall(plan) {
+    const section = document.getElementById('plan-' + plan);
+    const all  = section.querySelectorAll('.task-row');
+    const done = section.querySelectorAll('.task-row.checked');
+    const pct  = all.length ? (done.length / all.length) * 100 : 0;
+    document.getElementById(plan + '-overall-fill').style.width = pct + '%';
+    document.getElementById(plan + '-overall-count').textContent = done.length + ' / ' + all.length + ' tasks done';
+  }
+
+  function resetAll() {
+    if (!confirm('Reset all checkboxes on this plan?')) return;
+    const section = document.getElementById('plan-' + activePlan);
+    section.querySelectorAll('.task-row.checked').forEach(r => r.classList.remove('checked'));
+    section.querySelectorAll('.checklist-card').forEach(c => updateCardProgress(c));
+    updateOverall(activePlan);
+  }
+
+  // init counts
+  document.querySelectorAll('.checklist-card').forEach(card => updateCardProgress(card));
+  ['silver','gold','platinum'].forEach(p => updateOverall(p));
+</script>
+
+</body>
+</html>

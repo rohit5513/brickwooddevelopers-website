@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rental Management — Brickwood Developers</title>
+  <meta name="description" content="Brickwood Developers Rental Management — tenant sourcing, rent collection, maintenance, legal agreements. Earn without the effort. Delhi NCR."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:rgba(201,168,76,0.15);--dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--dark4:#252525;--light:#F5F0E8;--muted:#8A8278;--white:#FFFFFF;--radius:4px;--transition:0.35s cubic-bezier(0.25,0.46,0.45,0.94)}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--light);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5vw;height:72px;display:flex;align-items:center;justify-content:space-between;transition:background var(--transition)}
+    nav.scrolled{background:rgba(13,13,13,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,0.15)}
+    .nav-logo{display:flex;flex-direction:column;line-height:1;text-decoration:none}
+    .nav-logo span:first-child{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:0.04em}
+    .nav-logo span:last-child{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+    .nav-links{display:flex;gap:32px;list-style:none}
+    .nav-links a{text-decoration:none;color:var(--muted);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;transition:color var(--transition);position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--transition)}
+    .nav-links a:hover{color:var(--gold)}.nav-links a:hover::after{width:100%}
+    .nav-cta{background:var(--gold)!important;color:var(--dark)!important;padding:10px 22px;border-radius:var(--radius);font-weight:500!important}.nav-cta:hover{background:var(--gold-light)!important}.nav-cta::after{display:none!important}
+    .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+    .nav-toggle span{display:block;width:24px;height:2px;background:var(--light);border-radius:2px}
+    .page-hero{padding:160px 5vw 80px;position:relative;overflow:hidden;background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.12)}
+    .page-hero::before{content:'';position:absolute;top:0;right:0;width:55%;height:100%;background:linear-gradient(135deg,transparent,rgba(201,168,76,0.05));clip-path:polygon(20% 0%,100% 0%,100% 100%,0% 100%)}
+    .page-hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom right,transparent 40%,rgba(0,0,0,0.5) 70%,transparent 100%)}
+    .page-hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2}
+    .breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+    .breadcrumb a{text-decoration:none;color:var(--muted);transition:color var(--transition)}.breadcrumb a:hover,.breadcrumb span{color:var(--gold)}
+    .page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5.5vw,76px);font-weight:900;line-height:1;color:var(--white);margin-bottom:20px}
+    .page-hero h1 em{font-style:italic;color:var(--gold)}
+    .page-hero-desc{font-size:16px;color:var(--muted);max-width:560px;line-height:1.75;font-weight:300}
+    .container{max-width:1100px;margin:0 auto}
+    section{padding:80px 5vw}
+    .sec-tag{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px}
+    .sec-title{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,44px);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:12px}
+    .sec-title em{font-style:italic;color:var(--gold)}
+    .sec-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:580px}
+
+    /* STATS STRIP */
+    .stats-strip{background:var(--dark2);border-top:1px solid rgba(201,168,76,0.12);border-bottom:1px solid rgba(201,168,76,0.12);padding:0 5vw}
+    .stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+    .stat-box{padding:40px 24px;text-align:center;position:relative}
+    .stat-box:not(:last-child)::after{content:'';position:absolute;right:0;top:25%;bottom:25%;width:1px;background:rgba(201,168,76,0.15)}
+    .stat-num{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:var(--gold);display:block;line-height:1}
+    .stat-lbl{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block}
+
+    /* SERVICES GRID */
+    .services-section{background:var(--dark)}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px}
+    .svc-card{background:var(--dark2);padding:32px 28px;position:relative;overflow:hidden;transition:background var(--transition)}
+    .svc-card:hover{background:var(--dark3)}
+    .svc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform var(--transition)}
+    .svc-card:hover::after{transform:scaleX(1)}
+    .svc-icon{width:40px;height:40px;color:var(--gold);margin-bottom:18px}
+    .svc-card h4{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px}
+    .svc-card p{font-size:13px;color:var(--muted);line-height:1.7}
+
+    /* INCLUDED / NOT INCLUDED */
+    .coverage-section{background:var(--dark2);border-top:1px solid rgba(201,168,76,0.12);border-bottom:1px solid rgba(201,168,76,0.12)}
+    .coverage-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px}
+    .cov-col{background:var(--dark3);border:1px solid;border-radius:var(--radius);overflow:hidden}
+    .cov-col.yes{border-color:rgba(52,199,89,0.2)}.cov-col.no{border-color:rgba(239,68,68,0.2)}
+    .cov-head{padding:16px 24px;display:flex;gap:10px;align-items:center}
+    .cov-col.yes .cov-head{background:rgba(52,199,89,0.06);border-bottom:1px solid rgba(52,199,89,0.15)}
+    .cov-col.no .cov-head{background:rgba(239,68,68,0.06);border-bottom:1px solid rgba(239,68,68,0.12)}
+    .cov-col.yes .cov-head h4{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#34C759;font-weight:500}
+    .cov-col.no .cov-head h4{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(239,68,68,0.85);font-weight:500}
+    .cov-list{list-style:none;padding:6px 0}
+    .cov-list li{padding:10px 20px;font-size:13px;color:var(--muted);display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid rgba(245,240,232,0.04);line-height:1.5}
+    .cov-list li:last-child{border:none}
+    .cov-list li svg{flex-shrink:0;margin-top:2px}
+    .cov-list li strong{color:var(--light);font-weight:500}
+
+    /* PRICING */
+    .pricing-section{background:var(--dark)}
+    .pricing-box{background:var(--dark2);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius);padding:40px;max-width:720px;margin-top:40px;position:relative;overflow:hidden}
+    .pricing-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light),transparent)}
+    .pricing-box h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);margin-bottom:6px}
+    .pricing-box .highlight{font-size:36px;font-family:'Playfair Display',serif;font-weight:700;color:var(--gold);margin:16px 0 8px}
+    .pricing-box .highlight span{font-size:16px;font-family:'DM Sans',sans-serif;color:var(--muted);font-weight:400}
+    .pricing-rows{margin-top:24px;border-top:1px solid rgba(245,240,232,0.07)}
+    .pricing-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(245,240,232,0.05);font-size:14px}
+    .pricing-row:last-child{border:none}
+    .pricing-row .label{color:var(--muted)}
+    .pricing-row .value{color:var(--light);font-weight:500}
+    .pricing-row .value.gold{color:var(--gold)}
+
+    /* PROCESS */
+    .process-section{background:var(--dark2);border-top:1px solid rgba(201,168,76,0.12);border-bottom:1px solid rgba(201,168,76,0.12)}
+    .process-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-top:48px}
+    .ps-card{background:var(--dark3);padding:28px 22px;text-align:center;position:relative;transition:background var(--transition)}
+    .ps-card:hover{background:var(--dark4)}
+    .ps-num{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:rgba(201,168,76,0.1);line-height:1;margin-bottom:10px}
+    .ps-icon{width:32px;height:32px;color:var(--gold);margin:0 auto 12px}
+    .ps-card h4{font-size:13px;font-weight:500;color:var(--white);margin-bottom:6px}
+    .ps-card p{font-size:12px;color:var(--muted);line-height:1.6}
+
+    /* FAQ */
+    .faq-section{background:var(--dark)}
+    .faq-list{margin-top:40px;max-width:780px}
+    .faq-item{border-bottom:1px solid rgba(245,240,232,0.07)}
+    .faq-q{width:100%;background:none;border:none;text-align:left;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;font-family:'DM Sans',sans-serif}
+    .faq-q span{font-size:15px;color:var(--light);font-weight:500;line-height:1.4}
+    .faq-icon{width:20px;height:20px;flex-shrink:0;color:var(--gold);transition:transform var(--transition)}
+    .faq-item.open .faq-icon{transform:rotate(45deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+    .faq-a-inner{padding:0 0 20px;font-size:14px;color:var(--muted);line-height:1.8}
+
+    /* CTA */
+    .cta-section{background:var(--dark2);border-top:1px solid rgba(201,168,76,0.12)}
+    .cta-inner{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+    .cta-text h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,40px);font-weight:700;color:var(--white);margin-bottom:8px}
+    .cta-text h2 em{font-style:italic;color:var(--gold)}
+    .cta-text p{color:var(--muted);font-size:15px}
+    .cta-btns{display:flex;gap:14px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--radius);font-size:13px;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;font-weight:500;transition:all var(--transition);font-family:'DM Sans',sans-serif;border:none;cursor:pointer}
+    .btn-gold{background:var(--gold);color:var(--dark)}.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px)}
+    .btn-outline{background:transparent;color:var(--light);border:1px solid rgba(245,240,232,0.2)}.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+    footer{background:var(--dark);padding:60px 5vw 32px;border-top:1px solid rgba(245,240,232,0.06)}
+    .footer-inner{max-width:1100px;margin:0 auto}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;padding-bottom:48px;border-bottom:1px solid rgba(245,240,232,0.06);margin-bottom:32px}
+    .footer-brand p{font-size:14px;color:var(--muted);line-height:1.7;margin-top:16px;max-width:300px}
+    .footer-col h4{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .footer-col ul{list-style:none}.footer-col li{margin-bottom:10px}
+    .footer-col a{text-decoration:none;font-size:14px;color:var(--muted);transition:color var(--transition)}.footer-col a:hover{color:var(--light)}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .footer-bottom p,.footer-bottom span{font-size:12px;color:rgba(138,130,120,0.5)}
+    .whatsapp-btn{position:fixed;bottom:32px;right:32px;z-index:999;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,211,102,0.4);text-decoration:none;transition:transform var(--transition)}.whatsapp-btn:hover{transform:scale(1.1) translateY(-2px)}.whatsapp-btn svg{width:28px;height:28px;fill:white}
+    .wa-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,0.4);animation:wa-ripple 2s ease-out infinite}
+    @keyframes wa-ripple{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity 0.7s ease,transform 0.7s ease}.reveal.visible{opacity:1;transform:none}
+    .rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
+    @media(max-width:900px){.services-grid{grid-template-columns:repeat(2,1fr)}.coverage-grid{grid-template-columns:1fr}.process-steps{grid-template-columns:repeat(2,1fr)}.stats-inner{grid-template-columns:repeat(2,1fr)}.footer-top{grid-template-columns:1fr;gap:40px}}
+    @media(max-width:600px){.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:fixed;top:72px;left:0;right:0;background:rgba(13,13,13,0.97);backdrop-filter:blur(20px);padding:32px 5vw;gap:24px;border-bottom:1px solid rgba(201,168,76,0.15)}.nav-toggle{display:flex}.services-grid{grid-template-columns:1fr}.process-steps{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-cta">Get Free Quote</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-lines"></div>
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="services.html">Services</a><span>/</span>Rental Management</div>
+    <span class="section-tag">Rental Management</span>
+    <h1>Earn More, <em>Do Less</em></h1>
+    <p class="page-hero-desc">You own the property. We handle the rest finding tenants, collecting rent, managing maintenance, and keeping you protected legally. Every single month.</p>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-box reveal"><span class="stat-num">8-10%</span><span class="stat-lbl">Avg. annual rental yield in Delhi NCR</span></div>
+    <div class="stat-box reveal rd1"><span class="stat-num">₹0</span><span class="stat-lbl">Upfront fee, we earn when you earn</span></div>
+    <div class="stat-box reveal rd2"><span class="stat-num">72 hrs</span><span class="stat-lbl">Average time to find a verified tenant</span></div>
+    <div class="stat-box reveal rd3"><span class="stat-num">100%</span><span class="stat-lbl">Transparent monthly owner reports</span></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services-section">
+  <div class="container">
+    <div class="reveal">
+      <span class="sec-tag">What We Handle</span>
+      <h2 class="sec-title">Everything, <em>End to End</em></h2>
+      <p class="sec-sub">From the moment your property is listed to the day the lease ends and everything in between.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card reveal">
+        <svg class="svc-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <h4>Tenant Sourcing</h4>
+        <p>We list your property on all major portals, conduct site visits with prospective tenants, and handle all enquiry calls on your behalf.</p>
+      </div>
+      <div class="svc-card reveal rd1">
+        <svg class="svc-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        <h4>Tenant Screening</h4>
+        <p>Background verification, Aadhaar check, employment/income verification, reference calls, and police verification coordination.</p>
+      </div>
+      <div class="svc-card reveal rd2">
+        <svg class="svc-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <h4>Legal Agreement</h4>
+        <p>Drafting of rent agreement (11-month or long-term), notarised documentation, stamp duty guidance, and registration assistance.</p>
+      </div>
+      <div class="svc-card reveal">
+        <svg class="svc-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <h4>Rent Collection</h4>
+        <p>We collect rent by the 5th of every month and transfer it to your account by the 7th. Late rent? We follow up so you don't have to.</p>
+      </div>
+      <div class="svc-card reveal rd1">
+        <svg class="svc-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        <h4>Maintenance Coordination</h4>
+        <p>Any repair request from the tenant is routed through us. We assess, approve, coordinate, and invoice with your authorisation always taken first.</p>
+      </div>
+      <div class="svc-card reveal rd2">
+        <svg class="svc-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <h4>Monthly Reports</h4>
+        <p>Every month you receive a clear statement rent received, maintenance spend, any deductions, and your net transfer. Full transparency, always.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCLUDED / NOT INCLUDED -->
+<section class="coverage-section">
+  <div class="container">
+    <div class="reveal">
+      <span class="sec-tag">Scope of Service</span>
+      <h2 class="sec-title">What's <em>Included</em> & What's <em>Not</em></h2>
+    </div>
+    <div class="coverage-grid">
+      <div class="cov-col yes reveal">
+        <div class="cov-head"><svg width="15" height="15" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><h4>Included in Service</h4></div>
+        <ul class="cov-list">
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Property listing</strong> on NoBroker, MagicBricks, 99acres, Housing.com</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>All tenant enquiry handling</strong> calls, site visits, shortlisting</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Background & Aadhaar verification</strong> of selected tenant</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Rent agreement drafting</strong> (standard 11-month format)</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Security deposit collection</strong> and documentation</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Monthly rent collection</strong> and transfer to owner by 7th</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Late rent follow-up</strong> with tenant on owner's behalf</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Maintenance request routing</strong> assessment, quotes, owner approval</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Move-in / move-out inspection</strong> with documented condition report</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Monthly owner statement</strong> sent by 10th of every month</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="#34C759" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><span><strong>Lease renewal</strong> coordination and updated agreement drafting</span></li>
+        </ul>
+      </div>
+      <div class="cov-col no reveal rd1">
+        <div class="cov-head"><svg width="15" height="15" fill="none" stroke="rgba(239,68,68,0.85)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><h4>Not Included</h4></div>
+        <ul class="cov-list">
+          <li><svg width="13" height="13" fill="none" stroke="rgba(239,68,68,0.8)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg><span><strong>Guaranteed rent</strong> we collect and transfer; non-payment risk stays with owner</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="rgba(239,68,68,0.8)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg><span><strong>Court/legal proceedings</strong> against defaulting tenant (we assist but don't represent)</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="rgba(239,68,68,0.8)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg><span><strong>Stamp duty & registration fees</strong> for rent agreement (borne by owner/tenant)</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="rgba(239,68,68,0.8)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg><span><strong>Renovation / upgrade cost</strong> before listing charged separately</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="rgba(239,68,68,0.8)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg><span><strong>Society maintenance charges, property tax</strong> owner's direct obligation</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="rgba(239,68,68,0.8)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg><span><strong>Long-term lease registration</strong> (12+ months) additional fee applies</span></li>
+          <li><svg width="13" height="13" fill="none" stroke="rgba(239,68,68,0.8)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg><span><strong>Insurance</strong> property or contents insurance not arranged by us</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="container">
+    <div class="reveal">
+      <span class="sec-tag">Our Fee</span>
+      <h2 class="sec-title">Transparent <em>Pricing</em></h2>
+      <p class="sec-sub">We earn only when you earn no monthly retainer, no upfront charges.</p>
+    </div>
+    <div class="pricing-box reveal">
+      <h3>Standard Rental Management Fee</h3>
+      <div class="highlight">One Month's Rent <span>one-time, on successful tenant placement</span></div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:8px">This is a one time fee charged only when we successfully find and place a verified tenant. There are no monthly management fees as long as the same tenant continues.</p>
+      <div class="pricing-rows">
+        <div class="pricing-row"><span class="label">Tenant sourcing + screening</span><span class="value gold">Included</span></div>
+        <div class="pricing-row"><span class="label">Rent agreement drafting (11-month)</span><span class="value gold">Included</span></div>
+        <div class="pricing-row"><span class="label">Monthly rent collection & transfer</span><span class="value gold">Included</span></div>
+        <div class="pricing-row"><span class="label">Monthly owner statement</span><span class="value gold">Included</span></div>
+        <div class="pricing-row"><span class="label">Maintenance coordination</span><span class="value gold">Included</span></div>
+        <div class="pricing-row"><span class="label">Move-in / move-out inspection report</span><span class="value gold">Included</span></div>
+        <div class="pricing-row"><span class="label">Long-term lease registration (12+ months)</span><span class="value">₹3,000 additional</span></div>
+        <div class="pricing-row"><span class="label">Pre-rental property renovation / touch-up</span><span class="value">Quoted separately</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <span class="sec-tag">How It Works</span>
+      <h2 class="sec-title">From Vacant to <em>Rented</em> in 5 Steps</h2>
+    </div>
+    <div class="process-steps">
+      <div class="ps-card reveal"><div class="ps-num">01</div><svg class="ps-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><h4>Property Onboarding</h4><p>We visit, document condition, photograph, and advise on any pre-rental touch-ups.</p></div>
+      <div class="ps-card reveal rd1"><div class="ps-num">02</div><svg class="ps-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg><h4>Listing & Marketing</h4><p>Listed on 4+ portals within 48 hours. We handle all enquiry calls and site visit scheduling.</p></div>
+      <div class="ps-card reveal rd2"><div class="ps-num">03</div><svg class="ps-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg><h4>Tenant Screening</h4><p>We shortlist, verify, and present you 2–3 approved candidates. Final choice is always yours.</p></div>
+      <div class="ps-card reveal rd3"><div class="ps-num">04</div><svg class="ps-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><h4>Agreement & Move-in</h4><p>Rent agreement drafted and signed. Security deposit collected. Move-in condition documented.</p></div>
+      <div class="ps-card reveal rd4"><div class="ps-num">05</div><svg class="ps-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg><h4>Ongoing Management</h4><p>Monthly rent collection, maintenance handling, and statement delivered to your inbox every month.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="reveal"><span class="sec-tag">Common Questions</span><h2 class="sec-title">Rental Management <em>FAQs</em></h2></div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q"><span>What if the tenant doesn't pay rent on time?</span><svg class="faq-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">We follow up with the tenant via call and WhatsApp on the 6th of every month if rent hasn't been received. If unpaid beyond the 10th, we issue a formal written notice. The owner is kept informed at every step. We do not guarantee rent payment our role is active follow-up and facilitation, not financial guarantee.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Can I approve or reject tenants myself?</span><svg class="faq-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Absolutely. We shortlist and verify candidates, then present you with 2–3 approved profiles. Final approval always rests with you. We will never sign any agreement or confirm a tenant without your explicit written consent.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Who authorises repair and maintenance work?</span><svg class="faq-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">For any maintenance work above ₹500, we take your WhatsApp approval before proceeding. For emergency repairs below ₹500 (e.g. tap washer, fuse), we proceed immediately and inform you within the hour. Nothing of significant cost happens without your knowledge.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Can I terminate the service if I'm not satisfied?</span><svg class="faq-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes. You can terminate the management service with 30 days' written notice. We will hand over all documents (agreement, deposit receipt, tenant contact details) and give a full account of the last statement. If termination happens during an active tenancy, the existing lease continues we simply hand over management to you.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>What cities / areas do you operate in?</span><svg class="faq-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Currently we manage properties across Delhi, Noida, Gurgaon, Faridabad, and Ghaziabad. If your property is outside this range, contact us we assess on a case-by-case basis.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container cta-inner">
+    <div class="cta-text reveal">
+      <h2>Ready to <em>Rent Stress Free?</em></h2>
+      <p>Tell us about your property we'll assess it and share a rental estimate within 24 hours.</p>
+    </div>
+    <div class="cta-btns reveal rd2">
+      <a href="contact.html" class="btn btn-gold">Enquire Now</a>
+      <a href="terms.html" class="btn btn-outline">Read Full T&C →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand"><a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a><p>Building Delhi NCR's finest homes, offices, and spaces since 2001. GST Registered · Udyam Certified · ESIC Compliant.</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="services.html">Services</a></li><li><a href="amc.html">AMC Plans</a></li><li><a href="rental.html">Rental Management</a></li><li><a href="terms.html">Terms & Conditions</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+911234567890">+91 XXXXX XXXXX</a></li><li><a href="mailto:info@brickwooddev.in">info@brickwooddev.in</a></li><li><a>Delhi NCR</a></li><li><a>Mon–Sat, 9am–7pm</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Brickwood Developers. All rights reserved.</p><span>GST Registered · Udyam Certified</span></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/911234567890" class="whatsapp-btn" target="_blank" rel="noopener"><div class="wa-pulse"></div><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+<script>
+  const navbar=document.getElementById('navbar');
+  window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>40));
+  document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  document.querySelectorAll('.faq-q').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const item=btn.parentElement;const isOpen=item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null});
+      if(!isOpen){item.classList.add('open');item.querySelector('.faq-a').style.maxHeight=item.querySelector('.faq-a').scrollHeight+'px';}
+    });
+  });
+</script>
+</body>
+</html>
