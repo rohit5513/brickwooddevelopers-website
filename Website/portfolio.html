@@ -81,23 +81,26 @@
       display:block;
       border-radius:2px;
     }
-    /* After image — shown by default */
-    .ba-after{
+
+    /* ── REVERSED LOGIC ── */
+    /* Before image — shown by default (base layer) */
+    .ba-before{
       width:100%;
       display:block;
       object-fit:cover;
     }
-    /* Before image — revealed on drag */
-    .ba-before{
+
+    /* After image — hidden by default, revealed on drag */
+    .ba-after{
       position:absolute;
       inset:0;
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
-      clip-path:inset(0 100% 0 0);
+      clip-path:inset(0 100% 0 0); /* fully hidden initially */
     }
-    .ba-before.snap-back{
+    .ba-after.snap-back{
       transition:clip-path 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
     }
 
@@ -149,13 +152,15 @@
       opacity:0;
       transition:opacity 0.25s;
     }
-    .ba-label-after{
+    /* "Before" label on LEFT side (base layer) */
+    .ba-label-before{
       left:14px;
       background:rgba(13,13,13,0.72);
       color:rgba(245,240,232,0.8);
       border:1px solid rgba(245,240,232,0.18);
     }
-    .ba-label-before{
+    /* "After" label on RIGHT side (revealed layer) */
+    .ba-label-after{
       right:14px;
       background:var(--gold);
       color:var(--dark);
@@ -177,7 +182,6 @@
     }
     .ba-hint svg{width:11px;height:11px;fill:var(--dark)}
     .ba-card.dragging .ba-hint{opacity:0}
-    /* hide hint after first interaction per-card */
     .ba-card.has-interacted .ba-hint{opacity:0}
 
     /* Card info overlay */
@@ -193,12 +197,12 @@
     .ba-meta{font-size:11px;color:rgba(245,240,232,0.5)}
 
     /* Scale on hover */
-    .ba-card:hover .ba-after,
-    .ba-card:hover .ba-before{transform:scale(1.03);transition:transform 0.55s ease}
-    .ba-card.dragging .ba-after,
-    .ba-card.dragging .ba-before{transform:scale(1)!important}
+    .ba-card:hover .ba-before,
+    .ba-card:hover .ba-after{transform:scale(1.03);transition:transform 0.55s ease}
+    .ba-card.dragging .ba-before,
+    .ba-card.dragging .ba-after{transform:scale(1)!important}
 
-    /* Placeholder colors (replace src with real photos) */
+    /* Placeholder colors */
     .ph{width:100%;display:block;object-fit:cover}
     .c1{background:linear-gradient(135deg,#1a1510,#2d2418)}
     .c2{background:linear-gradient(135deg,#101820,#1a2d20)}
@@ -324,96 +328,65 @@
     <!-- GRID -->
     <div class="portfolio-grid" id="portfolioGrid">
 
-      <!-- ══════════════════════════════════════════════
-           HOW TO ADD REAL PHOTOS:
-           Replace the <div class="ph c1 photo-placeholder"...> elements
-           with <img> tags like:
-             After:  <img class="ba-after" src="Images/project1-after.jpg" alt="After">
-             Before: <img class="ba-before" src="Images/project1-before.jpg" alt="Before">
-           Keep all other markup the same.
-      ══════════════════════════════════════════════ -->
+      <!--
+        HOW TO ADD REAL PHOTOS:
+        Each card now shows BEFORE by default.
+        Dragging right reveals the AFTER photo.
+
+        Replace placeholders with real <img> tags:
+          Before (base, shown first):  <img class="ba-before" src="Images/p1-before.jpg" alt="Before">
+          After  (revealed on drag):   <img class="ba-after"  src="Images/p1-after.jpg"  alt="After">
+      -->
 
       <!-- PROJECT 1 — Vasant Kunj Flat -->
       <div class="ba-card" data-cat="residential">
+        <!-- BEFORE — base layer, shown by default -->
+        <img class="ba-before" src="Images/C-8 8774 Kitchen Before.png" alt="Vasant Kunj Flat Before">
+        <!-- AFTER — revealed on drag -->
         <img class="ba-after" src="Images/C-8 8774 Kitchen After.png" alt="Vasant Kunj Flat After">
-        <div class="ph c1 photo-placeholder ba-after" style="height:50px">
-          After Photo<span>Images/p1-after.jpg</span>
-        </div>
-        <img class="ba-before" src="Images/C-8 8774 Kitchen Before.png" alt="Vasant Kunj Flat Before"> 
-        <div class="ph cb1 photo-placeholder ba-before" style="height:50px">
-          Before Photo<span>Images/p1-before.jpg</span>
-        </div>
         <div class="ba-divider">
           <div class="ba-divider-btn">
             <svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>
           </div>
         </div>
         <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
         <div class="ba-label ba-label-before">Before</div>
+        <div class="ba-label ba-label-after">After</div>
         <div class="ba-hint">
           <svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>
           Drag to reveal
         </div>
         <div class="ba-info">
           <div class="ba-tag">Residential</div>
-          <div class="ba-name">Vasant Kunj Flat</div>
-          <div class="ba-meta">1,400 sq ft · 2024</div>
+          <div class="ba-name">Modular Kitchen, C-8, Vasant Kunj</div>
+          <div class="ba-meta">1,400 sq ft · 2026</div>
         </div>
       </div>
 
       <!-- PROJECT 2 — Connaught Place Office -->
-      <div class="ba-card" data-cat="commercial">
-        <div class="ph c2 photo-placeholder ba-after" style="height:380px">
-          After Photo<span>Images/p2-after.jpg</span>
-        </div>
-        <div class="ph cb2 photo-placeholder ba-before" style="height:380px">
-          Before Photo<span>Images/p2-before.jpg</span>
-        </div>
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Commercial</div>
-          <div class="ba-name">Connaught Place Office</div>
-          <div class="ba-meta">3,200 sq ft · 2023</div>
-        </div>
-      </div>
-
-      <!-- PROJECT 3 — DDA Housing Complex -->
-      <div class="ba-card" data-cat="government">
-        <div class="ph c3 photo-placeholder ba-after" style="height:260px">
-          After Photo<span>Images/p3-after.jpg</span>
-        </div>
-        <div class="ph cb3 photo-placeholder ba-before" style="height:260px">
-          Before Photo<span>Images/p3-before.jpg</span>
-        </div>
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Government</div>
-          <div class="ba-name">DDA Housing Complex</div>
-          <div class="ba-meta">12,000 sq ft · 2022</div>
-        </div>
-      </div>
-
-      <!-- PROJECT 4 — GK Villa Extension -->
       <div class="ba-card" data-cat="residential">
-        <div class="ph c4 photo-placeholder ba-after" style="height:340px">
-          After Photo<span>Images/p4-after.jpg</span>
-        </div>
-        <div class="ph cb4 photo-placeholder ba-before" style="height:340px">
-          Before Photo<span>Images/p4-before.jpg</span>
-        </div>
+        <img class="ba-before" src="Images/C-8 8774 Hall Before.png" alt="Vasant Kunj Flat Before" style="width:100%;height:525px;object-fit:cover;">
+        <img class="ba-after" src="Images/C-8 8774 Hall After.png" alt="Vasant Kunj Flat After" style="width:100%;height:525px;object-fit:cover;">
         <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
         <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
         <div class="ba-label ba-label-before">Before</div>
+        <div class="ba-label ba-label-after">After</div>
+        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
+        <div class="ba-info">
+          <div class="ba-tag">Residential</div>
+          <div class="ba-name">GK Villa Extension</div>
+          <div class="ba-meta">2,800 sq ft · 2024</div>
+        </div>
+      </div>
+
+      <!-- PROJECT 3 — GK Villa Extension -->
+      <div class="ba-card" data-cat="residential">
+        <img class="ba-before" src="Images/C-8 8774 Lobby Before.png" alt="Vasant Kunj Flat Before" style="width:100%;height:525px;object-fit:cover;">
+        <img class="ba-after" src="Images/C-8 8774 Lobby After.png" alt="Vasant Kunj Flat After" style="width:100%;height:525px;object-fit:cover;">
+        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
+        <div class="ba-overlay"></div>
+        <div class="ba-label ba-label-before">Before</div>
+        <div class="ba-label ba-label-after">After</div>
         <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
         <div class="ba-info">
           <div class="ba-tag">Residential</div>
@@ -423,77 +396,33 @@
       </div>
 
       <!-- PROJECT 5 — HUL Office Fit-Out -->
-      <div class="ba-card" data-cat="commercial">
-        <div class="ph c5 photo-placeholder ba-after" style="height:280px">
-          After Photo<span>Images/p5-after.jpg</span>
-        </div>
-        <div class="ph cb5 photo-placeholder ba-before" style="height:280px">
-          Before Photo<span>Images/p5-before.jpg</span>
-        </div>
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Commercial</div>
-          <div class="ba-name">HUL Office Fit-Out</div>
-          <div class="ba-meta">5,600 sq ft · 2021</div>
-        </div>
-      </div>
-
-      <!-- PROJECT 6 — Rohini Modular Kitchen -->
       <div class="ba-card" data-cat="residential">
-        <div class="ph c6 photo-placeholder ba-after" style="height:240px">
-          After Photo<span>Images/p6-after.jpg</span>
-        </div>
-        <div class="ph cb6 photo-placeholder ba-before" style="height:240px">
-          Before Photo<span>Images/p6-before.jpg</span>
-        </div>
+        <img class="ba-before" src="Images/C-8 8774 Bathroom Before.png" alt="Vasant Kunj Flat Before" style="width:100%;height:525px;object-fit:cover;">
+        <img class="ba-after" src="Images/C-8 8774 Bathroom After.png" alt="Vasant Kunj Flat After" style="width:100%;height:525px;object-fit:cover;">
         <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
         <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
         <div class="ba-label ba-label-before">Before</div>
+        <div class="ba-label ba-label-after">After</div>
         <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
         <div class="ba-info">
-          <div class="ba-tag">Residential</div>
-          <div class="ba-name">Rohini Modular Kitchen</div>
-          <div class="ba-meta">180 sq ft · 2024</div>
-        </div>
-      </div>
-
-      <!-- PROJECT 7 — DND Flyway Office -->
-      <div class="ba-card" data-cat="government">
-        <div class="ph c7 photo-placeholder ba-after" style="height:320px">
-          After Photo<span>Images/p7-after.jpg</span>
-        </div>
-        <div class="ph cb7 photo-placeholder ba-before" style="height:320px">
-          Before Photo<span>Images/p7-before.jpg</span>
-        </div>
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Government</div>
-          <div class="ba-name">DND Flyway Office</div>
-          <div class="ba-meta">4,000 sq ft · 2020</div>
+          <div class="ba-tag">Bathroom</div>
+          <div class="ba-name">C-8, Vasant Kunj</div>
+          <div class="ba-meta">5,600 sq ft · 2026</div>
         </div>
       </div>
 
       <!-- PROJECT 8 — Dwarka Full Interior -->
       <div class="ba-card" data-cat="residential">
-        <div class="ph c8 photo-placeholder ba-after" style="height:290px">
-          After Photo<span>Images/p8-after.jpg</span>
-        </div>
         <div class="ph cb8 photo-placeholder ba-before" style="height:290px">
           Before Photo<span>Images/p8-before.jpg</span>
         </div>
+        <div class="ph c8 photo-placeholder ba-after" style="height:290px">
+          After Photo<span>Images/p8-after.jpg</span>
+        </div>
         <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
         <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
         <div class="ba-label ba-label-before">Before</div>
+        <div class="ba-label ba-label-after">After</div>
         <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
         <div class="ba-info">
           <div class="ba-tag">Residential</div>
@@ -504,16 +433,16 @@
 
       <!-- PROJECT 9 — Embassy Showroom -->
       <div class="ba-card" data-cat="commercial">
-        <div class="ph c9 photo-placeholder ba-after" style="height:370px">
-          After Photo<span>Images/p9-after.jpg</span>
-        </div>
         <div class="ph cb9 photo-placeholder ba-before" style="height:370px">
           Before Photo<span>Images/p9-before.jpg</span>
         </div>
+        <div class="ph c9 photo-placeholder ba-after" style="height:370px">
+          After Photo<span>Images/p9-after.jpg</span>
+        </div>
         <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
         <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
         <div class="ba-label ba-label-before">Before</div>
+        <div class="ba-label ba-label-after">After</div>
         <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
         <div class="ba-info">
           <div class="ba-tag">Commercial</div>
@@ -524,16 +453,16 @@
 
       <!-- PROJECT 10 — Saket Home Extension -->
       <div class="ba-card" data-cat="residential">
-        <div class="ph c10 photo-placeholder ba-after" style="height:260px">
-          After Photo<span>Images/p10-after.jpg</span>
-        </div>
         <div class="ph cb10 photo-placeholder ba-before" style="height:260px">
           Before Photo<span>Images/p10-before.jpg</span>
         </div>
+        <div class="ph c10 photo-placeholder ba-after" style="height:260px">
+          After Photo<span>Images/p10-after.jpg</span>
+        </div>
         <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
         <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-after">After</div>
         <div class="ba-label ba-label-before">Before</div>
+        <div class="ba-label ba-label-after">After</div>
         <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
         <div class="ba-info">
           <div class="ba-tag">Residential</div>
@@ -628,27 +557,27 @@
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
   /* ══════════════════════════════════════════════════════
-     BEFORE / AFTER DRAG MECHANIC
-     — Works with both mouse (desktop) and touch (mobile)
-     — Card shows AFTER by default
-     — Dragging left reveals BEFORE photo under a gold divider
-     — Releasing snaps smoothly back to AFTER
+     BEFORE / AFTER DRAG MECHANIC — REVERSED
+     — BEFORE is shown by default (base layer)
+     — Dragging RIGHT reveals the AFTER photo on top
+     — Releasing snaps smoothly back to BEFORE
   ══════════════════════════════════════════════════════ */
   document.querySelectorAll('.ba-card').forEach(card => {
-    const beforeEl  = card.querySelector('.ba-before');
-    const divider   = card.querySelector('.ba-divider');
+    // NOW targeting ba-after (the reveal layer)
+    const afterEl  = card.querySelector('.ba-after');
+    const divider  = card.querySelector('.ba-divider');
     let active = false;
 
     function setReveal(clientX) {
       const rect = card.getBoundingClientRect();
       let pct = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
-      beforeEl.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      afterEl.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
       divider.style.left = pct + '%';
     }
 
     function startDrag(clientX) {
       active = true;
-      beforeEl.classList.remove('snap-back');
+      afterEl.classList.remove('snap-back');
       card.classList.add('dragging');
       card.classList.add('has-interacted');
       setReveal(clientX);
@@ -663,9 +592,9 @@
       if (!active) return;
       active = false;
       card.classList.remove('dragging');
-      /* snap back to fully hidden (After state) */
-      beforeEl.classList.add('snap-back');
-      beforeEl.style.clipPath = 'inset(0 100% 0 0)';
+      /* snap back: hide After, return to Before */
+      afterEl.classList.add('snap-back');
+      afterEl.style.clipPath = 'inset(0 100% 0 0)';
       divider.style.left = '0%';
     }
 
