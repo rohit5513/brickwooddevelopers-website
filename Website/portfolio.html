@@ -25,7 +25,7 @@
     body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4}
     ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
 
-    /* ── NAV ── */
+    /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5vw;height:72px;display:flex;align-items:center;justify-content:space-between;transition:background var(--transition),backdrop-filter var(--transition)}
     nav.scrolled{background:rgba(13,13,13,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,0.15)}
     .nav-logo{display:flex;align-items:center;text-decoration:none}
@@ -42,7 +42,7 @@
     .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
     .nav-toggle span{display:block;width:24px;height:2px;background:var(--light);border-radius:2px}
 
-    /* ── PAGE HERO ── */
+    /* PAGE HERO */
     .page-hero{padding:160px 5vw 80px;position:relative;overflow:hidden;background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.12)}
     .page-hero::before{content:'';position:absolute;top:0;right:0;width:50%;height:100%;background:linear-gradient(135deg,transparent,rgba(201,168,76,0.04));clip-path:polygon(20% 0%,100% 0%,100% 100%,0% 100%)}
     .page-hero-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom right,transparent 40%,rgba(0,0,0,0.5) 70%,transparent 100%)}
@@ -56,190 +56,135 @@
     .page-hero h1 em{font-style:italic;color:var(--gold)}
     .page-hero p{font-size:17px;color:var(--muted);max-width:520px;line-height:1.7;font-weight:300}
 
-    /* ── FILTER BAR ── */
+    /* VIEW TOGGLE */
+    .view-toggle-wrap{display:flex;justify-content:flex-start;margin-bottom:40px}
+    .view-toggle{display:flex;background:var(--dark3);border:1px solid rgba(201,168,76,0.12);border-radius:100px;padding:4px;gap:4px}
+    .view-toggle-btn{display:flex;align-items:center;gap:8px;padding:10px 24px;border-radius:100px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all var(--transition)}
+    .view-toggle-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
+    .view-toggle-btn.active{background:var(--gold);color:var(--dark)}
+    .view-toggle-btn:not(.active):hover{color:var(--light)}
+
+    /* PORTFOLIO SECTION */
     .portfolio-section{padding:80px 5vw}
     .portfolio-inner{max-width:1280px;margin:0 auto}
+
+    /* FILTER BAR */
     .filter-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:48px}
     .filter-btn{background:transparent;border:1px solid rgba(245,240,232,0.1);color:var(--muted);padding:10px 22px;border-radius:100px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all var(--transition);font-family:'DM Sans',sans-serif}
     .filter-btn:hover{border-color:rgba(201,168,76,0.4);color:var(--light)}
     .filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--dark)}
 
-    /* ── PORTFOLIO GRID ── */
+    /* PORTFOLIO GRID */
     .portfolio-grid{columns:3;gap:6px;column-gap:6px}
     @media(max-width:1024px){.portfolio-grid{columns:2}}
     @media(max-width:600px){.portfolio-grid{columns:1}}
 
-    /* ── BEFORE / AFTER CARD ── */
+    /* BEFORE / AFTER CARD
+       CRITICAL RULES:
+       1. ba-before  = plain <img>, sits in normal flow, sets card height
+       2. ba-after   = plain <img>, position:absolute, covers the before, clipped by JS
+       3. NO wrapper divs on before/after — just raw <img> tags
+    */
     .ba-card{
-      break-inside:avoid;
-      margin-bottom:6px;
-      position:relative;
-      overflow:hidden;
-      cursor:col-resize;
-      user-select:none;
-      -webkit-user-select:none;
-      display:block;
-      border-radius:2px;
+      break-inside:avoid;margin-bottom:6px;
+      position:relative;overflow:hidden;
+      cursor:col-resize;user-select:none;-webkit-user-select:none;
+      display:block;border-radius:2px;
     }
-
-    /* ── REVERSED LOGIC ── */
-    /* Before image — shown by default (base layer) */
     .ba-before{
-      width:100%;
-      display:block;
-      object-fit:cover;
+      width:100%;display:block;object-fit:cover;
+      /* sets the card height — after image overlays this */
     }
-
-    /* After image — hidden by default, revealed on drag */
     .ba-after{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      clip-path:inset(0 100% 0 0); /* fully hidden initially */
+      position:absolute;inset:0;
+      width:100%;height:100%;
+      object-fit:cover;display:block;
+      clip-path:inset(0 100% 0 0); /* hidden by default, JS reveals on drag */
     }
-    .ba-after.snap-back{
-      transition:clip-path 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
-    }
-
-    /* Divider line */
-    .ba-divider{
-      position:absolute;
-      top:0;bottom:0;
-      width:2px;
-      background:var(--gold);
-      left:0%;
-      transform:translateX(-50%);
-      pointer-events:none;
-      opacity:0;
-      transition:opacity 0.2s;
-    }
-    .ba-divider-btn{
-      position:absolute;
-      top:50%;left:50%;
-      transform:translate(-50%,-50%);
-      width:36px;height:36px;
-      background:var(--gold);
-      border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 0 0 4px rgba(201,168,76,0.25);
-    }
+    .ba-after.snap-back{transition:clip-path 0.45s cubic-bezier(0.25,0.46,0.45,0.94)}
+    .ba-divider{position:absolute;top:0;bottom:0;width:2px;background:var(--gold);left:0%;transform:translateX(-50%);pointer-events:none;opacity:0;transition:opacity 0.2s}
+    .ba-divider-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px rgba(201,168,76,0.25)}
     .ba-divider-btn svg{width:18px;height:18px;fill:var(--dark)}
     .ba-card.dragging .ba-divider{opacity:1}
-
-    /* Overlay gradient */
-    .ba-overlay{
-      position:absolute;inset:0;
-      background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.15) 45%,transparent 100%);
-      pointer-events:none;
-      transition:opacity var(--transition);
-    }
+    .ba-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.15) 45%,transparent 100%);pointer-events:none;transition:opacity var(--transition)}
     .ba-card.dragging .ba-overlay{opacity:0.6}
-
-    /* Before / After labels */
-    .ba-label{
-      position:absolute;
-      top:14px;
-      font-size:10px;
-      font-weight:600;
-      letter-spacing:0.16em;
-      text-transform:uppercase;
-      padding:4px 10px;
-      border-radius:100px;
-      pointer-events:none;
-      opacity:0;
-      transition:opacity 0.25s;
-    }
-    /* "Before" label on LEFT side (base layer) */
-    .ba-label-before{
-      left:14px;
-      background:rgba(13,13,13,0.72);
-      color:rgba(245,240,232,0.8);
-      border:1px solid rgba(245,240,232,0.18);
-    }
-    /* "After" label on RIGHT side (revealed layer) */
-    .ba-label-after{
-      right:14px;
-      background:var(--gold);
-      color:var(--dark);
-    }
+    .ba-label{position:absolute;top:14px;font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;padding:4px 10px;border-radius:100px;pointer-events:none;opacity:0;transition:opacity 0.25s}
+    .ba-label-before{left:14px;background:rgba(13,13,13,0.72);color:rgba(245,240,232,0.8);border:1px solid rgba(245,240,232,0.18)}
+    .ba-label-after{right:14px;background:var(--gold);color:var(--dark)}
     .ba-card.dragging .ba-label{opacity:1}
-
-    /* Hint chip */
-    .ba-hint{
-      position:absolute;
-      top:14px;right:14px;
-      background:rgba(201,168,76,0.9);
-      color:var(--dark);
-      font-size:10px;font-weight:600;
-      letter-spacing:0.1em;text-transform:uppercase;
-      padding:5px 11px;border-radius:100px;
-      pointer-events:none;
-      display:flex;align-items:center;gap:5px;
-      transition:opacity 0.3s;
-    }
+    .ba-hint{position:absolute;top:14px;right:14px;background:rgba(201,168,76,0.9);color:var(--dark);font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:5px 11px;border-radius:100px;pointer-events:none;display:flex;align-items:center;gap:5px;transition:opacity 0.3s}
     .ba-hint svg{width:11px;height:11px;fill:var(--dark)}
     .ba-card.dragging .ba-hint{opacity:0}
     .ba-card.has-interacted .ba-hint{opacity:0}
-
-    /* Card info overlay */
-    .ba-info{
-      position:absolute;
-      bottom:0;left:0;right:0;
-      padding:22px 20px;
-      pointer-events:none;
-      transition:transform var(--transition);
-    }
+    .ba-info{position:absolute;bottom:0;left:0;right:0;padding:22px 20px;pointer-events:none;transition:transform var(--transition)}
     .ba-tag{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
     .ba-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--white);margin-bottom:3px;line-height:1.2}
     .ba-meta{font-size:11px;color:rgba(245,240,232,0.5)}
+    .ba-card:hover .ba-before,.ba-card:hover .ba-after{transform:scale(1.03);transition:transform 0.55s ease}
+    .ba-card.dragging .ba-before,.ba-card.dragging .ba-after{transform:scale(1)!important}
 
-    /* Scale on hover */
-    .ba-card:hover .ba-before,
-    .ba-card:hover .ba-after{transform:scale(1.03);transition:transform 0.55s ease}
-    .ba-card.dragging .ba-before,
-    .ba-card.dragging .ba-after{transform:scale(1)!important}
-
-    /* Placeholder colors */
-    .ph{width:100%;display:block;object-fit:cover}
-    .c1{background:linear-gradient(135deg,#1a1510,#2d2418)}
-    .c2{background:linear-gradient(135deg,#101820,#1a2d20)}
-    .c3{background:linear-gradient(135deg,#1a1018,#2d1a28)}
-    .c4{background:linear-gradient(135deg,#181510,#28200d)}
-    .c5{background:linear-gradient(135deg,#101518,#0d1a25)}
-    .c6{background:linear-gradient(135deg,#151810,#202d15)}
-    .c7{background:linear-gradient(135deg,#181018,#2d0d2d)}
-    .c8{background:linear-gradient(135deg,#181210,#2d1e10)}
-    .c9{background:linear-gradient(135deg,#101818,#0d2828)}
-    .c10{background:linear-gradient(135deg,#151015,#281528)}
-    .cb1{background:linear-gradient(135deg,#0a0a0a,#1a1208)}
-    .cb2{background:linear-gradient(135deg,#0a0e14,#0d1c10)}
-    .cb3{background:linear-gradient(135deg,#0f080e,#1e0d18)}
-    .cb4{background:linear-gradient(135deg,#0e0c08,#1a1406)}
-    .cb5{background:linear-gradient(135deg,#08090e,#08101a)}
-    .cb6{background:linear-gradient(135deg,#0c0f09,#141e0c)}
-    .cb7{background:linear-gradient(135deg,#0e0808,#1e0808)}
-    .cb8{background:linear-gradient(135deg,#0e0c0a,#1e1408)}
-    .cb9{background:linear-gradient(135deg,#080e0e,#061414)}
-    .cb10{background:linear-gradient(135deg,#0c080c,#180c18)}
-    .photo-placeholder{
+    /* Placeholder for cards without images yet */
+    .ba-placeholder{
+      width:100%;display:block;
+      background:linear-gradient(135deg,#141414,#1c1c1c);
       display:flex;align-items:center;justify-content:center;
-      font-family:'Playfair Display',serif;font-size:12px;
-      color:rgba(201,168,76,0.25);letter-spacing:0.1em;
-      text-align:center;padding:20px;flex-direction:column;gap:6px;
+      font-family:'Playfair Display',serif;font-size:13px;
+      color:rgba(201,168,76,0.2);letter-spacing:0.1em;
     }
-    .photo-placeholder span{font-size:10px;color:rgba(201,168,76,0.15);letter-spacing:0.05em;font-family:'DM Sans',sans-serif}
 
-    /* ── CTA ── */
+    /* VIDEO GALLERY */
+    #videoView{display:none}
+    #photoView{display:block}
+    .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media(max-width:1024px){.video-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.video-grid{grid-template-columns:1fr}}
+    .vid-card{position:relative;border-radius:6px;overflow:hidden;background:var(--dark3);cursor:pointer;border:1px solid rgba(201,168,76,0.08);transition:border-color var(--transition),transform var(--transition),box-shadow var(--transition)}
+    .vid-card:hover{border-color:rgba(201,168,76,0.35);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.1)}
+    .vid-thumb{position:relative;width:100%;padding-top:56.25%;background:var(--dark4);overflow:hidden}
+    .vid-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.55s ease,filter 0.35s ease;display:block}
+    .vid-card:hover .vid-thumb img{transform:scale(1.06);filter:brightness(0.7)}
+    .vid-play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.1) 60%,transparent 100%);transition:background var(--transition)}
+    .vid-card:hover .vid-play-btn{background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,rgba(0,0,0,0.3) 60%,rgba(0,0,0,0.1) 100%)}
+    .play-circle{width:64px;height:64px;border-radius:50%;background:rgba(201,168,76,0.15);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:transform var(--transition),background var(--transition),box-shadow var(--transition)}
+    .vid-card:hover .play-circle{background:var(--gold);transform:scale(1.12);box-shadow:0 0 0 8px rgba(201,168,76,0.2),0 8px 32px rgba(201,168,76,0.4)}
+    .play-circle svg{width:24px;height:24px;fill:var(--gold);margin-left:3px;transition:fill var(--transition)}
+    .vid-card:hover .play-circle svg{fill:var(--dark)}
+    .vid-duration{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.8);color:var(--light);font-size:11px;font-weight:500;padding:3px 8px;border-radius:4px;letter-spacing:0.04em;backdrop-filter:blur(4px)}
+    .vid-cat-badge{position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:4px 9px;border-radius:100px;background:rgba(13,13,13,0.75);color:var(--gold);border:1px solid rgba(201,168,76,0.3);backdrop-filter:blur(6px)}
+    .vid-body{padding:16px 18px 18px}
+    .vid-body-tag{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .vid-body-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:6px}
+    .vid-body-meta{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:10px}
+    .vid-body-meta span{display:flex;align-items:center;gap:4px}
+    .vid-body-meta svg{width:12px;height:12px;fill:var(--muted)}
+
+    /* MODAL */
+    .modal-backdrop{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.35s ease;padding:20px}
+    .modal-backdrop.open{opacity:1;pointer-events:all}
+    .modal-box{position:relative;width:100%;max-width:1000px;background:var(--dark2);border-radius:8px;border:1px solid rgba(201,168,76,0.2);overflow:hidden;transform:scale(0.94) translateY(20px);transition:transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);box-shadow:0 40px 120px rgba(0,0,0,0.8),0 0 0 1px rgba(201,168,76,0.08)}
+    .modal-backdrop.open .modal-box{transform:scale(1) translateY(0)}
+    .modal-video-wrap{position:relative;width:100%;padding-top:56.25%;background:#000}
+    .modal-video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
+    .modal-footer{padding:18px 22px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+    .modal-footer-info .modal-tag{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .modal-footer-info .modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);line-height:1.2}
+    .modal-footer-info .modal-meta{font-size:12px;color:var(--muted);margin-top:4px}
+    .modal-close{position:absolute;top:14px;right:14px;width:38px;height:38px;background:rgba(13,13,13,0.8);border:1px solid rgba(245,240,232,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--light);transition:background var(--transition),border-color var(--transition),transform var(--transition);z-index:10;flex-shrink:0}
+    .modal-close:hover{background:rgba(201,168,76,0.2);border-color:var(--gold);transform:rotate(90deg)}
+    .modal-close svg{width:16px;height:16px;fill:currentColor}
+    .modal-nav{display:flex;gap:8px}
+    .modal-nav-btn{width:38px;height:38px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);transition:all var(--transition);flex-shrink:0}
+    .modal-nav-btn:hover{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+    .modal-nav-btn svg{width:16px;height:16px;fill:currentColor}
+
+    /* CTA */
     .portfolio-cta{text-align:center;margin-top:72px;padding-top:72px;border-top:1px solid rgba(245,240,232,0.06)}
     .portfolio-cta h3{font-family:'Playfair Display',serif;font-size:30px;color:var(--white);margin-bottom:10px}
     .portfolio-cta p{font-size:15px;color:var(--muted);margin-bottom:28px}
     .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--dark);text-decoration:none;padding:15px 32px;border-radius:var(--radius);font-weight:500;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;transition:background var(--transition),transform var(--transition),box-shadow var(--transition)}
     .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(201,168,76,0.3)}
 
-    /* ── FOOTER ── */
+    /* FOOTER */
     footer{background:var(--dark);padding:60px 5vw 32px;border-top:1px solid rgba(245,240,232,0.06)}
     .footer-inner{max-width:1100px;margin:0 auto}
     .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;padding-bottom:48px;border-bottom:1px solid rgba(245,240,232,0.06);margin-bottom:32px}
@@ -263,14 +208,14 @@
     .footer-bottom p{font-size:12px;color:rgba(138,130,120,0.6)}
     .footer-bottom span{font-size:12px;color:rgba(138,130,120,0.4)}
 
-    /* ── WHATSAPP ── */
+    /* WHATSAPP */
     .whatsapp-btn{position:fixed;bottom:32px;right:32px;z-index:999;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,211,102,0.4);text-decoration:none;transition:transform var(--transition),box-shadow var(--transition)}
     .whatsapp-btn:hover{transform:scale(1.1) translateY(-2px);box-shadow:0 8px 32px rgba(37,211,102,0.5)}
     .whatsapp-btn svg{width:28px;height:28px;fill:white}
     .wa-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,0.4);animation:wa-ripple 2s ease-out infinite}
     @keyframes wa-ripple{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}
 
-    /* ── REVEAL ── */
+    /* REVEAL */
     .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.7s ease,transform 0.7s ease}
     .reveal.visible{opacity:1;transform:none}
 
@@ -280,6 +225,8 @@
       .nav-links.open a{font-size:16px}
       .nav-toggle{display:flex}
       .footer-top{grid-template-columns:1fr;gap:40px}
+      .modal-footer{flex-direction:column}
+      .view-toggle-btn{padding:10px 16px;font-size:12px}
     }
   </style>
 </head>
@@ -309,7 +256,7 @@
     <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Portfolio</div>
     <span class="section-tag">Our Work</span>
     <h1>500+ Projects, <em>One Standard</em></h1>
-    <p>Every project tells a story. Drag across any card to see the transformation — before and after, side by side.</p>
+    <p>Every project tells a story. Drag across any card to see the transformation before and after, side by side.</p>
   </div>
 </div>
 
@@ -317,161 +264,224 @@
 <section class="portfolio-section">
   <div class="portfolio-inner">
 
-    <!-- FILTER BAR -->
-    <div class="filter-bar reveal">
-      <button class="filter-btn active" data-filter="all">All Projects</button>
-      <button class="filter-btn" data-filter="residential">Residential</button>
-      <button class="filter-btn" data-filter="commercial">Commercial</button>
-      <button class="filter-btn" data-filter="government">Government</button>
+    <!-- VIEW TOGGLE -->
+    <div class="view-toggle-wrap reveal">
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" id="btnPhotos" onclick="switchView('photos')">
+          <svg viewBox="0 0 24 24"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm2 0v12h12V6H6zm2 2h8v2H8V8zm0 4h8v2H8v-2z"/></svg>
+          Photo Gallery
+        </button>
+        <button class="view-toggle-btn" id="btnVideos" onclick="switchView('videos')">
+          <svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.277A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14v-4zM3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+          Video Gallery
+        </button>
+      </div>
     </div>
 
-    <!-- GRID -->
-    <div class="portfolio-grid" id="portfolioGrid">
+    <!-- PHOTO VIEW -->
+    <div id="photoView">
+      <div class="filter-bar reveal">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="residential">Residential</button>
+        <button class="filter-btn" data-filter="commercial">Commercial</button>
+        <button class="filter-btn" data-filter="government">Government</button>
+      </div>
 
-      <!--
-        HOW TO ADD REAL PHOTOS:
-        Each card now shows BEFORE by default.
-        Dragging right reveals the AFTER photo.
+      <div class="portfolio-grid" id="portfolioGrid">
 
-        Replace placeholders with real <img> tags:
-          Before (base, shown first):  <img class="ba-before" src="Images/p1-before.jpg" alt="Before">
-          After  (revealed on drag):   <img class="ba-after"  src="Images/p1-after.jpg"  alt="After">
-      -->
+        <!--
+          ══════════════════════════════════════════════════════════
+          HOW TO ADD A CARD — copy the block below and change:
+            1. data-cat  →  residential / commercial / government
+            2. ba-before src  →  your BEFORE image path
+            3. ba-after  src  →  your AFTER  image path
+            4. ba-tag, ba-name, ba-meta text
+          RULES:
+            • ba-before MUST come first (it sets card height)
+            • ba-after  MUST come second (absolutely overlays it)
+            • Use %20 for spaces in filenames, e.g. "C-8%208774%20Kitchen%20Before.png"
+          ══════════════════════════════════════════════════════════
+        -->
 
-      <!-- PROJECT 1 — Vasant Kunj Flat -->
-      <div class="ba-card" data-cat="residential">
-        <!-- BEFORE — base layer, shown by default -->
-        <img class="ba-before" src="Images/C-8 8774 Kitchen Before.png" alt="Vasant Kunj Flat Before">
-        <!-- AFTER — revealed on drag -->
-        <img class="ba-after" src="Images/C-8 8774 Kitchen After.png" alt="Vasant Kunj Flat After">
-        <div class="ba-divider">
-          <div class="ba-divider-btn">
-            <svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>
+        <!-- PROJECT 1 — Vasant Kunj Kitchen -->
+        <div class="ba-card" data-cat="residential">
+          <img class="ba-before" src="Images/C-8-8774-Kitchen-Before.png" alt="Vasant Kunj Kitchen Before">
+          <img class="ba-after"  src="Images/C-8-8774-Kitchen-After.png"  alt="Vasant Kunj Kitchen After">
+          <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
+          <div class="ba-overlay"></div>
+          <div class="ba-label ba-label-after">Before</div>
+          <div class="ba-label ba-label-before">After</div>
+          <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
+          <div class="ba-info">
+            <div class="ba-tag">Residential</div>
+            <div class="ba-name">Vasant Kunj Kitchen</div>
+            <div class="ba-meta">1,400 sq ft · 2024</div>
           </div>
         </div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-hint">
-          <svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>
-          Drag to reveal
+
+        <!-- PROJECT 2 — Vasant Kunj Lobby -->
+        <div class="ba-card" data-cat="residential">
+          <img class="ba-before" src="Images/C-8-8774-Lobby-Before.png" alt="Vasant Kunj Lobby Before">
+          <img class="ba-after"  src="Images/C-8-8774-Lobby-After.png"  alt="Vasant Kunj Lobby After">
+          <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
+          <div class="ba-overlay"></div>
+          <div class="ba-label ba-label-before">After</div>
+          <div class="ba-label ba-label-after">Before</div>
+          <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
+          <div class="ba-info">
+            <div class="ba-tag">Residential</div>
+            <div class="ba-name">Vasant Kunj Lobby</div>
+            <div class="ba-meta">1,400 sq ft · 2024</div>
+          </div>
         </div>
-        <div class="ba-info">
-          <div class="ba-tag">Residential</div>
-          <div class="ba-name">Modular Kitchen, C-8, Vasant Kunj</div>
-          <div class="ba-meta">1,400 sq ft · 2026</div>
+
+        <!-- PROJECT 3 — Vasant Kunj Hall -->
+        <div class="ba-card" data-cat="residential">
+          <img class="ba-before" src="Images/C-8%208774%20Hall%20Before.png" alt="Vasant Kunj Hall Before">
+          <img class="ba-after"  src="Images/C-8%208774%20Hall%20After.png"  alt="Vasant Kunj Hall After">
+          <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
+          <div class="ba-overlay"></div>
+          <div class="ba-label ba-label-before">After</div>
+          <div class="ba-label ba-label-after">Before</div>
+          <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
+          <div class="ba-info">
+            <div class="ba-tag">Residential</div>
+            <div class="ba-name">Vasant Kunj Hall</div>
+            <div class="ba-meta">1,400 sq ft · 2024</div>
+          </div>
         </div>
+
+        <!-- PROJECT 4 — Vasant Kunj Bathroom -->
+        <div class="ba-card" data-cat="residential">
+          <img class="ba-before" src="Images/C-8%208774%20Bathroom%20Before.png" alt="Vasant Kunj Bathroom Before">
+          <img class="ba-after"  src="Images/C-8%208774%20Bathroom%20After.png"  alt="Vasant Kunj Bathroom After">
+          <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
+          <div class="ba-overlay"></div>
+          <div class="ba-label ba-label-before">After</div>
+          <div class="ba-label ba-label-after">Before</div>
+          <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
+          <div class="ba-info">
+            <div class="ba-tag">Residential</div>
+            <div class="ba-name">Vasant Kunj Bathroom</div>
+            <div class="ba-meta">1,400 sq ft · 2024</div>
+          </div>
+        </div>
+
+        <!-- PROJECT 5 — HUL Office (single image, no before)
+        <div class="ba-card" data-cat="commercial">
+          <img class="ba-before" src="Images/HUL.png" alt="HUL Office Fit-Out">
+          <img class="ba-after"  src="Images/HUL.png" alt="HUL Office Fit-Out After">
+          <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
+          <div class="ba-overlay"></div>
+          <div class="ba-label ba-label-before">After</div>
+          <div class="ba-label ba-label-after">Before</div>
+          <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
+          <div class="ba-info">
+            <div class="ba-tag">Commercial</div>
+            <div class="ba-name">HUL Office Fit-Out</div>
+            <div class="ba-meta">5,600 sq ft · 2021</div>
+          </div>
+        </div>
+         ---------->
+        <!-- PROJECT 6 — DDA Housing Complex 
+        <div class="ba-card" data-cat="government">
+          <img class="ba-before" src="Images/DDA.png" alt="DDA Housing Complex">
+          <img class="ba-after"  src="Images/DDA.png" alt="DDA Housing Complex After">
+          <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
+          <div class="ba-overlay"></div>
+          <div class="ba-label ba-label-before">After</div>
+          <div class="ba-label ba-label-after">Before</div>
+          <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
+          <div class="ba-info">
+            <div class="ba-tag">Government</div>
+            <div class="ba-name">DDA Housing Complex</div>
+            <div class="ba-meta">12,000 sq ft · 2022</div>
+          </div>
+        </div>
+        -->
+        <!-- PROJECT 7 — Bhutan Project 
+        <div class="ba-card" data-cat="government">
+          <img class="ba-before" src="Images/Bhutan.png" alt="Bhutan Project">
+          <img class="ba-after"  src="Images/Bhutan.png" alt="Bhutan Project After">
+          <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
+          <div class="ba-overlay"></div>
+          <div class="ba-label ba-label-before">After</div>
+          <div class="ba-label ba-label-after">Before</div>
+          <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
+          <div class="ba-info">
+            <div class="ba-tag">Government</div>
+            <div class="ba-name">Bhutan Embassy Project</div>
+            <div class="ba-meta">2023</div>
+          </div>
+        </div>
+        -->
+        <!--
+          ══════════════════════════════════════════════════════════
+          ADD MORE PROJECTS HERE — paste a new ba-card block above
+          ══════════════════════════════════════════════════════════
+        -->
+
+      </div><!-- /portfolio-grid -->
+    </div><!-- /photoView -->
+
+    <!-- VIDEO VIEW -->
+    <div id="videoView">
+      <div class="filter-bar reveal">
+        <button class="filter-btn active" data-vfilter="all">All Videos</button>
+        <button class="filter-btn" data-vfilter="residential">Residential</button>
+        <button class="filter-btn" data-vfilter="commercial">Commercial</button>
+        <button class="filter-btn" data-vfilter="government">Government</button>
       </div>
 
-      <!-- PROJECT 2 — Connaught Place Office -->
-      <div class="ba-card" data-cat="residential">
-        <img class="ba-before" src="Images/C-8 8774 Hall Before.png" alt="Vasant Kunj Flat Before" style="width:100%;height:525px;object-fit:cover;">
-        <img class="ba-after" src="Images/C-8 8774 Hall After.png" alt="Vasant Kunj Flat After" style="width:100%;height:525px;object-fit:cover;">
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Residential</div>
-          <div class="ba-name">GK Villa Extension</div>
-          <div class="ba-meta">2,800 sq ft · 2024</div>
-        </div>
-      </div>
+      <div class="video-grid" id="videoGrid">
 
-      <!-- PROJECT 3 — GK Villa Extension -->
-      <div class="ba-card" data-cat="residential">
-        <img class="ba-before" src="Images/C-8 8774 Lobby Before.png" alt="Vasant Kunj Flat Before" style="width:100%;height:525px;object-fit:cover;">
-        <img class="ba-after" src="Images/C-8 8774 Lobby After.png" alt="Vasant Kunj Flat After" style="width:100%;height:525px;object-fit:cover;">
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Residential</div>
-          <div class="ba-name">GK Villa Extension</div>
-          <div class="ba-meta">2,800 sq ft · 2024</div>
+        <!-- VIDEO 1 -->
+        <div class="vid-card" data-vcat="residential" data-vid="3pEMd_r3hMo" data-title="D-6, Vasant Kunj Kitchen Renovation" data-tag="Residential" data-meta="1,400 sq ft · 2023" data-duration="2:14" onclick="openModal(this)">
+          <div class="vid-thumb">
+            <img src="https://img.youtube.com/vi/3pEMd_r3hMo/maxresdefault.jpg" alt="Vasant Kunj Kitchen Renovation" loading="lazy" onerror="this.src='https://img.youtube.com/vi/3pEMd_r3hMo/hqdefault.jpg'">
+            <div class="vid-play-btn">
+              <div class="play-circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="vid-cat-badge">Residential</div>
+            <div class="vid-duration">2:14</div>
+          </div>
+          <div class="vid-body">
+            <div class="vid-body-tag">Residential</div>
+            <div class="vid-body-title">Vasant Kunj 5BHK Renovation + Duplex Construction</div>
+            <div class="vid-body-meta">
+              <span><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>1,400 sq ft</span>
+              <span><svg viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>2023</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <!-- PROJECT 5 — HUL Office Fit-Out -->
-      <div class="ba-card" data-cat="residential">
-        <img class="ba-before" src="Images/C-8 8774 Bathroom Before.png" alt="Vasant Kunj Flat Before" style="width:100%;height:525px;object-fit:cover;">
-        <img class="ba-after" src="Images/C-8 8774 Bathroom After.png" alt="Vasant Kunj Flat After" style="width:100%;height:525px;object-fit:cover;">
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Bathroom</div>
-          <div class="ba-name">C-8, Vasant Kunj</div>
-          <div class="ba-meta">5,600 sq ft · 2026</div>
+        <!-- VIDEO 2 -->
+        <div class="vid-card" data-vcat="residential" data-vid="nNu6RWaGZ4M" data-title="B-7, Vasant Kunj Kitchen Renovation" data-tag="Residential" data-meta="1,400 sq ft · 2024" data-duration="1:00" onclick="openModal(this)">
+          <div class="vid-thumb">
+            <img src="https://img.youtube.com/vi/nNu6RWaGZ4M/maxresdefault.jpg" alt="Vasant Kunj Kitchen Renovation" loading="lazy" onerror="this.src='https://img.youtube.com/vi/nNu6RWaGZ4M/hqdefault.jpg'">
+            <div class="vid-play-btn">
+              <div class="play-circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="vid-cat-badge">Residential</div>
+            <div class="vid-duration">1:00</div>
+          </div>
+          <div class="vid-body">
+            <div class="vid-body-tag">Residential</div>
+            <div class="vid-body-title">Vasant Kunj 3BHK Renovation</div>
+            <div class="vid-body-meta">
+              <span><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>1,400 sq ft</span>
+              <span><svg viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>2024</span>
+            </div>
+          </div>
         </div>
-      </div>
+        <!--
+          ADD MORE VIDEOS: copy the block above, change data-vid to YouTube video ID,
+          update data-title, data-tag, data-meta, data-duration, data-vcat
+          Thumbnail loads automatically from YouTube using the video ID.
+        -->
 
-      <!-- PROJECT 8 — Dwarka Full Interior -->
-      <div class="ba-card" data-cat="residential">
-        <div class="ph cb8 photo-placeholder ba-before" style="height:290px">
-          Before Photo<span>Images/p8-before.jpg</span>
-        </div>
-        <div class="ph c8 photo-placeholder ba-after" style="height:290px">
-          After Photo<span>Images/p8-after.jpg</span>
-        </div>
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Residential</div>
-          <div class="ba-name">Dwarka Full Interior</div>
-          <div class="ba-meta">1,650 sq ft · 2023</div>
-        </div>
-      </div>
-
-      <!-- PROJECT 9 — Embassy Showroom -->
-      <div class="ba-card" data-cat="commercial">
-        <div class="ph cb9 photo-placeholder ba-before" style="height:370px">
-          Before Photo<span>Images/p9-before.jpg</span>
-        </div>
-        <div class="ph c9 photo-placeholder ba-after" style="height:370px">
-          After Photo<span>Images/p9-after.jpg</span>
-        </div>
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Commercial</div>
-          <div class="ba-name">Embassy Showroom</div>
-          <div class="ba-meta">2,400 sq ft · 2022</div>
-        </div>
-      </div>
-
-      <!-- PROJECT 10 — Saket Home Extension -->
-      <div class="ba-card" data-cat="residential">
-        <div class="ph cb10 photo-placeholder ba-before" style="height:260px">
-          Before Photo<span>Images/p10-before.jpg</span>
-        </div>
-        <div class="ph c10 photo-placeholder ba-after" style="height:260px">
-          After Photo<span>Images/p10-after.jpg</span>
-        </div>
-        <div class="ba-divider"><div class="ba-divider-btn"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg></div></div>
-        <div class="ba-overlay"></div>
-        <div class="ba-label ba-label-before">Before</div>
-        <div class="ba-label ba-label-after">After</div>
-        <div class="ba-hint"><svg viewBox="0 0 20 20"><path d="M6 10l-4-4 4-4v3h8V6l4 4-4 4v-3H6v3z"/></svg>Drag to reveal</div>
-        <div class="ba-info">
-          <div class="ba-tag">Residential</div>
-          <div class="ba-name">Saket Home Extension</div>
-          <div class="ba-meta">900 sq ft · 2023</div>
-        </div>
-      </div>
-
-    </div><!-- /portfolio-grid -->
+      </div><!-- /video-grid -->
+    </div><!-- /videoView -->
 
     <!-- CTA -->
     <div class="portfolio-cta reveal">
@@ -485,6 +495,33 @@
 
   </div>
 </section>
+
+<!-- VIDEO MODAL -->
+<div class="modal-backdrop" id="videoModal" onclick="handleBackdropClick(event)">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close video">
+      <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <div class="modal-video-wrap">
+      <iframe id="modalIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen title="Project video"></iframe>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-info">
+        <div class="modal-tag" id="modalTag">Residential</div>
+        <div class="modal-title" id="modalTitle">Project Title</div>
+        <div class="modal-meta" id="modalMeta">Details</div>
+      </div>
+      <div class="modal-nav">
+        <button class="modal-nav-btn" onclick="navModal(-1)" aria-label="Previous video">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </button>
+        <button class="modal-nav-btn" onclick="navModal(1)" aria-label="Next video">
+          <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
@@ -541,31 +578,40 @@
 </a>
 
 <script>
-  /* ── Navbar scroll ── */
+  /* Navbar scroll */
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
 
-  /* ── Mobile nav ── */
+  /* Mobile nav */
   document.getElementById('navToggle').addEventListener('click', () =>
     document.getElementById('navLinks').classList.toggle('open'));
 
-  /* ── Scroll reveal ── */
+  /* Scroll reveal */
   const revealObs = new IntersectionObserver(entries =>
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
     { threshold: 0.1 }
   );
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  /* ══════════════════════════════════════════════════════
-     BEFORE / AFTER DRAG MECHANIC — REVERSED
-     — BEFORE is shown by default (base layer)
-     — Dragging RIGHT reveals the AFTER photo on top
-     — Releasing snaps smoothly back to BEFORE
-  ══════════════════════════════════════════════════════ */
+  /* View toggle */
+  function switchView(view) {
+    const photoView = document.getElementById('photoView');
+    const videoView = document.getElementById('videoView');
+    const btnPhotos = document.getElementById('btnPhotos');
+    const btnVideos = document.getElementById('btnVideos');
+    if (view === 'photos') {
+      photoView.style.display = 'block'; videoView.style.display = 'none';
+      btnPhotos.classList.add('active'); btnVideos.classList.remove('active');
+    } else {
+      photoView.style.display = 'none'; videoView.style.display = 'block';
+      btnVideos.classList.add('active'); btnPhotos.classList.remove('active');
+    }
+  }
+
+  /* Before/After drag */
   document.querySelectorAll('.ba-card').forEach(card => {
-    // NOW targeting ba-after (the reveal layer)
-    const afterEl  = card.querySelector('.ba-after');
-    const divider  = card.querySelector('.ba-divider');
+    const afterEl = card.querySelector('.ba-after');
+    const divider = card.querySelector('.ba-divider');
     let active = false;
 
     function setReveal(clientX) {
@@ -574,64 +620,104 @@
       afterEl.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
       divider.style.left = pct + '%';
     }
-
     function startDrag(clientX) {
       active = true;
       afterEl.classList.remove('snap-back');
-      card.classList.add('dragging');
-      card.classList.add('has-interacted');
+      card.classList.add('dragging', 'has-interacted');
       setReveal(clientX);
     }
-
-    function moveDrag(clientX) {
-      if (!active) return;
-      setReveal(clientX);
-    }
-
+    function moveDrag(clientX) { if (!active) return; setReveal(clientX); }
     function endDrag() {
       if (!active) return;
       active = false;
       card.classList.remove('dragging');
-      /* snap back: hide After, return to Before */
       afterEl.classList.add('snap-back');
       afterEl.style.clipPath = 'inset(0 100% 0 0)';
       divider.style.left = '0%';
     }
-
-    /* Mouse events */
-    card.addEventListener('mousedown', e => {
-      e.preventDefault();
-      startDrag(e.clientX);
-    });
+    card.addEventListener('mousedown', e => { e.preventDefault(); startDrag(e.clientX); });
     window.addEventListener('mousemove', e => moveDrag(e.clientX));
     window.addEventListener('mouseup', endDrag);
     card.addEventListener('mouseleave', () => { if (active) endDrag(); });
-
-    /* Touch events */
-    card.addEventListener('touchstart', e => {
-      startDrag(e.touches[0].clientX);
-    }, { passive: true });
-    card.addEventListener('touchmove', e => {
-      moveDrag(e.touches[0].clientX);
-    }, { passive: true });
+    card.addEventListener('touchstart', e => { startDrag(e.touches[0].clientX); }, { passive: true });
+    card.addEventListener('touchmove', e => { moveDrag(e.touches[0].clientX); }, { passive: true });
     card.addEventListener('touchend', endDrag);
     card.addEventListener('touchcancel', endDrag);
   });
 
-  /* ── Filter ── */
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const portfolioItems = document.querySelectorAll('.ba-card');
-
-  filterBtns.forEach(btn => {
+  /* Photo filter */
+  document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter;
-      portfolioItems.forEach(item => {
-        const show = filter === 'all' || item.dataset.cat === filter;
-        item.style.display = show ? 'block' : 'none';
+      document.querySelectorAll('.ba-card').forEach(item => {
+        item.style.display = (filter === 'all' || item.dataset.cat === filter) ? 'block' : 'none';
       });
     });
+  });
+
+  /* Video filter */
+  document.querySelectorAll('.filter-btn[data-vfilter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn[data-vfilter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.vfilter;
+      document.querySelectorAll('.vid-card').forEach(item => {
+        item.style.display = (filter === 'all' || item.dataset.vcat === filter) ? 'block' : 'none';
+      });
+    });
+  });
+
+  /* Video modal */
+  let currentModalIndex = 0;
+  let visibleVideoCards = [];
+
+  function getVisibleVideoCards() {
+    return Array.from(document.querySelectorAll('.vid-card')).filter(c => c.style.display !== 'none');
+  }
+
+  function openModal(card) {
+    visibleVideoCards = getVisibleVideoCards();
+    currentModalIndex = visibleVideoCards.indexOf(card);
+    const iframe = document.getElementById('modalIframe');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/' + card.dataset.vid +
+      '?autoplay=1&rel=0&modestbranding=1&enablejsapi=1&playsinline=1';
+    document.getElementById('modalTitle').textContent = card.dataset.title;
+    document.getElementById('modalTag').textContent   = card.dataset.tag;
+    document.getElementById('modalMeta').textContent  = card.dataset.meta;
+    document.getElementById('videoModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('videoModal').classList.remove('open');
+    document.getElementById('modalIframe').src = '';
+    document.body.style.overflow = '';
+  }
+
+  function navModal(dir) {
+    visibleVideoCards = getVisibleVideoCards();
+    if (!visibleVideoCards.length) return;
+    currentModalIndex = (currentModalIndex + dir + visibleVideoCards.length) % visibleVideoCards.length;
+    const card = visibleVideoCards[currentModalIndex];
+    document.getElementById('modalIframe').src = 'https://www.youtube-nocookie.com/embed/' + card.dataset.vid +
+      '?autoplay=1&rel=0&modestbranding=1&enablejsapi=1&playsinline=1';
+    document.getElementById('modalTitle').textContent = card.dataset.title;
+    document.getElementById('modalTag').textContent   = card.dataset.tag;
+    document.getElementById('modalMeta').textContent  = card.dataset.meta;
+  }
+
+  function handleBackdropClick(e) {
+    if (e.target === document.getElementById('videoModal')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => {
+    const modal = document.getElementById('videoModal');
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape')     closeModal();
+    if (e.key === 'ArrowRight') navModal(1);
+    if (e.key === 'ArrowLeft')  navModal(-1);
   });
 </script>
 </body>
