@@ -31,7 +31,7 @@
   "name": "Brickwood Developers",
   "image": "https://www.brickwooddevelopers.in/Images/og-image.jpg",
   "url": "https://www.brickwooddevelopers.in/",
-  "telephone": "+919810107532",
+  "telephone": "09810107532",
   "email": "info@brickwooddevelopers.in",
   "priceRange": "₹₹",
   "address": {
@@ -88,14 +88,15 @@
   <link rel="apple-touch-icon" href="Images/fevicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/></noscript>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --gold: #C9A84C; --gold-light: #E8C97A; --gold-dim: rgba(201,168,76,0.15);
       --dark: #0D0D0D; --dark2: #141414; --dark3: #1C1C1C; --dark4: #252525;
-      --light: #F5F0E8; --muted: #8A8278; --white: #FFFFFF;
+      --light: #F5F0E8; --muted: #9E9690; --white: #FFFFFF;
       --radius: 4px; --transition: 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
     }
     html { scroll-behavior: smooth; }
@@ -409,7 +410,7 @@
   <div class="hero-bg"></div>
   <div class="hero-lines"></div>
   <div class="hero-image-wrap">
-    <img src="Images/herobanner.png" alt="Brickwood Developers — Premium Construction Delhi NCR" class="hero-img"/>
+    <img src="Images/herobanner.webp" alt="Brickwood Developers — Premium Construction Delhi NCR" class="hero-img"/>
     <div class="hero-image-fade"></div>
   </div>
   <div class="hero-geo"></div>
