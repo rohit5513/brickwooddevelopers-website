@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About Us | Brickwood Developers</title>
-  <meta name="description" content="Brickwood Developers — Delhi's trusted construction company since 2001. GST registered, Udyam certified, ESIC compliant."/>
+  <meta name="description" content="Brickwood Developers — formerly Sharma & Co. — Delhi's trusted construction company since 1998. GST registered, MSME application in progress, government contract experience since 1999."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap"/>
@@ -20,9 +20,11 @@
 
     nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5vw;height:72px;display:flex;align-items:center;justify-content:space-between;transition:background var(--transition)}
     nav.scrolled{background:rgba(13,13,13,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,0.15)}
-    .nav-logo{display:flex;flex-direction:column;line-height:1;text-decoration:none}
-    .nav-logo span:first-child{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white);letter-spacing:0.04em}
-    .nav-logo span:last-child{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+    .nav-logo{display:flex;align-items:center;text-decoration:none}
+    .nav-logo img{height:200px;width:auto;display:block;filter:brightness(1.05)}
+    @media (max-width:768px){.nav-logo img{height:150px}}
+    .footer-logo{display:block;width:fit-content;margin-bottom:16px;line-height:0;text-decoration:none}
+    .footer-logo img{display:block;height:40px!important;width:auto!important;max-width:200px;object-fit:contain}
     .nav-links{display:flex;gap:36px;list-style:none}
     .nav-links a{text-decoration:none;color:var(--muted);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;transition:color var(--transition);position:relative}
     .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--transition)}
@@ -45,7 +47,9 @@
     .section-tag{display:inline-block;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
     .page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,80px);font-weight:900;line-height:1;color:var(--white);margin-bottom:20px}
     .page-hero h1 em{font-style:italic;color:var(--gold)}
-    .page-hero p{font-size:17px;color:var(--muted);max-width:520px;line-height:1.7;font-weight:300}
+    .page-hero p{font-size:17px;color:var(--muted);max-width:560px;line-height:1.7;font-weight:300}
+    .rebrand-note{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:8px 16px;border:1px solid rgba(201,168,76,0.25);border-radius:100px;font-size:12px;color:var(--muted);background:var(--gold-dim)}
+    .rebrand-note strong{color:var(--gold);font-weight:600}
 
     /* STORY */
     .story-section{padding:100px 5vw;background:var(--dark)}
@@ -75,6 +79,7 @@
     .timeline-year{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
     .timeline-item h4{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:6px}
     .timeline-item p{font-size:14px;color:var(--muted);line-height:1.65}
+    .timeline-item .ref{font-size:12px;color:rgba(201,168,76,0.75);font-style:italic;margin-top:6px}
 
     /* WHY CHOOSE US */
     .why-section{padding:100px 5vw;background:var(--dark)}
@@ -97,11 +102,18 @@
     .clients-inner h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,38px);font-weight:700;color:var(--white);margin-bottom:12px}
     .clients-inner h2 em{font-style:italic;color:var(--gold)}
     .clients-sub{font-size:14px;color:var(--muted);margin-bottom:48px}
-    .clients-logos{display:flex;justify-content:center;gap:60px;flex-wrap:wrap;align-items:center;margin-bottom:60px}
-    .client-logo-box{background:var(--dark3);border:1px solid rgba(201,168,76,0.15);padding:28px 40px;border-radius:var(--radius);transition:border-color var(--transition),background var(--transition)}
-    .client-logo-box:hover{border-color:rgba(201,168,76,0.4);background:var(--dark4)}
-    .client-logo-box span{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:rgba(245,240,232,0.5);letter-spacing:0.08em;text-transform:uppercase;transition:color var(--transition)}
-    .client-logo-box:hover span{color:var(--gold)}
+    .clients-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;text-align:left;margin-bottom:60px}
+    .client-card{background:var(--dark3);border:1px solid rgba(201,168,76,0.1);padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:border-color var(--transition),background var(--transition),transform var(--transition);position:relative;overflow:hidden;min-height:150px}
+    .client-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform var(--transition)}
+    .client-card:hover{border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.04);transform:translateY(-3px)}
+    .client-card:hover::after{transform:scaleX(1)}
+    .client-logo-img{max-width:130px;max-height:56px;width:auto;height:auto;object-fit:contain;filter:grayscale(100%) brightness(1.8) contrast(0.8);opacity:0.55;transition:filter var(--transition),opacity var(--transition);display:block}
+    .client-card:hover .client-logo-img{filter:grayscale(0%) brightness(1) contrast(1);opacity:1}
+    .client-logo-text{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:rgba(245,240,232,0.45);letter-spacing:0.08em;text-transform:uppercase;text-align:center;transition:color var(--transition)}
+    .client-card:hover .client-logo-text{color:var(--gold)}
+    .client-type{font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:center}
+    .client-card:hover .client-type{color:var(--light)}
+    @media(max-width:768px){.clients-grid{grid-template-columns:repeat(2,1fr)}}
 
     /* CREDENTIALS */
     .creds-section{padding:80px 5vw;background:var(--dark);border-top:1px solid rgba(201,168,76,0.12)}
@@ -115,6 +127,7 @@
     .cred-icon{width:44px;height:44px;background:var(--gold-dim);border:1px solid rgba(201,168,76,0.3);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold)}
     .cred-card h4{font-size:14px;font-weight:500;color:var(--white);margin-bottom:4px}
     .cred-card p{font-size:13px;color:var(--muted);line-height:1.5}
+    .cred-status{display:inline-block;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-top:6px;padding:2px 8px;border:1px solid rgba(201,168,76,0.3);border-radius:100px}
 
     /* CTA */
     .cta-banner{background:var(--dark2);padding:80px 5vw;border-top:1px solid rgba(201,168,76,0.12)}
@@ -167,7 +180,9 @@
 <body>
 
 <nav id="navbar">
-  <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
+  <a href="index.html" class="nav-logo" aria-label="Brickwood Developers - Home">
+    <img src="Images/5.png" alt="Brickwood Developers Logo"/>
+  </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html">Home</a></li>
     <li><a href="services.html">Services</a></li>
@@ -185,7 +200,8 @@
     <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>About Us</div>
     <span class="section-tag">Our Story</span>
     <h1>25+ Years of <em>Building Trust</em></h1>
-    <p>From a single renovation contract in 2001 to 500+ projects across Delhi NCR the story of Brickwood is a story of craftsmanship, honesty, and relentless quality.</p>
+    <p>From a single civil contracting firm in 1998 to Brickwood Developers today 500+ projects across Delhi NCR, including embassies, central government departments, and marquee private clients the story is one of craftsmanship, honesty, and relentless quality.</p>
+    <div class="rebrand-note">Formerly <strong>Sharma &amp; Co.</strong>renamed to Brickwood Developers in June 2026</div>
   </div>
 </div>
 
@@ -195,19 +211,17 @@
     <div class="story-content reveal">
       <span class="section-tag">Who We Are</span>
       <h2>Built on <em>Brick</em>, Grounded in <em>Trust</em></h2>
-      <p>Brickwood Developers was founded in 2001 with one simple belief that every family deserves a home built with the same care and precision as any landmark building. Starting with small flat renovations in South Delhi, we grew project by project, reputation by reputation.</p>
-      <p>By 2009 we were GST registered and Udyam certified t not because it was mandatory, but because we wanted every client, from homeowners to government bodies, to know they were working with a fully accountable partner.</p>
-      <p>Today, our 70+ member team has delivered everything from 300 sq ft studio renovations to 15,000 sq ft government facilities all to the same uncompromising standard.</p>
+      <p>The company was founded in 1998 as Sharma &amp; Co., a civil contracting firm based in Vasant Kunj, South Delhi. Our earliest documented work includes finishing contracts marble, granite and Kota flooring, plastering, painting, and false ceiling on the Ashoka Hotel in Chanakyapuri, certified by Ahluwalia Contracts (India) Limited in January 1998.</p>
+      <p>Within a year we were engaged directly by the Royal Bhutanese Embassy for a full renovation of Officers' Bungalows No. 1 to 5 in Chanakyapuri (1999), followed by a commercial building project in Noida in 2001, certified by AMCON Engineers Pvt. Ltd. By 2004, we were executing Government of India contracts directly a Public Works Department (P.W.D. II) work order for flat numbering across East Zone colonies, and works for the Directorate General of Lighthouses &amp; Lightships under the Ministry of Shipping.</p>
+      <p>In June 2026, we formally renamed the company to Brickwood Developers, consolidating over two decades of institutional and government contracting experience under one identity. That same year, we applied for MSME (Udyam) registration and obtained a Digital Signature Certificate (DSC) to participate directly in government e-tendering.</p>
     </div>
     <div class="story-visual reveal reveal-delay-2">
       <div class="founder-card">
-        <div class="founder-photo">F</div>
+        <div class="founder-photo">H</div>
         <h3>Harendra Sharma</h3>
-        <div class="founder-title">Founder & Managing Director</div>
-        <p>Harendra Sharma founded Brickwood Developers with a vision to deliver not just structures, but long lasting value, backed by strong hands-on experience in construction and renovation.
-          His practical expertise has built a deep understanding of quality, timelines, and client expectations.
-          He is focused on creating a complete property solutions company built on trust, transparency, and consistent delivery.</p>
-        <div class="founder-quote">"For me, every project is more than just construction it’s about building trust that lasts longer than the structure itself."</div>
+        <div class="founder-title">Founder &amp; Managing Director</div>
+        <p>Harendra Sharma founded the company in 1998 with a vision to deliver not just structures, but long lasting value, backed by strong hands-on experience in construction and renovation. His practical expertise has built a deep understanding of quality, timelines, and client expectations from embassy renovations to government infrastructure work. He is focused on creating a complete property solutions company built on trust, transparency, and consistent delivery.</p>
+        <div class="founder-quote">"For me, every project is more than just construction it's about building trust that lasts longer than the structure itself."</div>
       </div>
     </div>
   </div>
@@ -218,38 +232,60 @@
   <div class="timeline-inner">
     <div class="timeline-header reveal">
       <span class="section-tag">Milestones</span>
-      <h2>Two Decades of <em>Progress</em></h2>
+      <h2>Nearly Three Decades of <em>Progress</em></h2>
     </div>
     <div class="timeline reveal">
       <div class="timeline-item">
-        <div class="timeline-year">2001</div>
+        <div class="timeline-year">1998</div>
         <h4>Founded in South Delhi</h4>
         <p>Started with residential flat renovations, building reputation through word-of-mouth in local colonies.</p>
       </div>
       <div class="timeline-item">
-        <div class="timeline-year">2005</div>
-        <h4>First Commercial Contract</h4>
-        <p>Completed our first office renovation a 2,000 sq ft fit-out in Nehru Place. Expanded the team to 12 members.</p>
+        <div class="timeline-year">1998</div>
+        <h4>The Ashoka Hotel, Chanakyapuri Contract</h4>
+        <p>Established in Vasant Kunj, South Delhi. Completed our first commercial project of the Ashoka Hotel, Chanakyapuri.</p>
+        <div class="ref">Certified by Ahluwalia Contracts (India) Limited, Jan 1998</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1999</div>
+        <h4>Royal Bhutanese Embassy Contract</h4>
+        <p>Awarded a direct renovation contract for Officers' Bungalows of the Royal Bhutanese Embassy, Chanakyapuri, New Delhi.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2001</div>
+        <h4>Noida Commercial Project</h4>
+        <p>Completed civil finishing works on a commercial building project in Noida.</p>
+        <div class="ref">Certified by AMCON Engineers Pvt. Ltd., March 2001</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2004</div>
+        <h4>First Central Government Contracts</h4>
+        <p>Executed a P.W.D. (Public Works Department) work order for flat numbering across East Zone colonies, and carried out works for the Directorate General of Lighthouses &amp; Lightships under the Ministry of Shipping, Noida.</p>
       </div>
       <div class="timeline-item">
         <div class="timeline-year">2009</div>
-        <h4>GST Registration & Formal Compliance</h4>
-        <p>Registered under GST, obtained Udyam and ESIC certification. First government contract awarded by DDA.</p>
+        <h4>Formal Compliance</h4>
+        <p>Registered for compliance documentation, strengthening accountability for institutional and government clients.</p>
       </div>
       <div class="timeline-item">
-        <div class="timeline-year">2014</div>
-        <h4>Embassy & HUL Partnerships</h4>
-        <p>Onboarded Embassy Group and Hindustan Unilever as long term maintenance and renovation clients.</p>
+        <div class="timeline-year">2010s</div>
+        <h4>Growing Institutional Relationships</h4>
+        <p>Expanded our client base to include maintenance and renovation work for Hindustan Unilever and the Delhi Development Authority.</p>
       </div>
       <div class="timeline-item">
         <div class="timeline-year">2019</div>
-        <h4>5th Government Project</h4>
-        <p>Completed the DND Flyway maintenance office our 5th government project with a team of 40+ skilled professionals.</p>
+        <h4>DND Flyway</h4>
+        <p>Added infrastructure maintenance work for the DND Flyway to our growing government and institutional portfolio.</p>
       </div>
       <div class="timeline-item">
         <div class="timeline-year">2024</div>
-        <h4>500+ Projects & Counting</h4>
+        <h4>500+ Projects &amp; Counting</h4>
         <p>Crossed 500 delivered projects. Launched AMC plans and rental management services to extend our value beyond construction.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2026</div>
+        <h4>Renamed to Brickwood Developers</h4>
+        <p>Formally renamed from Sharma &amp; Co. to Brickwood Developers in June 2026. Applied for MSME (Udyam) registration and obtained a Digital Signature Certificate (DSC) for direct participation in government e-tendering.</p>
       </div>
     </div>
   </div>
@@ -266,7 +302,7 @@
       <div class="why-card reveal">
         <svg class="why-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
         <h3>25+ Years of Experience</h3>
-        <p>No shortcuts, no guesswork. Two decades of hands on Delhi NCR construction means we've seen every problem and know how to solve it.</p>
+        <p>No shortcuts, no guesswork. Nearly three decades of hands on Delhi NCR construction means we've seen every problem and know how to solve it.</p>
       </div>
       <div class="why-card reveal reveal-delay-1">
         <svg class="why-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -286,7 +322,7 @@
       <div class="why-card reveal reveal-delay-1">
         <svg class="why-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
         <h3>Government Grade Standards</h3>
-        <p>We've built for DDA and DND Flyway. The same materials, processes, and quality checks are applied to every residential project.</p>
+        <p>We've built for the PWD, the Ministry of Shipping, and the DND Flyway. The same materials, processes, and quality checks are applied to every residential project.</p>
       </div>
       <div class="why-card reveal reveal-delay-2">
         <svg class="why-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
@@ -303,13 +339,38 @@
     <div class="reveal">
       <span class="section-tag">Prestigious Clients</span>
       <h2>Trusted by <em>Delhi's Best</em></h2>
-      <p class="clients-sub">From India's largest FMCG company to government infrastructure our client list speaks for itself.</p>
+      <p class="clients-sub">From India's largest FMCG company to central government departments our client list speaks for itself.</p>
     </div>
-    <div class="clients-logos reveal">
-      <div class="client-logo-box"><span>Bhutan Embassy</span></div>
-      <div class="client-logo-box"><span>HUL</span></div>
-      <div class="client-logo-box"><span>DDA</span></div>
-      <div class="client-logo-box"><span>DND Flyway</span></div>
+    <div class="clients-grid reveal">
+      <div class="client-card">
+        <img src="Images/Bhutan.webp" alt="Embassy of Bhutan" class="client-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+        <div class="client-logo-text" style="display:none;">Embassy</div>
+        <div class="client-type">Embassy of Bhutan · Since 1999</div>
+      </div>
+      <div class="client-card">
+        <img src="Images/HUL.webp" alt="Hindustan Unilever Limited" class="client-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+        <div class="client-logo-text" style="display:none;">HUL</div>
+        <div class="client-type">Hindustan Unilever Limited</div>
+      </div>
+      <div class="client-card">
+        <img src="Images/DDA.webp" alt="Delhi Development Authority" class="client-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+        <div class="client-logo-text" style="display:none;">DDA</div>
+        <div class="client-type">Delhi Development Authority</div>
+      </div>
+      <div class="client-card">
+        <img src="Images/logo-dnd.png" alt="DND Flyway" class="client-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+        <div class="client-logo-text" style="display:none;">DND Flyway</div>
+        <div class="client-type">Infrastructure</div>
+      </div>
+      <div class="client-card">
+        <img src="Images/pwd_logo-color.svg" alt="Public Works Department (PWD)" class="client-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+        <div class="client-logo-text" style="display:none;">PWD</div>
+        <div class="client-type">Public Works Dept., Govt. of India</div>
+      </div>
+      <div class="client-card">
+        <div class="client-logo-text" style="display:block;">Ministry of Shipping</div>
+        <div class="client-type">Directorate of Lighthouses &amp; Lightships</div>
+      </div>
     </div>
   </div>
 </section>
@@ -318,7 +379,7 @@
 <section class="creds-section">
   <div class="creds-inner">
     <div class="creds-header reveal">
-      <span class="section-tag">Verified & Compliant</span>
+      <span class="section-tag">Verified &amp; Compliant</span>
       <h2>Our <em>Credentials</em></h2>
     </div>
     <div class="creds-grid">
@@ -328,7 +389,7 @@
         </div>
         <div>
           <h4>GST Registered</h4>
-          <p>Goods & Services Tax compliant since 2009. Valid GST invoice provided for all projects.</p>
+          <p>Goods &amp; Services Tax compliant since 2009. Valid GST invoice provided for all projects.</p>
         </div>
       </div>
       <div class="cred-card reveal reveal-delay-1">
@@ -336,21 +397,20 @@
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"/></svg>
         </div>
         <div>
-          <h4>Udyam Certified</h4>
-          <p>Registered MSME under the Udyam portal. Eligible for government contracts and MSME benefits.</p>
+          <h4>MSME (Udyam) Registration</h4>
+          <p>Applied for MSME registration under the Udyam portal in 2026, to qualify for government contract benefits.</p>
+          <span class="cred-status">Application in progress</span>
         </div>
       </div>
-      <!-- ---------------------ESIC Compliant 
       <div class="cred-card reveal reveal-delay-2">
         <div class="cred-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7 8h10M7 12h4m1 9l-7-4V7l7-4 7 4v10l-7 4z"/></svg>
         </div>
         <div>
-          <h4>ESIC Compliant</h4>
-          <p>Employee State Insurance Corporation registered. All our workers are insured and legally protected.</p>
+          <h4>Digital Signature Certificate</h4>
+          <p>Obtained a Digital Signature Certificate (DSC) in 2026 for secure participation in government e-tendering and contracts.</p>
         </div>
       </div>
-     ------------------------->
     </div>
   </div>
 </section>
@@ -373,8 +433,10 @@
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="index.html" class="nav-logo"><span>Brickwood</span><span>Developers</span></a>
-        <p>Building Delhi NCR's finest homes, offices, and spaces since 2001. GST Registered · Udyam Certified.</p>
+        <a href="index.html" class="footer-logo" aria-label="Brickwood Developers">
+          <img src="Images/5_cropped.png" alt="Brickwood Developers"/>
+        </a>
+        <p>Building Delhi NCR's finest homes, offices, and spaces since 1998 (formerly Sharma &amp; Co.).</p>
       </div>
       <div class="footer-col">
         <h4>Quick Links</h4>
