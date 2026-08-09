@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Brand Guidelines — Brickwood Developers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700;1,900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9A84C;--gold-light:#E8C97A;--gold-dark:#A07830;
+  --gold-10:rgba(201,168,76,0.10);--gold-20:rgba(201,168,76,0.20);
+  --dark:#0D0D0D;--dark2:#141414;--dark3:#1C1C1C;--dark4:#252525;--dark5:#2E2E2E;
+  --light:#F5F0E8;--muted:#8A8278;--white:#FFFFFF;
+  --green:#34C759;--red:#EF4444;--blue:#3B82F6;
+  --r:4px;--t:0.32s cubic-bezier(.25,.46,.45,.94);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--light);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* NOISE */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:1}
+
+/* ── LAYOUT ── */
+.shell{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:260px;background:var(--dark2);border-right:1px solid rgba(201,168,76,0.12);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;padding:0 0 32px;flex-shrink:0}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar-logo{padding:28px 24px 20px;border-bottom:1px solid rgba(201,168,76,0.1)}
+.sidebar-logo-mark{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:var(--white);letter-spacing:0.03em;display:block}
+.sidebar-logo-sub{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);display:block;margin-top:2px}
+.sidebar-doc-label{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:20px 24px 8px;display:block}
+.sidebar-nav{list-style:none}
+.sidebar-nav>li{border-bottom:1px solid rgba(245,240,232,0.04)}
+.sidebar-nav a{display:flex;align-items:center;gap:10px;padding:11px 24px;text-decoration:none;font-size:12px;letter-spacing:0.06em;color:var(--muted);transition:all var(--t);position:relative}
+.sidebar-nav a:hover{color:var(--light);background:rgba(201,168,76,0.04)}
+.sidebar-nav a.active{color:var(--gold);background:rgba(201,168,76,0.07)}
+.sidebar-nav a.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold)}
+.sidebar-nav .nav-num{font-size:9px;color:rgba(201,168,76,0.4);font-family:'DM Mono',monospace;min-width:20px}
+.sidebar-nav .nav-label{font-size:12px;letter-spacing:0.04em}
+.sidebar-version{padding:16px 24px 0;font-size:10px;color:rgba(138,130,120,0.4);letter-spacing:0.1em}
+
+/* ── MAIN ── */
+.main{margin-left:260px;flex:1;min-width:0}
+
+/* ── HERO ── */
+.brand-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:80px 72px;position:relative;overflow:hidden;border-bottom:1px solid rgba(201,168,76,0.15)}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0A0A08 0%,#0D0D0D 50%,#0A0C10 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom right,rgba(0,0,0,0.7),transparent 70%)}
+.hero-geo{position:absolute;top:0;right:0;width:60%;height:100%;background:linear-gradient(135deg,transparent,rgba(201,168,76,0.03));clip-path:polygon(25% 0%,100% 0%,100% 100%,0% 100%)}
+.hero-circle{position:absolute;top:15%;right:12%;width:320px;height:320px;border:1px solid rgba(201,168,76,0.08);border-radius:50%;animation:heroSpin 30s linear infinite}
+.hero-circle2{position:absolute;top:20%;right:17%;width:200px;height:200px;border:1px solid rgba(201,168,76,0.12);border-radius:50%;animation:heroSpin 20s linear infinite reverse}
+@keyframes heroSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.hero-content{position:relative;z-index:2;max-width:700px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);padding:6px 16px;border-radius:100px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
+.hero-badge::before{content:'';width:5px;height:5px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(48px,7vw,96px);font-weight:900;line-height:.95;letter-spacing:-.02em;color:var(--white);margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--gold);display:block}
+.hero-desc{font-size:15px;color:var(--muted);max-width:480px;line-height:1.75;margin-bottom:40px;font-weight:300}
+.hero-meta{display:flex;gap:32px;flex-wrap:wrap}
+.hero-meta-item{display:flex;flex-direction:column;gap:3px}
+.hero-meta-item span:first-child{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold)}
+.hero-meta-item span:last-child{font-size:13px;color:var(--light)}
+
+/* ── SECTIONS ── */
+.section{padding:80px 72px;border-bottom:1px solid rgba(245,240,232,0.06);position:relative}
+.section:last-child{border-bottom:none}
+.section-tag{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,46px);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:16px}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-desc{font-size:15px;color:var(--muted);max-width:600px;line-height:1.8;margin-bottom:48px;font-weight:300}
+.section-num{position:absolute;top:72px;right:72px;font-family:'Playfair Display',serif;font-size:120px;font-weight:900;color:rgba(201,168,76,0.04);line-height:1;pointer-events:none;user-select:none}
+
+/* ── DIVIDER ── */
+.gold-line{height:1px;background:linear-gradient(90deg,var(--gold),rgba(201,168,76,.1));margin:48px 0}
+.sub-head{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;margin-top:40px;display:block}
+
+/* ── LOGO ── */
+.logo-showcase{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:32px}
+.logo-box{padding:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;overflow:hidden;min-height:180px}
+.logo-box.dark-bg{background:var(--dark3)}
+.logo-box.light-bg{background:var(--light)}
+.logo-box.gold-bg{background:var(--gold)}
+.logo-box.mid-bg{background:#1E1E1E}
+.logo-box .label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;position:absolute;bottom:14px;left:0;right:0;text-align:center}
+.logo-box.dark-bg .label,.logo-box.mid-bg .label{color:var(--muted)}
+.logo-box.light-bg .label{color:rgba(13,13,13,0.4)}
+.logo-box.gold-bg .label{color:rgba(13,13,13,0.5)}
+
+/* rendered logo */
+.logo-render{display:flex;flex-direction:column;line-height:1;text-align:center}
+.logo-render .logo-main{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;letter-spacing:0.04em}
+.logo-render .logo-sub{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;margin-top:4px}
+.logo-render.on-dark .logo-main{color:var(--white)}
+.logo-render.on-dark .logo-sub{color:var(--gold)}
+.logo-render.on-light .logo-main{color:#0D0D0D}
+.logo-render.on-light .logo-sub{color:var(--gold-dark)}
+.logo-render.on-gold .logo-main{color:#0D0D0D}
+.logo-render.on-gold .logo-sub{color:rgba(13,13,13,0.6)}
+.logo-render.reversed .logo-main{color:var(--gold)}
+.logo-render.reversed .logo-sub{color:var(--muted)}
+
+/* clearspace */
+.clearspace-demo{background:var(--dark3);padding:40px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative}
+.clearspace-inner{position:relative;display:inline-block}
+.clearspace-box{position:absolute;inset:-24px;border:1px dashed rgba(201,168,76,0.3)}
+.clearspace-dim{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--gold);letter-spacing:0.1em;white-space:nowrap}
+
+/* ── COLOUR ── */
+.colour-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+.colour-card{border-radius:var(--r);overflow:hidden;background:var(--dark3);border:1px solid rgba(245,240,232,0.06)}
+.colour-swatch{height:100px;width:100%}
+.colour-info{padding:14px 16px}
+.colour-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px}
+.colour-hex{font-size:11px;font-family:'DM Mono',monospace;color:var(--gold);margin-bottom:2px}
+.colour-rgb{font-size:10px;color:var(--muted)}
+.colour-role{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(138,130,120,0.6);margin-top:4px}
+
+.palette-extended{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:32px}
+.swatch-mini{border-radius:var(--r);overflow:hidden}
+.swatch-mini-color{height:64px}
+.swatch-mini-label{background:var(--dark3);padding:8px;font-size:9px;font-family:'DM Mono',monospace;color:var(--muted)}
+
+/* colour usage */
+.colour-do-dont{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.do-card,.dont-card{border-radius:var(--r);overflow:hidden;background:var(--dark3)}
+.do-card{border:1px solid rgba(52,199,89,0.2)}
+.dont-card{border:1px solid rgba(239,68,68,0.2)}
+.do-card-head,.dont-card-head{padding:10px 16px;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600}
+.do-card-head{background:rgba(52,199,89,0.08);color:var(--green)}
+.dont-card-head{background:rgba(239,68,68,0.08);color:var(--red)}
+.do-card-body,.dont-card-body{padding:16px}
+
+/* ── TYPOGRAPHY ── */
+.type-specimen{margin-bottom:40px}
+.type-row{padding:28px 0;border-bottom:1px solid rgba(245,240,232,0.06);display:flex;align-items:baseline;gap:24px;flex-wrap:wrap}
+.type-row:last-child{border-bottom:none}
+.type-meta{min-width:180px;flex-shrink:0}
+.type-meta-name{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px}
+.type-meta-detail{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.5}
+.type-sample{flex:1;min-width:200px}
+
+.type-scale{display:flex;flex-direction:column;gap:0}
+.ts-row{display:grid;grid-template-columns:100px 1fr 120px;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid rgba(245,240,232,0.05)}
+.ts-row:last-child{border-bottom:none}
+.ts-name{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);font-family:'DM Mono',monospace}
+.ts-spec{font-size:10px;color:rgba(138,130,120,0.5);font-family:'DM Mono',monospace;text-align:right}
+
+/* font pairings */
+.pairing-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.pairing-card{background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:28px;position:relative;overflow:hidden}
+.pairing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.pairing-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:block}
+
+/* ── SPACING ── */
+.spacing-scale{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.space-row{display:flex;align-items:center;gap:20px}
+.space-visual{background:var(--gold);border-radius:2px;flex-shrink:0;height:16px}
+.space-name{font-size:11px;font-family:'DM Mono',monospace;color:var(--gold);min-width:60px}
+.space-val{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace}
+.space-use{font-size:11px;color:rgba(138,130,120,0.6);margin-left:auto}
+
+.grid-demo{background:var(--dark3);padding:32px;border-radius:var(--r);margin-bottom:24px;border:1px solid rgba(245,240,232,0.07)}
+.grid-cols{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:12px}
+.grid-col-unit{height:32px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:2px}
+
+/* ── COMPONENTS ── */
+.comp-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:24px;padding:28px;background:var(--dark3);border-radius:var(--r);border:1px solid rgba(245,240,232,0.07)}
+.comp-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+
+/* button specimens */
+.btn-spec-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--dark);padding:14px 28px;border-radius:var(--r);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;font-family:'DM Sans',sans-serif;cursor:default}
+.btn-spec-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--light);border:1px solid rgba(245,240,232,0.2);padding:14px 28px;border-radius:var(--r);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:default}
+.btn-spec-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:14px 28px;border-radius:var(--r);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:default}
+.btn-spec-sm{padding:9px 18px;font-size:11px}
+.btn-spec-lg{padding:18px 36px;font-size:15px}
+.btn-disabled{opacity:0.4;cursor:not-allowed}
+.btn-danger{background:rgba(239,68,68,0.15);color:var(--red);border:1px solid rgba(239,68,68,0.3)}
+
+/* card specimens */
+.card-spec{background:var(--dark2);border:1px solid rgba(201,168,76,0.12);padding:28px;border-radius:var(--r);max-width:280px;position:relative;overflow:hidden}
+.card-spec::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.card-spec-icon{width:40px;height:40px;background:rgba(201,168,76,0.1);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--gold);margin-bottom:16px;font-size:18px}
+.card-spec h4{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:8px}
+.card-spec p{font-size:13px;color:var(--muted);line-height:1.65}
+
+/* nav specimen */
+.nav-spec{background:rgba(13,13,13,0.92);backdrop-filter:blur(16px);border:1px solid rgba(201,168,76,0.15);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;border-radius:var(--r);margin-bottom:16px}
+.nav-spec-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--white)}
+.nav-spec-links{display:flex;gap:28px}
+.nav-spec-link{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.nav-spec-link.active-link{color:var(--gold)}
+
+/* badge / tag specimens */
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.badge{padding:4px 12px;border-radius:100px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600}
+.badge-gold{background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.25)}
+.badge-green{background:rgba(52,199,89,0.1);color:var(--green);border:1px solid rgba(52,199,89,0.25)}
+.badge-red{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.25)}
+.badge-muted{background:rgba(138,130,120,0.1);color:var(--muted);border:1px solid rgba(138,130,120,0.2)}
+.badge-outline{background:transparent;color:var(--light);border:1px solid rgba(245,240,232,0.2)}
+
+/* form specimens */
+.input-spec{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;max-width:320px}
+.input-spec label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.input-default{background:var(--dark3);border:1px solid rgba(245,240,232,0.08);border-radius:var(--r);color:var(--light);font-family:'DM Sans',sans-serif;font-size:14px;padding:12px 16px;width:100%;outline:none}
+.input-focus{background:var(--dark4);border:1px solid rgba(201,168,76,0.5);box-shadow:0 0 0 3px rgba(201,168,76,0.08)}
+.input-error{border:1px solid rgba(239,68,68,0.5);box-shadow:0 0 0 3px rgba(239,68,68,0.07)}
+.input-error-msg{font-size:11px;color:var(--red)}
+
+/* stat card specimen */
+.stat-spec{background:var(--dark2);border-top:1px solid rgba(245,240,232,0.06);border-bottom:1px solid rgba(245,240,232,0.06);padding:28px;text-align:center;min-width:120px}
+.stat-spec-num{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:var(--gold);line-height:1;display:block}
+.stat-spec-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block}
+
+/* ── ICONOGRAPHY ── */
+.icon-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-bottom:24px}
+.icon-cell{background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:16px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.icon-cell svg{width:22px;height:22px;color:var(--gold)}
+.icon-cell span{font-size:9px;color:var(--muted);letter-spacing:0.06em}
+
+/* ── PHOTOGRAPHY ── */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px}
+.photo-thumb{border-radius:var(--r);overflow:hidden;aspect-ratio:4/3;position:relative;background:var(--dark3);display:flex;align-items:center;justify-content:center;border:1px solid rgba(245,240,232,0.07)}
+.photo-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-align:center}
+.photo-overlay-demo{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);padding:14px;font-size:11px;color:var(--white)}
+
+/* ── VOICE ── */
+.voice-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.voice-card{background:var(--dark3);border-radius:var(--r);padding:24px;border:1px solid}
+.voice-card.do-voice{border-color:rgba(52,199,89,0.2)}
+.voice-card.dont-voice{border-color:rgba(239,68,68,0.15)}
+.voice-card-head{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+.do-voice .voice-card-head{color:var(--green)}
+.dont-voice .voice-card-head{color:var(--red)}
+.voice-card p{font-size:14px;line-height:1.75;color:var(--muted)}
+.voice-card p strong{color:var(--light)}
+
+.personality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:32px}
+.trait-card{background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:20px}
+.trait-card h4{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px}
+.trait-card p{font-size:12px;color:var(--muted);line-height:1.65}
+.trait-not{font-size:10px;color:rgba(239,68,68,0.6);margin-top:8px;letter-spacing:0.08em}
+
+/* ── SOCIAL ── */
+.social-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:32px}
+.social-card{background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);overflow:hidden}
+.social-mockup{padding:20px;min-height:140px;display:flex;align-items:center;justify-content:center;position:relative}
+.social-meta{padding:14px 16px;border-top:1px solid rgba(245,240,232,0.06)}
+.social-platform{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.social-spec{font-size:11px;color:var(--muted)}
+
+/* insta post mock */
+.insta-mock{width:200px;height:200px;background:var(--dark2);border:1px solid rgba(201,168,76,0.2);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden}
+.insta-mock::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light))}
+.insta-text{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:var(--white);text-align:center;line-height:1.3}
+.insta-sub{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold)}
+
+/* ── STATIONERY ── */
+.stationery-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.stationery-card{background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:24px}
+.stationery-card h4{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+
+/* business card mock */
+.bc-front,.bc-back{width:100%;aspect-ratio:1.75/1;border-radius:var(--r);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;position:relative;overflow:hidden;margin-bottom:8px}
+.bc-front{background:var(--dark);border:1px solid rgba(201,168,76,0.2)}
+.bc-front::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light),transparent)}
+.bc-back{background:var(--gold)}
+.bc-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--white)}
+.bc-title{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+.bc-contact{font-size:9px;color:var(--muted);margin-top:8px;line-height:1.5}
+.bc-brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:var(--dark);text-align:center;width:100%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.bc-brand-sub{font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(13,13,13,0.55);text-align:center;position:absolute;top:58%;left:50%;transform:translate(-50%,-50%)}
+
+/* letterhead mock */
+.letterhead-mock{background:var(--white);border-radius:var(--r);padding:24px;color:#0D0D0D;font-family:'DM Sans',sans-serif;font-size:11px;min-height:200px;position:relative;overflow:hidden}
+.lh-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;padding-bottom:14px;border-bottom:2px solid var(--gold-dark)}
+.lh-brand{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;color:#0D0D0D}
+.lh-brand-sub{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-dark)}
+.lh-contact{font-size:9px;color:#555;text-align:right;line-height:1.5}
+.lh-body{font-size:9px;color:#333;line-height:1.6}
+.lh-footer{position:absolute;bottom:0;left:0;right:0;background:#0D0D0D;padding:8px 24px;font-size:8px;color:var(--gold);letter-spacing:0.12em;text-align:center}
+
+/* ── DIGITAL ── */
+.digital-rules{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:32px}
+.rule-card{background:var(--dark3);border-radius:var(--r);border:1px solid rgba(245,240,232,0.07);padding:22px}
+.rule-card h4{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--white);margin-bottom:8px}
+.rule-card p{font-size:13px;color:var(--muted);line-height:1.65}
+.rule-card ul{list-style:none;margin-top:10px}
+.rule-card ul li{font-size:12px;color:var(--muted);padding:5px 0;padding-left:16px;position:relative;border-bottom:1px solid rgba(245,240,232,0.04)}
+.rule-card ul li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:11px}
+.rule-card ul li:last-child{border-bottom:none}
+
+/* ── MISUSE ── */
+.misuse-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
+.misuse-card{background:var(--dark3);border:1px solid rgba(239,68,68,0.2);border-radius:var(--r);overflow:hidden}
+.misuse-visual{padding:24px;display:flex;align-items:center;justify-content:center;min-height:100px;position:relative;background:var(--dark2)}
+.misuse-card-label{padding:10px 14px;background:rgba(239,68,68,0.07);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);border-top:1px solid rgba(239,68,68,0.15)}
+.misuse-x{position:absolute;top:8px;right:8px;width:22px;height:22px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700}
+
+/* ── TABLE ── */
+.spec-table{width:100%;border-collapse:collapse;margin-bottom:24px;font-size:13px}
+.spec-table th{padding:12px 16px;text-align:left;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.2)}
+.spec-table td{padding:12px 16px;border-bottom:1px solid rgba(245,240,232,0.05);color:var(--muted);vertical-align:top}
+.spec-table td:first-child{color:var(--light);font-weight:500}
+.spec-table tr:hover td{background:rgba(201,168,76,0.02)}
+.spec-table code{font-family:'DM Mono',monospace;font-size:11px;background:rgba(201,168,76,0.08);color:var(--gold);padding:2px 6px;border-radius:3px}
+
+/* ── CODE ── */
+.code-block{background:var(--dark2);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:20px 24px;margin-bottom:16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);overflow-x:auto;line-height:1.7}
+.code-block .key{color:var(--gold)}
+.code-block .val{color:var(--green)}
+.code-block .comment{color:rgba(138,130,120,0.45)}
+
+/* ── PRINT ── */
+@media print{
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .section{break-inside:avoid}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .sidebar{width:220px}
+  .main{margin-left:220px}
+  .section,.brand-hero{padding:60px 40px}
+  .colour-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%);transition:transform var(--t)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .section,.brand-hero{padding:48px 24px}
+  .logo-showcase,.pairing-grid,.voice-compare,.stationery-grid,.digital-rules{grid-template-columns:1fr}
+  .colour-grid{grid-template-columns:repeat(2,1fr)}
+  .icon-grid{grid-template-columns:repeat(4,1fr)}
+  .misuse-grid{grid-template-columns:1fr}
+  .section-num{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <span class="sidebar-logo-mark">Brickwood</span>
+    <span class="sidebar-logo-sub">Developers</span>
+  </div>
+  <span class="sidebar-doc-label">Brand Guidelines</span>
+  <ul class="sidebar-nav">
+    <li><a href="#intro" class="active"><span class="nav-num">00</span><span class="nav-label">Introduction</span></a></li>
+    <li><a href="#logo"><span class="nav-num">01</span><span class="nav-label">Logo System</span></a></li>
+    <li><a href="#colour"><span class="nav-num">02</span><span class="nav-label">Colour Palette</span></a></li>
+    <li><a href="#typography"><span class="nav-num">03</span><span class="nav-label">Typography</span></a></li>
+    <li><a href="#spacing"><span class="nav-num">04</span><span class="nav-label">Spacing & Grid</span></a></li>
+    <li><a href="#components"><span class="nav-num">05</span><span class="nav-label">UI Components</span></a></li>
+    <li><a href="#iconography"><span class="nav-num">06</span><span class="nav-label">Iconography</span></a></li>
+    <li><a href="#photography"><span class="nav-num">07</span><span class="nav-label">Photography</span></a></li>
+    <li><a href="#voice"><span class="nav-num">08</span><span class="nav-label">Voice & Tone</span></a></li>
+    <li><a href="#social"><span class="nav-num">09</span><span class="nav-label">Social Media</span></a></li>
+    <li><a href="#stationery"><span class="nav-num">10</span><span class="nav-label">Stationery</span></a></li>
+    <li><a href="#digital"><span class="nav-num">11</span><span class="nav-label">Digital Standards</span></a></li>
+    <li><a href="#misuse"><span class="nav-num">12</span><span class="nav-label">Brand Misuse</span></a></li>
+  </ul>
+  <div class="sidebar-version">v1.0 · January 2025</div>
+</aside>
+
+<!-- ── MAIN CONTENT ── -->
+<main class="main">
+
+<!-- HERO -->
+<section class="brand-hero" id="intro">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-geo"></div>
+  <div class="hero-circle"></div>
+  <div class="hero-circle2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Brand Identity System</div>
+    <h1>Brickwood <em>Developers</em></h1>
+    <p class="hero-desc">This document defines the complete visual and verbal identity of Brickwood Developers. Every design decision here reflects who we are — a company that has built Delhi NCR's best spaces since 2001, formerly operating as Sharma &amp; Co.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><span>Founded</span><span>2001 (as Sharma &amp; Co.)</span></div>
+      <div class="hero-meta-item"><span>Rebranded</span><span>Brickwood Developers, 2024</span></div>
+      <div class="hero-meta-item"><span>Category</span><span>Construction &amp; Real Estate</span></div>
+      <div class="hero-meta-item"><span>Market</span><span>Delhi NCR, India</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BRAND STORY ── -->
+<section class="section" style="background:var(--dark2)">
+  <div class="section-num">00</div>
+  <span class="section-tag">Who We Are</span>
+  <h2 class="section-title">Our Brand <em>Philosophy</em></h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px">
+    <div style="background:var(--dark3);border:1px solid rgba(201,168,76,0.12);border-top:3px solid var(--gold);padding:28px;border-radius:var(--r)">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:10px">Mission</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.75">To deliver Delhi NCR's finest construction and renovation work — on time, on budget, with the same level of care for a 300 sq ft kitchen as a 15,000 sq ft government complex.</p>
+    </div>
+    <div style="background:var(--dark3);border:1px solid rgba(201,168,76,0.12);border-top:3px solid var(--gold);padding:28px;border-radius:var(--r)">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:10px">Vision</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.75">To be the most trusted name in Delhi NCR construction — the company every homeowner, business, and government body turns to when quality and accountability are non-negotiable.</p>
+    </div>
+    <div style="background:var(--dark3);border:1px solid rgba(201,168,76,0.12);border-top:3px solid var(--gold);padding:28px;border-radius:var(--r)">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:10px">Values</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.75">Craftsmanship. Transparency. Accountability. Punctuality. We do not cut corners, we do not hide costs, and we do not leave a site until the client is satisfied.</p>
+    </div>
+  </div>
+
+  <span class="sub-head">Brand Positioning</span>
+  <p style="font-size:15px;color:var(--muted);line-height:1.8;max-width:700px;font-weight:300">Brickwood Developers sits at the intersection of <strong style="color:var(--light)">premium quality</strong> and <strong style="color:var(--light)">accessible trust</strong>. We are not the cheapest option — nor are we the most expensive. We are the most reliable. Our brand identity must communicate this: <em style="color:var(--gold)">understated confidence, earned credibility, and deep expertise.</em></p>
+</section>
+
+<!-- ── 01 LOGO ── -->
+<section class="section" id="logo">
+  <div class="section-num">01</div>
+  <span class="section-tag">Section 01</span>
+  <h2 class="section-title">Logo <em>System</em></h2>
+  <p class="section-desc">The Brickwood Developers wordmark is set in Playfair Display — a serif typeface with deep historical roots in print and editorial design. It communicates permanence, expertise, and prestige. The gold sub-label beneath grounds the mark in professionalism.</p>
+
+  <span class="sub-head">Primary Logo — All Variations</span>
+  <div class="logo-showcase">
+    <div class="logo-box dark-bg">
+      <div class="logo-render on-dark">
+        <span class="logo-main">Brickwood</span>
+        <span class="logo-sub">Developers</span>
+      </div>
+      <span class="label">Primary — Dark Background ✓</span>
+    </div>
+    <div class="logo-box light-bg">
+      <div class="logo-render on-light">
+        <span class="logo-main">Brickwood</span>
+        <span class="logo-sub">Developers</span>
+      </div>
+      <span class="label">Primary — Light Background ✓</span>
+    </div>
+    <div class="logo-box gold-bg">
+      <div class="logo-render on-gold">
+        <span class="logo-main">Brickwood</span>
+        <span class="logo-sub">Developers</span>
+      </div>
+      <span class="label">On Gold Background ✓</span>
+    </div>
+    <div class="logo-box mid-bg">
+      <div class="logo-render reversed">
+        <span class="logo-main">Brickwood</span>
+        <span class="logo-sub">Developers</span>
+      </div>
+      <span class="label">Gold Reversed — Mid-Dark ✓</span>
+    </div>
+  </div>
+
+  <span class="sub-head">Clear Space Rule</span>
+  <div class="clearspace-demo">
+    <div class="clearspace-inner">
+      <div class="logo-render on-dark" style="text-align:center">
+        <span class="logo-main">Brickwood</span>
+        <span class="logo-sub">Developers</span>
+      </div>
+      <div class="clearspace-box"></div>
+      <div class="clearspace-dim">Minimum clear space = cap-height of "B" on all sides</div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--muted);line-height:1.75;max-width:600px">The logo must always be surrounded by a minimum clear space equal to the cap-height of the letter "B" in "Brickwood" on all four sides. No other graphic, text, or design element may intrude on this space.</p>
+
+  <div class="gold-line"></div>
+
+  <span class="sub-head">Minimum Size</span>
+  <table class="spec-table">
+    <tr><th>Context</th><th>Minimum Width</th><th>Format</th></tr>
+    <tr><td>Digital (screen)</td><td>120px</td><td>SVG or PNG @2x</td></tr>
+    <tr><td>Print</td><td>25mm</td><td>Vector PDF or EPS</td></tr>
+    <tr><td>Favicon / App Icon</td><td>32×32px</td><td>ICO or PNG — "B" monogram only</td></tr>
+    <tr><td>Signage</td><td>150mm</td><td>Vector EPS</td></tr>
+    <tr><td>Embroidery / Engraving</td><td>40mm</td><td>Vector with simplified letterforms</td></tr>
+  </table>
+
+  <span class="sub-head">Logo Files to Maintain</span>
+  <table class="spec-table">
+    <tr><th>File</th><th>Use For</th><th>Format</th></tr>
+    <tr><td>brickwood-logo-dark.svg</td><td>Website, digital on dark backgrounds</td><td>SVG</td></tr>
+    <tr><td>brickwood-logo-light.svg</td><td>Letterheads, light backgrounds</td><td>SVG</td></tr>
+    <tr><td>brickwood-logo-gold.svg</td><td>Reversed / gold accent usage</td><td>SVG</td></tr>
+    <tr><td>brickwood-logo@2x.png</td><td>Email signatures, social media</td><td>PNG transparent</td></tr>
+    <tr><td>brickwood-logo-print.pdf</td><td>All print materials</td><td>Vector PDF</td></tr>
+    <tr><td>brickwood-favicon.ico</td><td>Browser tab</td><td>ICO multi-size</td></tr>
+  </table>
+</section>
+
+<!-- ── 02 COLOUR ── -->
+<section class="section" id="colour" style="background:var(--dark2)">
+  <div class="section-num">02</div>
+  <span class="section-tag">Section 02</span>
+  <h2 class="section-title">Colour <em>Palette</em></h2>
+  <p class="section-desc">Our palette is built on deep architectural blacks and a signature warm gold. This combination communicates luxury, permanence, and trust — without resorting to the generic blues and greens of the construction industry.</p>
+
+  <span class="sub-head">Primary Palette</span>
+  <div class="colour-grid">
+    <div class="colour-card">
+      <div class="colour-swatch" style="background:#C9A84C"></div>
+      <div class="colour-info">
+        <div class="colour-name">Brand Gold</div>
+        <div class="colour-hex">#C9A84C</div>
+        <div class="colour-rgb">RGB 201, 168, 76</div>
+        <div class="colour-rgb">CMYK 0, 16, 62, 21</div>
+        <div class="colour-role">Primary Accent · CTAs · Highlights</div>
+      </div>
+    </div>
+    <div class="colour-card">
+      <div class="colour-swatch" style="background:#0D0D0D"></div>
+      <div class="colour-info">
+        <div class="colour-name">Brand Black</div>
+        <div class="colour-hex">#0D0D0D</div>
+        <div class="colour-rgb">RGB 13, 13, 13</div>
+        <div class="colour-rgb">CMYK 0, 0, 0, 95</div>
+        <div class="colour-role">Primary Background · Base</div>
+      </div>
+    </div>
+    <div class="colour-card">
+      <div class="colour-swatch" style="background:#F5F0E8"></div>
+      <div class="colour-info">
+        <div class="colour-name">Warm White</div>
+        <div class="colour-hex">#F5F0E8</div>
+        <div class="colour-rgb">RGB 245, 240, 232</div>
+        <div class="colour-rgb">CMYK 0, 2, 5, 4</div>
+        <div class="colour-role">Primary Text · Headings</div>
+      </div>
+    </div>
+    <div class="colour-card">
+      <div class="colour-swatch" style="background:#8A8278"></div>
+      <div class="colour-info">
+        <div class="colour-name">Stone Muted</div>
+        <div class="colour-hex">#8A8278</div>
+        <div class="colour-rgb">RGB 138, 130, 120</div>
+        <div class="colour-rgb">CMYK 0, 6, 13, 46</div>
+        <div class="colour-role">Body Text · Captions · Labels</div>
+      </div>
+    </div>
+  </div>
+
+  <span class="sub-head">Extended Palette — Background Scale</span>
+  <div class="palette-extended">
+    <div class="swatch-mini"><div class="swatch-mini-color" style="background:#0D0D0D"></div><div class="swatch-mini-label">Dark #0D0D0D<br>Page BG</div></div>
+    <div class="swatch-mini"><div class="swatch-mini-color" style="background:#141414"></div><div class="swatch-mini-label">Dark 2 #141414<br>Cards / Nav</div></div>
+    <div class="swatch-mini"><div class="swatch-mini-color" style="background:#1C1C1C"></div><div class="swatch-mini-label">Dark 3 #1C1C1C<br>Hover / Elevated</div></div>
+    <div class="swatch-mini"><div class="swatch-mini-color" style="background:#252525"></div><div class="swatch-mini-label">Dark 4 #252525<br>Focus States</div></div>
+    <div class="swatch-mini"><div class="swatch-mini-color" style="background:#2E2E2E"></div><div class="swatch-mini-label">Dark 5 #2E2E2E<br>Borders Active</div></div>
+    <div class="swatch-mini"><div class="swatch-mini-color" style="background:#E8C97A"></div><div class="swatch-mini-label">Gold Light #E8C97A<br>Hover / Light</div></div>
+  </div>
+
+  <span class="sub-head">Semantic Colours (UI Feedback)</span>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px">
+    <div class="colour-card"><div class="colour-swatch" style="background:#34C759"></div><div class="colour-info"><div class="colour-name">Success Green</div><div class="colour-hex">#34C759</div><div class="colour-role">Form success · Checkmarks · Complete</div></div></div>
+    <div class="colour-card"><div class="colour-swatch" style="background:#EF4444"></div><div class="colour-info"><div class="colour-name">Error Red</div><div class="colour-hex">#EF4444</div><div class="colour-role">Errors · Warnings · Critical tags</div></div></div>
+    <div class="colour-card"><div class="colour-swatch" style="background:#3B82F6"></div><div class="colour-info"><div class="colour-name">Info Blue</div><div class="colour-hex">#3B82F6</div><div class="colour-role">Photo tags · Info states · Links</div></div></div>
+  </div>
+
+  <span class="sub-head">Colour Usage — Do's &amp; Don'ts</span>
+  <div class="colour-do-dont">
+    <div class="do-card">
+      <div class="do-card-head">✓ Correct Usage</div>
+      <div class="do-card-body">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="background:#0D0D0D;padding:12px 16px;border-radius:var(--r);display:flex;align-items:center;justify-content:space-between"><span style="color:#F5F0E8;font-size:13px">Gold on Black</span><span style="color:#C9A84C;font-size:13px;font-weight:600">✓ High Contrast</span></div>
+          <div style="background:#C9A84C;padding:12px 16px;border-radius:var(--r)"><span style="color:#0D0D0D;font-size:13px;font-weight:600">Black text on Gold CTA</span></div>
+          <div style="background:#1C1C1C;padding:12px 16px;border-radius:var(--r);border-left:3px solid #C9A84C"><span style="color:#F5F0E8;font-size:13px">Gold accent border on dark card</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-card-head">✗ Never Do This</div>
+      <div class="dont-card-body">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="background:#C9A84C;padding:12px 16px;border-radius:var(--r)"><span style="color:#E8C97A;font-size:13px">Gold on Gold — unreadable</span></div>
+          <div style="background:#FFFFFF;padding:12px 16px;border-radius:var(--r)"><span style="color:#8A8278;font-size:13px">Muted grey on white — fails contrast</span></div>
+          <div style="background:linear-gradient(90deg,#ff6b35,#ff1493);padding:12px 16px;border-radius:var(--r)"><span style="color:white;font-size:13px">Random gradients — off brand</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="sub-head">Accessibility — WCAG Contrast Ratios</span>
+  <table class="spec-table">
+    <tr><th>Combination</th><th>Ratio</th><th>WCAG AA</th><th>WCAG AAA</th></tr>
+    <tr><td>Warm White #F5F0E8 on Black #0D0D0D</td><td>17.8:1</td><td style="color:var(--green)">Pass</td><td style="color:var(--green)">Pass</td></tr>
+    <tr><td>Brand Gold #C9A84C on Black #0D0D0D</td><td>7.2:1</td><td style="color:var(--green)">Pass</td><td style="color:var(--green)">Pass</td></tr>
+    <tr><td>Black #0D0D0D on Gold #C9A84C</td><td>7.2:1</td><td style="color:var(--green)">Pass</td><td style="color:var(--green)">Pass</td></tr>
+    <tr><td>Stone Muted #8A8278 on Black #0D0D0D</td><td>4.6:1</td><td style="color:var(--green)">Pass (large)</td><td style="color:var(--red)">Fail</td></tr>
+    <tr><td>Stone Muted on Dark2 #141414</td><td>4.1:1</td><td style="color:var(--green)">Pass (large)</td><td style="color:var(--red)">Fail</td></tr>
+  </table>
+</section>
+
+<!-- ── 03 TYPOGRAPHY ── -->
+<section class="section" id="typography">
+  <div class="section-num">03</div>
+  <span class="section-tag">Section 03</span>
+  <h2 class="section-title">Typography <em>System</em></h2>
+  <p class="section-desc">Two typefaces. One for authority and elegance. One for clarity and warmth. Every typographic decision reinforces our positioning as experienced, trustworthy professionals.</p>
+
+  <span class="sub-head">Primary Typeface — Playfair Display</span>
+  <div style="background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:36px;margin-bottom:16px">
+    <div style="font-family:'Playfair Display',serif;font-size:72px;font-weight:900;color:var(--white);line-height:1;letter-spacing:-0.02em;margin-bottom:8px">Playfair</div>
+    <div style="font-family:'Playfair Display',serif;font-size:72px;font-weight:900;font-style:italic;color:var(--gold);line-height:1;letter-spacing:-0.02em;margin-bottom:24px">Display</div>
+    <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--muted);font-weight:400;max-width:600px;line-height:1.6">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz</div>
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--muted);font-weight:400;margin-top:6px;line-height:1.6">0 1 2 3 4 5 6 7 8 9 ! @ # $ % & * ( )</div>
+    <div style="margin-top:16px;display:flex;gap:16px;flex-wrap:wrap">
+      <span style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">Weights used: 700 · 900 · 900 Italic</span>
+      <span style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)">Google Fonts — Free</span>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--muted);line-height:1.75;max-width:600px;margin-bottom:32px">Used for: All headings (H1–H4), hero text, section titles, pull quotes, testimonials, logo wordmark, card titles, plan names. Never use Playfair Display for body copy or UI elements smaller than 14px.</p>
+
+  <span class="sub-head">Secondary Typeface — DM Sans</span>
+  <div style="background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:36px;margin-bottom:16px">
+    <div style="font-family:'DM Sans',sans-serif;font-size:60px;font-weight:600;color:var(--white);line-height:1;margin-bottom:8px">DM Sans</div>
+    <div style="font-family:'DM Sans',sans-serif;font-size:60px;font-weight:300;color:var(--muted);line-height:1;margin-bottom:24px">Light Variant</div>
+    <div style="font-family:'DM Sans',sans-serif;font-size:16px;color:var(--muted);font-weight:400;max-width:600px;line-height:1.6">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz</div>
+    <div style="font-family:'DM Sans',sans-serif;font-size:16px;color:var(--muted);font-weight:400;margin-top:6px;line-height:1.6">0 1 2 3 4 5 6 7 8 9 ! @ # $ % &amp; * ( ) + = / ? , .</div>
+    <div style="margin-top:16px;display:flex;gap:16px;flex-wrap:wrap">
+      <span style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">Weights used: 300 · 400 · 500 · 600</span>
+      <span style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)">Google Fonts — Free</span>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--muted);line-height:1.75;max-width:600px;margin-bottom:32px">Used for: Body copy, navigation, buttons, labels, captions, form elements, tags, metadata. Never use DM Sans for hero headlines or display purposes.</p>
+
+  <span class="sub-head">Monospace — DM Mono</span>
+  <div style="background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:24px;margin-bottom:32px">
+    <div style="font-family:'DM Mono',monospace;font-size:22px;color:var(--gold);margin-bottom:8px">#C9A84C · 500+ Projects · 23+ Years</div>
+    <div style="font-family:'DM Mono',monospace;font-size:14px;color:var(--muted)">Used for: Code snippets, hex values, technical specs, version numbers, GST numbers</div>
+  </div>
+
+  <span class="sub-head">Type Scale — Desktop</span>
+  <div class="type-scale">
+    <div class="ts-row"><span class="ts-name">Display</span><span style="font-family:'Playfair Display',serif;font-size:64px;font-weight:900;color:var(--white);line-height:1">Building</span><span class="ts-spec">64px / 900<br>Playfair</span></div>
+    <div class="ts-row"><span class="ts-name">H1</span><span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--white);line-height:1.05">Our Services</span><span class="ts-spec">48px / 900<br>Playfair</span></div>
+    <div class="ts-row"><span class="ts-name">H2</span><span style="font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--white);line-height:1.1">Flat Renovation</span><span class="ts-spec">36px / 700<br>Playfair</span></div>
+    <div class="ts-row"><span class="ts-name">H3</span><span style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--white);line-height:1.2">AMC Silver Plan</span><span class="ts-spec">24px / 700<br>Playfair</span></div>
+    <div class="ts-row"><span class="ts-name">H4</span><span style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white)">What's Included</span><span class="ts-spec">18px / 700<br>Playfair</span></div>
+    <div class="ts-row"><span class="ts-name">Body L</span><span style="font-family:'DM Sans',sans-serif;font-size:17px;font-weight:300;color:var(--muted)">Complete transformation of your living space</span><span class="ts-spec">17px / 300<br>DM Sans</span></div>
+    <div class="ts-row"><span class="ts-name">Body</span><span style="font-family:'DM Sans',sans-serif;font-size:15px;color:var(--muted)">Flat renovation, home extension, interior design</span><span class="ts-spec">15px / 400<br>DM Sans</span></div>
+    <div class="ts-row"><span class="ts-name">Body S</span><span style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted)">Starting ₹350 per sq ft · Delhi NCR</span><span class="ts-spec">13px / 400<br>DM Sans</span></div>
+    <div class="ts-row"><span class="ts-name">Label</span><span style="font-family:'DM Sans',sans-serif;font-size:11px;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase">What We Do</span><span class="ts-spec">11px / 500<br>DM Sans + spacing</span></div>
+    <div class="ts-row"><span class="ts-name">Caption</span><span style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase">GST Registered · Udyam Certified</span><span class="ts-spec">10px / 400<br>DM Sans + caps</span></div>
+  </div>
+
+  <div class="gold-line"></div>
+
+  <span class="sub-head">Font Pairing Examples</span>
+  <div class="pairing-grid">
+    <div class="pairing-card">
+      <span class="pairing-label">Hero Section Pairing</span>
+      <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--white);line-height:1.1;margin-bottom:10px">Building <em style="color:var(--gold)">Delhi's Best</em></div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;color:var(--muted);line-height:1.7">From dream renovations to landmark constructions — 23 years of craftsmanship.</div>
+    </div>
+    <div class="pairing-card">
+      <span class="pairing-label">Service Card Pairing</span>
+      <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-family:'DM Sans',sans-serif;margin-bottom:8px">What We Do</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:8px">Flat Renovation</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted);line-height:1.7">Complete transformation of your living space — flooring, walls, plumbing, and finishing.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 04 SPACING ── -->
+<section class="section" id="spacing" style="background:var(--dark2)">
+  <div class="section-num">04</div>
+  <span class="section-tag">Section 04</span>
+  <h2 class="section-title">Spacing <em>&amp; Grid</em></h2>
+  <p class="section-desc">Consistent spacing creates rhythm, breathability, and professionalism. All spacing follows an 8px base unit system.</p>
+
+  <span class="sub-head">Spacing Scale — 8px Base Unit</span>
+  <div class="spacing-scale">
+    <div class="space-row"><span class="space-name">space-1</span><div class="space-visual" style="width:4px"></div><span class="space-val">4px</span><span class="space-use">Icon gap, tight inline</span></div>
+    <div class="space-row"><span class="space-name">space-2</span><div class="space-visual" style="width:8px"></div><span class="space-val">8px</span><span class="space-use">Chip gap, badge padding</span></div>
+    <div class="space-row"><span class="space-name">space-3</span><div class="space-visual" style="width:12px"></div><span class="space-val">12px</span><span class="space-use">Form field gap, tag gap</span></div>
+    <div class="space-row"><span class="space-name">space-4</span><div class="space-visual" style="width:16px"></div><span class="space-val">16px</span><span class="space-use">Card inner gap, list item</span></div>
+    <div class="space-row"><span class="space-name">space-6</span><div class="space-visual" style="width:24px"></div><span class="space-val">24px</span><span class="space-use">Card padding small, section gap</span></div>
+    <div class="space-row"><span class="space-name">space-8</span><div class="space-visual" style="width:32px"></div><span class="space-val">32px</span><span class="space-use">Card padding large, nav padding</span></div>
+    <div class="space-row"><span class="space-name">space-12</span><div class="space-visual" style="width:48px"></div><span class="space-val">48px</span><span class="space-use">Section sub-gap, logo padding</span></div>
+    <div class="space-row"><span class="space-name">space-16</span><div class="space-visual" style="width:64px"></div><span class="space-val">64px</span><span class="space-use">Section vertical rhythm</span></div>
+    <div class="space-row"><span class="space-name">space-20</span><div class="space-visual" style="width:80px"></div><span class="space-val">80px</span><span class="space-use">Page section padding</span></div>
+    <div class="space-row"><span class="space-name">space-24</span><div class="space-visual" style="width:96px"></div><span class="space-val">96px</span><span class="space-use">Hero padding, large section</span></div>
+  </div>
+
+  <span class="sub-head">12-Column Grid System</span>
+  <div class="grid-demo">
+    <div class="grid-cols">
+      <div class="grid-col-unit"></div><div class="grid-col-unit"></div>
+      <div class="grid-col-unit"></div><div class="grid-col-unit"></div>
+      <div class="grid-col-unit"></div><div class="grid-col-unit"></div>
+      <div class="grid-col-unit"></div><div class="grid-col-unit"></div>
+      <div class="grid-col-unit"></div><div class="grid-col-unit"></div>
+      <div class="grid-col-unit"></div><div class="grid-col-unit"></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);text-align:center">12-column grid · 20px gutters · max-width 1100px · 5vw side padding</p>
+  </div>
+
+  <table class="spec-table">
+    <tr><th>Breakpoint</th><th>Width</th><th>Columns</th><th>Gutter</th><th>Side Padding</th></tr>
+    <tr><td>Mobile</td><td>&lt; 640px</td><td>4</td><td>16px</td><td>20px</td></tr>
+    <tr><td>Tablet</td><td>640–1024px</td><td>8</td><td>20px</td><td>32px</td></tr>
+    <tr><td>Desktop</td><td>1024–1440px</td><td>12</td><td>20px</td><td>5vw</td></tr>
+    <tr><td>Wide</td><td>&gt; 1440px</td><td>12</td><td>24px</td><td>auto (max 1100px)</td></tr>
+  </table>
+
+  <span class="sub-head">Border Radius</span>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px">
+    <div style="background:var(--dark3);width:80px;height:80px;border-radius:0;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted)">0px<br>Sharp</div>
+    <div style="background:var(--dark3);width:80px;height:80px;border-radius:4px;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted)">4px<br>Default</div>
+    <div style="background:var(--dark3);width:80px;height:80px;border-radius:8px;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted)">8px<br>Cards</div>
+    <div style="background:var(--dark3);width:80px;height:80px;border-radius:12px;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted)">12px<br>Modals</div>
+    <div style="background:var(--dark3);width:80px;height:80px;border-radius:100px;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted)">100px<br>Pills/Tags</div>
+    <div style="background:var(--dark3);width:80px;height:80px;border-radius:50%;border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted)">50%<br>Avatars</div>
+  </div>
+</section>
+
+<!-- ── 05 COMPONENTS ── -->
+<section class="section" id="components">
+  <div class="section-num">05</div>
+  <span class="section-tag">Section 05</span>
+  <h2 class="section-title">UI <em>Components</em></h2>
+  <p class="section-desc">All interactive elements follow a consistent visual language. Gold for primary actions, outlined for secondary, ghost for tertiary. Never use more than 2 button styles in a single view.</p>
+
+  <span class="sub-head">Buttons</span>
+  <div class="comp-row">
+    <div style="flex:1">
+      <div class="comp-label">Primary — Main CTA</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="btn-spec-primary">Get Free Quote</div>
+        <div class="btn-spec-primary btn-spec-sm">Book Visit</div>
+        <div class="btn-spec-primary btn-spec-lg">Start Your Project</div>
+        <div class="btn-spec-primary btn-disabled">Unavailable</div>
+      </div>
+    </div>
+  </div>
+  <div class="comp-row">
+    <div style="flex:1">
+      <div class="comp-label">Secondary — Supporting Action</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="btn-spec-secondary">View Our Work</div>
+        <div class="btn-spec-secondary btn-spec-sm">Learn More</div>
+        <div class="btn-spec-secondary btn-spec-lg">View Portfolio</div>
+      </div>
+    </div>
+  </div>
+  <div class="comp-row">
+    <div style="flex:1">
+      <div class="comp-label">Ghost — Tertiary / Inline Links</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="btn-spec-ghost">Know More →</div>
+        <div class="btn-spec-ghost btn-spec-sm">Get Quote →</div>
+        <div class="btn-spec-ghost btn-danger">Report Issue</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+  <span class="sub-head">Navigation Bar</span>
+  <div class="nav-spec">
+    <span class="nav-spec-logo">Brickwood</span>
+    <div class="nav-spec-links">
+      <span class="nav-spec-link">Home</span>
+      <span class="nav-spec-link active-link">Services</span>
+      <span class="nav-spec-link">Portfolio</span>
+      <span class="nav-spec-link">About</span>
+    </div>
+    <div class="btn-spec-primary btn-spec-sm">Get Free Quote</div>
+  </div>
+
+  <div class="gold-line"></div>
+  <span class="sub-head">Cards</span>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px">
+    <div class="card-spec">
+      <div class="card-spec-icon">🏠</div>
+      <h4>Flat Renovation</h4>
+      <p>Complete transformation — flooring, walls, plumbing, and finishing to the highest standard.</p>
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-top:16px">Starting ₹350 / sq ft</div>
+    </div>
+    <div class="card-spec">
+      <div class="card-spec-icon">✦</div>
+      <h4>AMC Gold Plan</h4>
+      <p>4 scheduled visits per year. Plumbing, electrical, civil, painting touch-up included.</p>
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-top:16px">₹17,999 / year</div>
+    </div>
+  </div>
+
+  <div class="gold-line"></div>
+  <span class="sub-head">Stat Boxes</span>
+  <div style="display:flex;gap:2px;flex-wrap:wrap;margin-bottom:24px">
+    <div class="stat-spec"><span class="stat-spec-num">23+</span><span class="stat-spec-label">Years of Excellence</span></div>
+    <div class="stat-spec"><span class="stat-spec-num">500+</span><span class="stat-spec-label">Projects Delivered</span></div>
+    <div class="stat-spec"><span class="stat-spec-num">4</span><span class="stat-spec-label">Prestigious Clients</span></div>
+    <div class="stat-spec"><span class="stat-spec-num">GST</span><span class="stat-spec-label">Since 2009</span></div>
+  </div>
+
+  <div class="gold-line"></div>
+  <span class="sub-head">Badges &amp; Tags</span>
+  <div class="badge-row">
+    <span class="badge badge-gold">Trusted Since 2001</span>
+    <span class="badge badge-green">✓ Verified</span>
+    <span class="badge badge-red">⚠ Critical</span>
+    <span class="badge badge-muted">GST Registered</span>
+    <span class="badge badge-outline">Silver Plan</span>
+  </div>
+
+  <div class="gold-line"></div>
+  <span class="sub-head">Form Elements</span>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:24px">
+    <div class="input-spec">
+      <label>Default State</label>
+      <input class="input-default" type="text" placeholder="Your full name" readonly/>
+    </div>
+    <div class="input-spec">
+      <label>Focus State</label>
+      <input class="input-default input-focus" type="text" value="Rahul Sharma" readonly/>
+    </div>
+    <div class="input-spec">
+      <label>Error State</label>
+      <input class="input-default input-error" type="text" placeholder="Phone number" readonly/>
+      <span class="input-error-msg">Please enter a valid 10-digit number</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── 06 ICONOGRAPHY ── -->
+<section class="section" id="iconography" style="background:var(--dark2)">
+  <div class="section-num">06</div>
+  <span class="section-tag">Section 06</span>
+  <h2 class="section-title">Icon <em>System</em></h2>
+  <p class="section-desc">We use Heroicons (outline style, 1.5px stroke weight) exclusively. Never mix filled and outline icon styles in the same view. Icons are always in gold #C9A84C on dark backgrounds.</p>
+
+  <span class="sub-head">Primary Icon Set — Services &amp; UI</span>
+  <div class="icon-grid">
+    <div class="icon-cell"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>Home</span></div>
+    <div class="icon-cell"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"/></svg><span>Building</span></div>
+    <div class="icon-cell"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><span>Office</span></div>
+    <div class="icon-cell"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5 5 0 006.027.21M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5 5 0 006.027.21M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg><span>Kitchen</span></div>
+    <div class="icon-cell"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg><span>AMC</span></div>
+    <div class="icon-cell"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>Revenue</span></div>
+    <div class="icon-cell"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg><span>Location</span></div>
+    <div class="icon-cell"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><span>Phone</span></div>
+  </div>
+
+  <span class="sub-head">Icon Rules</span>
+  <table class="spec-table">
+    <tr><th>Rule</th><th>Specification</th></tr>
+    <tr><td>Style</td><td>Heroicons Outline only — never filled in the same view</td></tr>
+    <tr><td>Stroke Width</td><td>1.5px for sizes ≥24px · 2px for sizes ≤20px</td></tr>
+    <tr><td>Colour on dark</td><td>Gold #C9A84C for feature icons · Muted #8A8278 for UI icons</td></tr>
+    <tr><td>Colour on light</td><td>Gold Dark #A07830 for feature icons · #555 for UI icons</td></tr>
+    <tr><td>Minimum size</td><td>16px · Recommended 20–24px</td></tr>
+    <tr><td>Never</td><td>Mix Heroicons with Feather, Material, or FontAwesome in same page</td></tr>
+  </table>
+</section>
+
+<!-- ── 07 PHOTOGRAPHY ── -->
+<section class="section" id="photography">
+  <div class="section-num">07</div>
+  <span class="section-tag">Section 07</span>
+  <h2 class="section-title">Photography <em>Standards</em></h2>
+  <p class="section-desc">Photography is our most powerful brand tool. A poorly photographed project undermines 23 years of craftsmanship. Every project image must meet these standards before being used on the website, social media, or any marketing material.</p>
+
+  <span class="sub-head">Project Photography — Shot Types Required</span>
+  <div class="photo-grid">
+    <div class="photo-thumb"><div style="text-align:center;padding:20px"><div style="font-size:32px;margin-bottom:8px">🌅</div><div class="photo-label">Wide Establishing Shot<br><span style="color:var(--gold);font-size:9px">Full room, natural light</span></div></div></div>
+    <div class="photo-thumb"><div style="text-align:center;padding:20px"><div style="font-size:32px;margin-bottom:8px">🔍</div><div class="photo-label">Detail / Craft Shot<br><span style="color:var(--gold);font-size:9px">Tile work, hardware, finish</span></div></div></div>
+    <div class="photo-thumb"><div style="text-align:center;padding:20px"><div style="font-size:32px;margin-bottom:8px">↔️</div><div class="photo-label">Before / After Pair<br><span style="color:var(--gold);font-size:9px">Same angle, same lens</span></div></div></div>
+  </div>
+
+  <span class="sub-head">Photography Guidelines</span>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+    <div style="background:var(--dark3);border:1px solid rgba(52,199,89,0.15);border-radius:var(--r);padding:22px">
+      <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:12px">✓ Always</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--green)">→</span>Shoot in natural light or with professional lighting</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--green)">→</span>Clean the space before photographing — no tools on floor</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--green)">→</span>Minimum 1920×1280px resolution</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--green)">→</span>Shoot before/after from the exact same position and focal length</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--green)">→</span>Include at least 1 detail shot per project (tile, hardware, finish)</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--green)">→</span>Save as JPEG 80% quality or WebP for web</li>
+      </ul>
+    </div>
+    <div style="background:var(--dark3);border:1px solid rgba(239,68,68,0.15);border-radius:var(--r);padding:22px">
+      <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:12px">✗ Never</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--red)">→</span>Low-light blurry photos taken on budget phone cameras</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--red)">→</span>Workers visible in project showcase photos</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--red)">→</span>Stock photos passed off as real projects</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--red)">→</span>Heavy Instagram filters that misrepresent colours</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--red)">→</span>Horizontal and vertical mixed in the same gallery</li>
+        <li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative"><span style="position:absolute;left:0;color:var(--red)">→</span>AI-generated or rendered project images as real photos</li>
+      </ul>
+    </div>
+  </div>
+
+  <span class="sub-head">Image Overlay System</span>
+  <p style="font-size:13px;color:var(--muted);line-height:1.75;max-width:600px;margin-bottom:16px">When text is overlaid on project photography, always apply a gradient scrim: <code style="font-family:'DM Mono',monospace;font-size:11px;background:rgba(201,168,76,0.08);color:var(--gold);padding:2px 6px;border-radius:3px">linear-gradient(to top, rgba(0,0,0,0.85), transparent)</code> — bottom to top. This maintains text legibility while preserving image quality.</p>
+</section>
+
+<!-- ── 08 VOICE ── -->
+<section class="section" id="voice" style="background:var(--dark2)">
+  <div class="section-num">08</div>
+  <span class="section-tag">Section 08</span>
+  <h2 class="section-title">Voice <em>&amp; Tone</em></h2>
+  <p class="section-desc">Brickwood Developers speaks with the quiet confidence of a company that doesn't need to shout. We've built for DDA, HUL, and Embassy Group. We let our work — and our words — do the selling.</p>
+
+  <span class="sub-head">Brand Personality</span>
+  <div class="personality-grid">
+    <div class="trait-card"><h4>Expert, Not Arrogant</h4><p>We speak from 23 years of experience. We don't need to boast — we state facts. "500+ projects delivered" not "Delhi's #1 contractor".</p><div class="trait-not">Not: boastful, self-important</div></div>
+    <div class="trait-card"><h4>Warm, Not Casual</h4><p>We're professional but human. We talk like a trusted contractor who's worked with the family for years — not a corporate brochure.</p><div class="trait-not">Not: stiff, formal, distant</div></div>
+    <div class="trait-card"><h4>Transparent, Not Salesy</h4><p>We tell people the price, the timeline, and what's not included. Our T&amp;C is written in plain language. No fine print surprises.</p><div class="trait-not">Not: pushy, ambiguous, evasive</div></div>
+    <div class="trait-card"><h4>Reassuring, Not Timid</h4><p>Clients are stressed about renovation. We calm them with clarity and process — "We respond within 4 hours" — not vague promises.</p><div class="trait-not">Not: overpromising, vague</div></div>
+    <div class="trait-card"><h4>Delhi, Not Global</h4><p>We are a Delhi NCR company, through and through. We know Vasant Kunj from Rohini, Noida from Gurgaon. Our copy reflects this local authority.</p><div class="trait-not">Not: generic, global, placeless</div></div>
+    <div class="trait-card"><h4>Legacy, Not Nostalgia</h4><p>Formerly Sharma &amp; Co. We acknowledge our history proudly — it's 23 years of proof. But we are building forward, not dwelling in the past.</p><div class="trait-not">Not: stuck in the past, "old-school"</div></div>
+  </div>
+
+  <span class="sub-head">Voice in Action — Do &amp; Don't</span>
+  <div class="voice-compare">
+    <div class="voice-card do-voice"><div class="voice-card-head">✓ This is how we write</div><p>"Get a free site visit and detailed estimate within 24 hours. <strong>We respond within 4 hours</strong> — no long waits, no chasing."</p></div>
+    <div class="voice-card dont-voice"><div class="voice-card-head">✗ This is NOT how we write</div><p>"Delhi's #1 premium luxury construction company!! Contact us NOW for AMAZING deals on renovation!! 🔥🔥"</p></div>
+  </div>
+  <div class="voice-compare">
+    <div class="voice-card do-voice"><div class="voice-card-head">✓ Service Description</div><p>"<strong>Flat Renovation.</strong> Complete transformation of your living space — flooring, walls, plumbing, electrical rewiring, and premium finishing. Delivered turnkey. Starting ₹350/sq ft."</p></div>
+    <div class="voice-card dont-voice"><div class="voice-card-head">✗ Service Description</div><p>"We offer world-class renovation services at unbeatable prices. Our expert team will transform your home into your dream space using top-quality materials!"</p></div>
+  </div>
+
+  <span class="sub-head">Writing Rules</span>
+  <table class="spec-table">
+    <tr><th>Rule</th><th>Correct</th><th>Incorrect</th></tr>
+    <tr><td>Pricing — always use ₹</td><td>₹350/sq ft · ₹17,999/year</td><td>Rs. 350 · INR 17999</td></tr>
+    <tr><td>Numbers — spell out under 10</td><td>four-hour response · 23 years</td><td>4 hour response · twenty-three years</td></tr>
+    <tr><td>Project area</td><td>1,400 sq ft</td><td>1400 sq.ft. · 1400sqft</td></tr>
+    <tr><td>Company name</td><td>Brickwood Developers</td><td>Brickwood · BD · brickwood</td></tr>
+    <tr><td>Legacy reference</td><td>formerly Sharma &amp; Co.</td><td>previously known as · old brand</td></tr>
+    <tr><td>Credentials</td><td>GST Registered · Udyam Certified · ESIC Compliant</td><td>govt registered · certified company</td></tr>
+    <tr><td>Headlines</td><td>Title Case for main heads</td><td>ALL CAPS for body headings</td></tr>
+    <tr><td>Emojis in body copy</td><td>Never in professional copy</td><td>🔨 Our renovation team 🔥</td></tr>
+  </table>
+
+  <span class="sub-head">Response Time Language</span>
+  <p style="font-size:14px;color:var(--muted);line-height:1.8;max-width:600px">Always specify exact times. Never use vague terms like "soon", "shortly", or "at our earliest". Our standard commitments: <strong style="color:var(--light)">"We respond within 4 hours"</strong> (enquiries) · <strong style="color:var(--light)">"We respond within 24 hours"</strong> (formal complaints) · <strong style="color:var(--light)">"48-hour emergency response"</strong> (Silver AMC) · <strong style="color:var(--light)">"4-hour emergency response"</strong> (Platinum AMC).</p>
+</section>
+
+<!-- ── 09 SOCIAL ── -->
+<section class="section" id="social">
+  <div class="section-num">09</div>
+  <span class="section-tag">Section 09</span>
+  <h2 class="section-title">Social Media <em>Guidelines</em></h2>
+  <p class="section-desc">Social media is where our portfolio lives and where clients discover us. Every post represents the brand. Consistency in visual style and tone is non-negotiable.</p>
+
+  <span class="sub-head">Platform Specs</span>
+  <div class="social-grid">
+    <div class="social-card">
+      <div class="social-mockup" style="background:var(--dark2)">
+        <div class="insta-mock">
+          <div class="insta-text">Vasant Kunj<br>Flat Renovation<br>1,400 sq ft · 2024</div>
+          <div class="insta-sub">Brickwood Developers</div>
+        </div>
+      </div>
+      <div class="social-meta">
+        <div class="social-platform">Instagram · Facebook</div>
+        <div class="social-spec">Feed: 1080×1080px (1:1) · Story: 1080×1920px (9:16)<br>Profile photo: 320×320px · Cover: 1640×856px</div>
+      </div>
+    </div>
+    <div class="social-card">
+      <div class="social-mockup" style="background:var(--dark2)">
+        <div style="background:var(--dark3);border:1px solid rgba(201,168,76,0.2);border-radius:var(--r);padding:16px;width:220px">
+          <div style="font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:var(--white);margin-bottom:4px">5 Signs Your Flat Needs Renovation</div>
+          <div style="font-size:9px;color:var(--muted);margin-bottom:8px">Brickwood Developers · Delhi NCR</div>
+          <div style="height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:8px"></div>
+          <div style="font-size:9px;color:var(--muted);line-height:1.5">Expert construction &amp; renovation services since 2001</div>
+        </div>
+      </div>
+      <div class="social-meta">
+        <div class="social-platform">LinkedIn</div>
+        <div class="social-spec">Post image: 1200×627px · Profile: 300×300px<br>Cover: 1584×396px · Article: 1200×644px</div>
+      </div>
+    </div>
+  </div>
+
+  <span class="sub-head">Content Pillars — Post Types</span>
+  <table class="spec-table">
+    <tr><th>Pillar</th><th>Content Type</th><th>Frequency</th><th>Goal</th></tr>
+    <tr><td>Portfolio</td><td>Before/after project photos with location + sq ft</td><td>3×/week</td><td>Social proof · lead generation</td></tr>
+    <tr><td>Education</td><td>"5 signs your home needs…" · "What AMC covers…"</td><td>2×/week</td><td>Trust building · SEO</td></tr>
+    <tr><td>Behind the Scenes</td><td>Team at work (no faces visible), materials, process</td><td>1×/week</td><td>Authenticity · brand humanity</td></tr>
+    <tr><td>Client Testimonials</td><td>Quote card with star rating and locality</td><td>1×/week</td><td>Credibility · word-of-mouth</td></tr>
+    <tr><td>Offers / Seasonal</td><td>AMC plan reminders, monsoon prep, festive offers</td><td>As relevant</td><td>Direct conversions</td></tr>
+  </table>
+
+  <span class="sub-head">Caption Structure</span>
+  <div style="background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:24px;margin-bottom:24px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);line-height:1.8">
+    <div style="color:var(--gold)">// Instagram caption template</div><br>
+    <div><span style="color:var(--light)">Line 1 (Hook):</span> Bold statement or question — "This Vasant Kunj flat was completely gutted. Here's what we built."</div>
+    <div><span style="color:var(--light)">Line 2 (Detail):</span> Project specs — "📍 Vasant Kunj, New Delhi | 1,400 sq ft | 38 days"</div>
+    <div><span style="color:var(--light)">Line 3 (CTA):</span> "Planning a renovation? Link in bio for a free site visit."</div>
+    <div><span style="color:var(--light)">Hashtags:</span> #BrickwoodDevelopers #DelhiRenovation #FlatRenovation #DelhiNCR #InteriorDesign #HomeRenovationDelhi</div>
+  </div>
+
+  <span class="sub-head">Hashtag Strategy</span>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+    <span class="badge badge-gold">#BrickwoodDevelopers</span>
+    <span class="badge badge-gold">#BrickwoodBuilds</span>
+    <span class="badge badge-muted">#DelhiRenovation</span>
+    <span class="badge badge-muted">#FlatRenovation</span>
+    <span class="badge badge-muted">#DelhiNCR</span>
+    <span class="badge badge-muted">#InteriorDesignDelhi</span>
+    <span class="badge badge-muted">#ModularKitchenDelhi</span>
+    <span class="badge badge-muted">#HomeRenovationIndia</span>
+    <span class="badge badge-outline">#OfficeRenovation</span>
+    <span class="badge badge-outline">#RealEstateDelhi</span>
+    <span class="badge badge-outline">#DelhiHomes</span>
+    <span class="badge badge-outline">#GurgaonInteriors</span>
+  </div>
+  <p style="font-size:12px;color:var(--muted)">Use 5–8 hashtags per post. Always lead with <strong style="color:var(--gold)">#BrickwoodDevelopers</strong>. Never use generic irrelevant hashtags (#love #instagood #viral).</p>
+</section>
+
+<!-- ── 10 STATIONERY ── -->
+<section class="section" id="stationery" style="background:var(--dark2)">
+  <div class="section-num">10</div>
+  <span class="section-tag">Section 10</span>
+  <h2 class="section-title">Stationery <em>&amp; Collateral</em></h2>
+  <p class="section-desc">Physical touchpoints leave lasting impressions. A premium business card and a clean letterhead signal that Brickwood Developers takes every detail seriously — before the first brick is laid.</p>
+
+  <span class="sub-head">Business Card</span>
+  <div class="stationery-grid">
+    <div class="stationery-card">
+      <h4>Front</h4>
+      <div class="bc-front">
+        <div style="position:absolute;top:20px;right:20px;text-align:right">
+          <div style="font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:var(--gold)">Brickwood</div>
+          <div style="font-size:7px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted)">Developers</div>
+        </div>
+        <div class="bc-name">Your Name Here</div>
+        <div class="bc-title">Founder &amp; Managing Director</div>
+        <div class="bc-contact">+91 XXXXX XXXXX<br>info@brickwooddev.in<br>brickwooddev.in</div>
+      </div>
+      <p style="font-size:11px;color:var(--muted)">85×55mm · Dark #0D0D0D background · Gold 3px top border · Playfair + DM Sans</p>
+    </div>
+    <div class="stationery-card">
+      <h4>Back</h4>
+      <div class="bc-back">
+        <div class="bc-brand">Brickwood</div>
+        <div class="bc-brand-sub">Developers</div>
+        <div style="position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:7px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(13,13,13,0.45)">Building Delhi's Best Since 2001</div>
+      </div>
+      <p style="font-size:11px;color:var(--muted)">Gold #C9A84C background · Black text · Tagline bottom · Matte finish recommended</p>
+    </div>
+  </div>
+
+  <span class="sub-head">Letterhead</span>
+  <div style="background:var(--dark3);border:1px solid rgba(245,240,232,0.07);border-radius:var(--r);padding:20px;margin-bottom:24px">
+    <div class="letterhead-mock">
+      <div class="lh-top">
+        <div>
+          <div class="lh-brand">Brickwood</div>
+          <div class="lh-brand-sub">Developers</div>
+        </div>
+        <div class="lh-contact">+91 XXXXX XXXXX<br>info@brickwooddev.in<br>Your Office Address, Delhi NCR</div>
+      </div>
+      <div class="lh-body">
+        <p style="margin-bottom:8px">Date: _________________</p>
+        <p style="margin-bottom:16px">To: ___________________________________</p>
+        <p>Dear Sir/Madam,</p>
+        <p style="margin-top:8px;color:#aaa">[ Letter body here — DM Sans 10pt, 1.6 line height, #333 on white ]</p>
+      </div>
+      <div class="lh-footer">Brickwood Developers · GST Registered · Udyam Certified · ESIC Compliant · brickwooddev.in</div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:32px">A4 · White stock 100gsm · Gold rule at top (2pt) · Black footer bar · Logo top-left · Contact top-right</p>
+
+  <span class="sub-head">Other Collateral Specs</span>
+  <table class="spec-table">
+    <tr><th>Item</th><th>Size</th><th>Format</th><th>Notes</th></tr>
+    <tr><td>Quotation Template</td><td>A4</td><td>PDF / Word</td><td>Letterhead style · itemised table · GST line</td></tr>
+    <tr><td>Invoice Template</td><td>A4</td><td>PDF</td><td>Invoice number · payment details · due date</td></tr>
+    <tr><td>Site Board / Hoarding</td><td>4×2 ft min</td><td>Vinyl print</td><td>Logo + tagline + phone + website · Dark BG</td></tr>
+    <tr><td>Helmet / Safety Vest</td><td>Logo: 80mm wide</td><td>Screen print</td><td>Gold on dark navy · no white background</td></tr>
+    <tr><td>Vehicle Branding</td><td>Full/half wrap</td><td>Vinyl</td><td>Dark base · gold logo · phone number prominent</td></tr>
+    <tr><td>WhatsApp Profile</td><td>640×640px</td><td>JPG/PNG</td><td>Logo centred on dark background · gold ring border</td></tr>
+  </table>
+</section>
+
+<!-- ── 11 DIGITAL ── -->
+<section class="section" id="digital">
+  <div class="section-num">11</div>
+  <span class="section-tag">Section 11</span>
+  <h2 class="section-title">Digital <em>Standards</em></h2>
+  <p class="section-desc">Our website is our most important marketing asset. These technical standards ensure it loads fast, looks right on every device, and is found on Google.</p>
+
+  <div class="digital-rules">
+    <div class="rule-card">
+      <h4>Performance Targets</h4>
+      <p>All pages must load within 2 seconds on a 4G connection. Measure with Google PageSpeed Insights.</p>
+      <ul>
+        <li>PageSpeed Score: ≥ 85 (mobile), ≥ 90 (desktop)</li>
+        <li>Images: WebP format, compressed ≤ 150KB per image</li>
+        <li>Max 3 font files loaded (preconnect to Google Fonts)</li>
+        <li>No unused CSS/JS shipped to the browser</li>
+        <li>Lazy load all below-the-fold images</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <h4>SEO Essentials</h4>
+      <p>Every page must have correct meta tags for Google to index and display it properly.</p>
+      <ul>
+        <li>Title: 50–60 chars · include "Delhi NCR" and service name</li>
+        <li>Description: 150–160 chars · include location + CTA</li>
+        <li>H1: one per page · must include primary keyword</li>
+        <li>Alt text: every image described (e.g. "flat renovation Vasant Kunj kitchen")</li>
+        <li>Schema: LocalBusiness schema on homepage</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <h4>Accessibility (WCAG 2.1 AA)</h4>
+      <p>The site must be usable by everyone, including those with disabilities.</p>
+      <ul>
+        <li>All text meets 4.5:1 contrast ratio minimum</li>
+        <li>All interactive elements keyboard accessible</li>
+        <li>Form labels always visible (not just placeholder)</li>
+        <li>Focus states visible on all interactive elements</li>
+        <li>Skip-to-content link on every page</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <h4>Mobile Responsiveness</h4>
+      <p>70%+ of Delhi's internet users browse on mobile. Every component must be tested on small screens.</p>
+      <ul>
+        <li>Minimum tap target size: 44×44px</li>
+        <li>No horizontal scrolling on any screen width</li>
+        <li>Font minimum: 14px on mobile</li>
+        <li>WhatsApp button always visible on mobile</li>
+        <li>Forms single-column on screens &lt; 480px</li>
+      </ul>
+    </div>
+  </div>
+
+  <span class="sub-head">CSS Variables — Design Tokens</span>
+  <div class="code-block">
+<span class="comment">/* Brickwood Developers — Design Tokens v1.0 */</span>
+<span class="key">:root</span> {
+  <span class="comment">/* Primary Colours */</span>
+  <span class="key">--gold</span>:              <span class="val">#C9A84C</span>;
+  <span class="key">--gold-light</span>:        <span class="val">#E8C97A</span>;
+  <span class="key">--gold-dark</span>:         <span class="val">#A07830</span>;
+  <span class="key">--gold-dim</span>:          <span class="val">rgba(201,168,76,0.15)</span>;
+
+  <span class="comment">/* Background Scale */</span>
+  <span class="key">--dark</span>:              <span class="val">#0D0D0D</span>;
+  <span class="key">--dark2</span>:             <span class="val">#141414</span>;
+  <span class="key">--dark3</span>:             <span class="val">#1C1C1C</span>;
+  <span class="key">--dark4</span>:             <span class="val">#252525</span>;
+
+  <span class="comment">/* Text */</span>
+  <span class="key">--light</span>:             <span class="val">#F5F0E8</span>;
+  <span class="key">--muted</span>:             <span class="val">#8A8278</span>;
+  <span class="key">--white</span>:             <span class="val">#FFFFFF</span>;
+
+  <span class="comment">/* Semantic */</span>
+  <span class="key">--success</span>:           <span class="val">#34C759</span>;
+  <span class="key">--error</span>:             <span class="val">#EF4444</span>;
+  <span class="key">--info</span>:              <span class="val">#3B82F6</span>;
+
+  <span class="comment">/* Typography */</span>
+  <span class="key">--font-display</span>:      <span class="val">'Playfair Display', serif</span>;
+  <span class="key">--font-body</span>:         <span class="val">'DM Sans', sans-serif</span>;
+  <span class="key">--font-mono</span>:         <span class="val">'DM Mono', monospace</span>;
+
+  <span class="comment">/* Spacing */</span>
+  <span class="key">--space-1</span>:           <span class="val">4px</span>;
+  <span class="key">--space-2</span>:           <span class="val">8px</span>;
+  <span class="key">--space-4</span>:           <span class="val">16px</span>;
+  <span class="key">--space-6</span>:           <span class="val">24px</span>;
+  <span class="key">--space-8</span>:           <span class="val">32px</span>;
+  <span class="key">--space-12</span>:          <span class="val">48px</span>;
+  <span class="key">--space-20</span>:          <span class="val">80px</span>;
+
+  <span class="comment">/* Motion */</span>
+  <span class="key">--transition</span>:        <span class="val">0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)</span>;
+
+  <span class="comment">/* Border Radius */</span>
+  <span class="key">--radius</span>:            <span class="val">4px</span>;
+  <span class="key">--radius-lg</span>:         <span class="val">8px</span>;
+  <span class="key">--radius-pill</span>:       <span class="val">100px</span>;
+}
+  </div>
+
+  <span class="sub-head">Animation Principles</span>
+  <table class="spec-table">
+    <tr><th>Type</th><th>Duration</th><th>Easing</th><th>Usage</th></tr>
+    <tr><td>Hover transitions</td><td>280–350ms</td><td>cubic-bezier(0.25, 0.46, 0.45, 0.94)</td><td>Buttons, cards, links</td></tr>
+    <tr><td>Scroll reveals</td><td>600–800ms</td><td>ease</td><td>Section content, cards</td></tr>
+    <tr><td>Page load stagger</td><td>800–1000ms</td><td>ease</td><td>Hero elements (delay 0.2s each)</td></tr>
+    <tr><td>Counter animation</td><td>1800ms</td><td>cubic ease-out</td><td>Stat numbers</td></tr>
+    <tr><td>Carousel slide</td><td>550ms</td><td>cubic-bezier(0.25, 0.46, 0.45, 0.94)</td><td>Services carousel</td></tr>
+    <tr><td>Modal/overlay</td><td>300ms</td><td>ease</td><td>Lightbox, dropdowns</td></tr>
+  </table>
+</section>
+
+<!-- ── 12 MISUSE ── -->
+<section class="section" id="misuse" style="background:var(--dark2)">
+  <div class="section-num">12</div>
+  <span class="section-tag">Section 12</span>
+  <h2 class="section-title">Brand <em>Misuse</em></h2>
+  <p class="section-desc">These are the most common ways the Brickwood brand gets misrepresented. Every person on the team who creates any communication must be aware of these rules.</p>
+
+  <span class="sub-head">Logo Misuse — Never Do These</span>
+  <div class="misuse-grid">
+    <div class="misuse-card">
+      <div class="misuse-visual">
+        <div class="misuse-x">✗</div>
+        <div style="background:linear-gradient(135deg,#ff6b35,#ff1493);padding:16px 20px;border-radius:var(--r)">
+          <div class="logo-render on-dark" style="text-align:center"><span class="logo-main" style="font-size:18px">Brickwood</span><span class="logo-sub">Developers</span></div>
+        </div>
+      </div>
+      <div class="misuse-card-label">✗ Colour background — off brand</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-visual">
+        <div class="misuse-x">✗</div>
+        <div class="logo-render on-dark" style="transform:skewX(-15deg);text-align:center">
+          <span class="logo-main" style="font-size:18px">Brickwood</span>
+          <span class="logo-sub">Developers</span>
+        </div>
+      </div>
+      <div class="misuse-card-label">✗ Distorted / skewed logo</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-visual">
+        <div class="misuse-x">✗</div>
+        <div class="logo-render" style="text-align:center">
+          <span style="font-family:Arial,sans-serif;font-size:18px;font-weight:700;color:var(--white)">Brickwood</span>
+          <span style="font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);display:block;margin-top:3px">Developers</span>
+        </div>
+      </div>
+      <div class="misuse-card-label">✗ Wrong font (Arial used here)</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-visual">
+        <div class="misuse-x">✗</div>
+        <div class="logo-render on-dark" style="text-align:center;opacity:0.3">
+          <span class="logo-main" style="font-size:18px">Brickwood</span>
+          <span class="logo-sub">Developers</span>
+        </div>
+      </div>
+      <div class="misuse-card-label">✗ Low opacity / faded logo</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-visual">
+        <div class="misuse-x">✗</div>
+        <div class="logo-render on-dark" style="text-align:center">
+          <span class="logo-main" style="font-size:18px;color:var(--red)">Brickwood</span>
+          <span class="logo-sub">Developers</span>
+        </div>
+      </div>
+      <div class="misuse-card-label">✗ Unauthorised colour (red)</div>
+    </div>
+    <div class="misuse-card">
+      <div class="misuse-visual">
+        <div class="misuse-x">✗</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:28px;height:28px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--dark)">B</div>
+          <div class="logo-render on-dark" style="text-align:left">
+            <span class="logo-main" style="font-size:14px">Brickwood</span>
+            <span class="logo-sub">Developers</span>
+          </div>
+        </div>
+      </div>
+      <div class="misuse-card-label">✗ Adding unofficial icon/mark</div>
+    </div>
+  </div>
+
+  <span class="sub-head">Communication Misuse</span>
+  <table class="spec-table">
+    <tr><th>Do Not</th><th>Because</th></tr>
+    <tr><td>Use stock photos as real project photos</td><td>Misleads clients, damages trust when discovered</td></tr>
+    <tr><td>Claim certifications not held (e.g. ISO 9001)</td><td>Legally misleading · brand integrity damage</td></tr>
+    <tr><td>Write "Delhi's #1" or "Best in India" without proof</td><td>Unverifiable superlatives are ignored or distrusted</td></tr>
+    <tr><td>Use the old "Sharma &amp; Co." name as primary identity</td><td>We are Brickwood Developers — legacy is context, not brand</td></tr>
+    <tr><td>Share client property photos without written consent</td><td>Privacy violation · potential legal liability</td></tr>
+    <tr><td>Use WhatsApp forwards / memes as brand communication</td><td>Unprofessional · dilutes brand positioning</td></tr>
+    <tr><td>Use competitor branding to contrast "us vs them"</td><td>Legally risky · makes brand look insecure</td></tr>
+    <tr><td>Post during crisis/tragedy with promotional content</td><td>Tone-deaf · reputation damage</td></tr>
+  </table>
+
+  <div class="gold-line"></div>
+
+  <div style="background:var(--dark3);border:1px solid rgba(201,168,76,0.2);border-radius:var(--r);padding:28px;border-left:4px solid var(--gold)">
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:10px">Questions About Brand Usage?</div>
+    <p style="font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:16px">If you're creating any external communication — a flyer, a social post, a proposal, or a presentation — and you're unsure whether it meets these guidelines, reach out before publishing. It's always faster to check first than to fix later.</p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap">
+      <div style="font-size:13px;color:var(--light)">📧 <a href="mailto:info@brickwooddev.in" style="color:var(--gold);text-decoration:none">info@brickwooddev.in</a></div>
+      <div style="font-size:13px;color:var(--light)">📱 <span style="color:var(--gold)">+91 XXXXX XXXXX</span></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:48px 0 16px;border-top:1px solid rgba(245,240,232,0.06);margin-top:48px">
+    <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px">Brickwood <em style="color:var(--gold)">Developers</em></div>
+    <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted)">Formerly Sharma &amp; Co. · Building Delhi's Best Since 2001</div>
+    <div style="font-size:11px;color:rgba(138,130,120,0.4);margin-top:16px;letter-spacing:0.1em">Brand Guidelines v1.0 · January 2025 · Confidential — Internal Use</div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+// Active sidebar link on scroll
+const sections = document.querySelectorAll('section[id], div[id]');
+const links = document.querySelectorAll('.sidebar-nav a');
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.getAttribute('id');
+      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => io.observe(s));
+
+// smooth scroll
+links.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Copy hex on click
+document.querySelectorAll('.colour-hex').forEach(el => {
+  el.style.cursor = 'pointer';
+  el.title = 'Click to copy';
+  el.addEventListener('click', () => {
+    navigator.clipboard?.writeText(el.textContent).then(() => {
+      const orig = el.textContent;
+      el.textContent = 'Copied!';
+      setTimeout(() => el.textContent = orig, 1200);
+    });
+  });
+});
+</script>
+</body>
+</html>
